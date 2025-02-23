@@ -1,3 +1,0 @@
-C:/CS/CardCrawl/build/CMakeFiles/cc.dir
-C:/CS/CardCrawl/build/CMakeFiles/edit_cache.dir
-C:/CS/CardCrawl/build/CMakeFiles/rebuild_cache.dir
