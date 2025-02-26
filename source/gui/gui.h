@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include "SDL2/SDL.h"
+#include "../../incl/libraries.h"
 #include "input/cursor_variables.h"
 
 class Gui 

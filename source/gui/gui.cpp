@@ -1,6 +1,6 @@
 #include "gui.h"
 
-int test{0};
+int testCnt{0};
 
 Gui::Gui(int x_root, int y_root, int width, int height)
 {
@@ -16,7 +16,7 @@ bool Gui::detect_cursor_hover(int cursorX, int cursorY)
     if (cursorX > rect.x && cursorX < rect.x+rect.w && cursorY > rect.y && cursorY < rect.y+rect.h) 
     {
         // std::cout << "Detected " << test << std::endl;
-        test++;
+        testCnt++;
         return true;
     }
     return false;

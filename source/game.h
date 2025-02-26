@@ -1,8 +1,8 @@
 #pragma once
 
+#include <iostream>
 #include "../incl/libraries.h"
 #include "../incl/constants.h"
-#include <iostream>
 
 class Game 
 {
@@ -20,10 +20,11 @@ class Game
         void render_texture(SDL_Texture *texture, int des_x, int des_y, int des_w, int des_h, SDL_Rect* clip);
         void render_img(const char *filename, int des_x, int des_y, int des_w, int des_h, SDL_Rect* clip);
 
-        void display_battle();
-        bool battleStart{1};
 
-    private:
+        bool battleStart{1};
+        void display_battle();
+        
+        
         bool isRunning;
         int gameState{2};
         SDL_Window* window;

@@ -4,11 +4,14 @@ size_t Deck::size = 0;
 int Deck::selectedCardIndex = NULL_CARD;
 std::vector<Card> Deck::hand;
 
-Deck::Deck() : Gui(DECK_REC_START_X, DECK_REC_START_Y, DECK_REC_WIDTH, DECK_REC_HEIGHT) {}
-
-Deck deck_init()
+Deck::Deck(int size_) : Gui(DECK_REC_START_X, DECK_REC_START_Y, DECK_REC_WIDTH, DECK_REC_HEIGHT) 
 {
-    Deck deckObj = Deck();
+    size = size_;
+}
+
+Deck deck_init(int size_)
+{
+    Deck deckObj = Deck(size_);
     return deckObj;
 }
 

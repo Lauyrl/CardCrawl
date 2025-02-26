@@ -17,8 +17,8 @@ struct CardAttributes
     int energyCost;
 };
 
-extern const map<cardId, const char*> cardSpriteMap;
+extern const map<cardIdInv, const char*> cardSpriteMap;
 
-extern const map<cardId, CardAttributes> attriMap;
+extern const map<cardIdInv, CardAttributes> attriMap;
 
-extern const map<cardId, function<void(Character, Enemy)>> actionMap;
+extern const map<cardIdInv, function<void(Character&, Enemy&)>> actionMap;

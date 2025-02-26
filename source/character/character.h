@@ -3,7 +3,7 @@
 #include <vector>
 #include "../gui/gui.h"
 
-enum cardId {
+enum cardIdInv {
     strike,
     defend
 };
@@ -17,6 +17,6 @@ class Character : public Gui
         
         static int health;
         static int energy;
-        static std::vector<cardId> cardInventoryId;
+        static std::vector<cardIdInv> cardInventoryId;
 };
 

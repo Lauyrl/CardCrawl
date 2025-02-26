@@ -11,8 +11,8 @@ enum enemId {
 
 struct enemAttributes 
 {
-    int hp;
-    int atk;
+    double hp;
+    double atk;
 };
 
 extern const map<enemId, const char*> eSpriteMap;

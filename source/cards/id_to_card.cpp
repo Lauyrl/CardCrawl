@@ -1,26 +1,26 @@
+#include <iostream>
 #include "id_to_card.h"
 
-#include <iostream>
 using namespace std;
 
-extern Character chara;
-extern Enemy enemy;
-const map<cardId, const char*> cardSpriteMap = {
+const map<cardIdInv, const char*> cardSpriteMap = {
     {strike, "assets/cards/strike_r.png"},
     {defend, "assets/cards/defend_r.png"}
 };
 
-const map<cardId, CardAttributes> attriMap = {
+const map<cardIdInv, CardAttributes> attriMap = {
     {strike, {Attack, 1}},
     {defend, {Skill, 1}}
 };
 
-void strike_action(Character host, Enemy target)
+void strike_action(Character& host, Enemy& target)
 {
-    cout << "Strike!" << endl;
+    cout << "Address of target: " << &target << endl;
+    target.attributes.hp -= 6;
+    cout << target.attributes.hp << ' ' << endl;
 }
 
-const map<cardId, function<void(Character, Enemy)>> actionMap = {
+const map<cardIdInv, function<void(Character&, Enemy&)>> actionMap = {
     {strike, strike_action}
 };
 

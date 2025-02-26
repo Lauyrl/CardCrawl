@@ -13,7 +13,7 @@ const int DECK_MAX_SIZE = 5;
 class Deck : public Gui
 {
     public:
-        Deck();
+        Deck(int size_);
         void set_up(Character character);
         void add_card(Card card);
         void remove_card(int index);  
@@ -24,6 +24,6 @@ class Deck : public Gui
         int toRemove;
 };
 
-Deck deck_init();
+Deck deck_init(int size_);
 void reformat_deck(std::vector<Card> &hand_, size_t newSize);
 

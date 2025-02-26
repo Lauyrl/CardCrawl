@@ -19,6 +19,6 @@ void Character::character_display()
 {
 }
 
-std::vector<cardId> Character::cardInventoryId = {
-    cardId::strike, cardId::strike, cardId::strike, cardId::defend, cardId::defend
+std::vector<cardIdInv> Character::cardInventoryId = {
+    strike, strike, strike, defend, defend
 };
