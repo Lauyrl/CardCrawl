@@ -3,17 +3,17 @@
 
 extern Game game;
 
-Card::Card(cardIdInv id_, int cardPos) : Gui(0, 0, 215, 285) 
+Card::Card(cardIdInv id_, int initPos) : Gui(0, 0, 215, 285) 
 {
+    rect = {START_LOC_X+STEP_INCREMENT*initPos, DEFAULT_Y, 215, 285};
     id = id_;
-    pos = cardPos;
+    pos = initPos;
     attributes = attriMap.at(id);
 }
 
 Card card_init(cardIdInv id, int initPos)
 {
     Card card = Card(id, initPos);
-    card.move_rect(START_LOC_X+STEP_INCREMENT*initPos, DEFAULT_Y);
     return card;
 }
 
@@ -22,30 +22,6 @@ void Card::card_display(cardIdInv id, int pos)
     game.render_img(cardSpriteMap.at(id), START_LOC_X+STEP_INCREMENT*pos, DEFAULT_Y, 210, 280, NULL);
 }
 
-void Card::object_loop(int current, int &selectedCard, int &toRemove, Character &chara, Enemy &enemy)
-{
-    card_display(id, pos);
-    if (detect_cursor_hover(cursorX, cursorY) && process_click(clickQueued)) 
-    {
-        assess_card(current, selectedCard, toRemove, chara, enemy);
-    }
-}
-void Card::assess_card(int assessed, int &selectedInDeck, int &toRemove, Character &chara, Enemy &enemy)
-{
-    if (assessed != selectedInDeck)
-    {
-        selectedInDeck = assessed;
-        cout << "Selected card number " << assessed << endl;
-    }
-    else if (assessed == selectedInDeck)
-    { 
-        activate(chara, enemy); // implicitly this->activate()
-        cout << "Activated card number " << pos 
-        << ", energy spent: " << attributes.energyCost << endl;
-        selectedInDeck = NULL_CARD;
-        toRemove = assessed;
-    }
-}
 void Card::activate(Character &chara, Enemy &enemy)
 {
     auto it{actionMap.find(id)};
@@ -60,3 +36,14 @@ void Card::reposition_in_deck(int rePos)
     move_rect(START_LOC_X+STEP_INCREMENT*pos, DEFAULT_Y);
 }
 
+int Card::query_target(vector<Enemy> stage_enemies, int numOfEnemies)
+{
+    for (size_t i{0}; i < numOfEnemies; i++)
+    {
+        if (stage_enemies[i].detect_cursor_hover(cursorX, cursorY) && process_click(clickQueued))
+        {
+            return i;
+        }
+    }
+    return NULL_ENEMY;
+}

@@ -5,9 +5,11 @@
 #include "../enemies/enemy.h"
 #include "../game.h"
 
+const int MAX_ENEMIES = 3;
+
 static Deck deckObj(0);
 static Enemy test;
-std::vector<Enemy> stage_enemies;
+static std::vector<Enemy> stage_enemies(MAX_ENEMIES);
 
 
 //each battle instance should hold a container of enemies

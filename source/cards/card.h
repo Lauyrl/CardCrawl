@@ -16,10 +16,9 @@ class Card : public Gui
     public:
         Card(cardIdInv id, int cardPos); // Card IDs enum is defined in character.h
         void card_display(cardIdInv id, int pos);
-        void object_loop(int current, int &selectedCard, int &toRemove, Character &chara, Enemy &enemy);
-        void assess_card(int assessed, int &selectedCard, int &toRemove, Character &chara, Enemy &enemy);
         void activate(Character &chara, Enemy &enemy);
         void reposition_in_deck(int rePos);
+        int query_target(vector<Enemy> stage_enemies, int numOfEnemies);
 
         int pos;
         cardIdInv id;

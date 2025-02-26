@@ -3,6 +3,7 @@
 #include <vector>
 #include "card.h"
 #include "../character/character.h"
+#include "../enemies/enemy.h"
 
 const int DECK_REC_START_X = 180;
 const int DECK_REC_START_Y = 420;
@@ -17,6 +18,8 @@ class Deck : public Gui
         void set_up(Character character);
         void add_card(Card card);
         void remove_card(int index);  
+        void deck_iterate(int current, Character &chara, vector<Enemy> &stage_enemies, int numOfEnemies);
+        void assess_card(int assessed, Character &chara, vector<Enemy> &stage_enemies);
 
         static std::vector<Card> hand;
         static size_t size;

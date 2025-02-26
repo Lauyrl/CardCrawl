@@ -17,8 +17,9 @@ Character Character::init(int health_)
 
 void Character::character_display()
 {
+    
 }
 
 std::vector<cardIdInv> Character::cardInventoryId = {
-    strike, strike, strike, defend, defend
+    strike, strike, strike, strike, strike
 };

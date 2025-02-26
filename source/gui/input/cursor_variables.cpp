@@ -5,12 +5,8 @@ int cursorY;
 
 bool clickQueued = false;
 
-bool process_click(bool &detector)
+bool process_click(bool &clickQueued)
 {
-    if (detector)
-    {
-        detector = false;
-        return true;
-    }
+    if (clickQueued) {clickQueued = false; return true;}
     return false;
 }

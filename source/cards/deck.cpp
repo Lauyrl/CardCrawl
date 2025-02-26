@@ -47,3 +47,28 @@ void reformat_deck(std::vector<Card> &cards, size_t newSize)
     }
 }
 
+void Deck::deck_iterate(int current, Character &chara, vector<Enemy> &stage_enemies, int numOfEnemies)
+{
+    if (hand[current].detect_cursor_hover(cursorX, cursorY) && process_click(clickQueued)) 
+    {
+        assess_card(current, chara, stage_enemies);
+    }
+    if (selectedCardIndex != NULL_CARD)
+    {
+        int queried = hand[selectedCardIndex].query_target(stage_enemies, numOfEnemies);
+        if (queried != NULL_ENEMY)
+        {
+            hand[selectedCardIndex].activate(chara, stage_enemies[queried]);
+            toRemove = selectedCardIndex;
+            selectedCardIndex = NULL_CARD;
+        }
+    }
+}
+void Deck::assess_card(int assessed, Character &chara, vector<Enemy> &stage_enemies)
+{
+    if (assessed != selectedCardIndex)
+    {
+        selectedCardIndex = assessed;
+        cout << "Selected card number " << assessed << endl;
+    }
+}
