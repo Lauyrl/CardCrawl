@@ -3,7 +3,7 @@
 
 extern Game game;
 
-int Character::health = 0;
+int Character::health = 0; //static
 Character::Character(int health_) : Gui(1,1,1,1)
 {
     health = health_;

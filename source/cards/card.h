@@ -2,7 +2,7 @@
 
 #include <string>
 #include "../gui/gui.h"
-#include "id_to_card.h"
+#include "id_to_card.h" //includes Enemy and Character
 
 using namespace std;
 

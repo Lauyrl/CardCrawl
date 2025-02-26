@@ -5,9 +5,9 @@ extern Game game;
 
 Card::Card(cardIdInv id_, int initPos) : Gui(0, 0, 215, 285) 
 {
-    rect = {START_LOC_X+STEP_INCREMENT*initPos, DEFAULT_Y, 215, 285};
     id = id_;
     pos = initPos;
+    move_rect(START_LOC_X+STEP_INCREMENT*pos, DEFAULT_Y);
     attributes = attriMap.at(id);
 }
 
@@ -27,7 +27,6 @@ void Card::activate(Character &chara, Enemy &enemy)
     auto it{actionMap.find(id)};
     if (it == actionMap.end()) cout << "Action undefined" << endl;
     else actionMap.at(id)(chara, enemy);
-    
 }
 
 void Card::reposition_in_deck(int rePos)

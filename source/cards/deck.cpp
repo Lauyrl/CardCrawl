@@ -1,10 +1,11 @@
 #include "deck.h"
 
-size_t Deck::size = 0;
+size_t Deck::size = 0; //size needs to be static and defined here or it breaks
 int Deck::selectedCardIndex = NULL_CARD;
 std::vector<Card> Deck::hand;
 
-Deck::Deck(int size_) : Gui(DECK_REC_START_X, DECK_REC_START_Y, DECK_REC_WIDTH, DECK_REC_HEIGHT) 
+//Deck reworked to no longer be considered GUI - 02/26
+Deck::Deck(int size_)
 {
     size = size_;
 }
@@ -17,12 +18,10 @@ Deck deck_init(int size_)
 
 void Deck::set_up(Character character)
 {
-    int pos{0};
     for (size_t i{0}; i < size; i++)
     {
-        Card base = card_init(character.cardInventoryId[i], pos);
+        Card base = card_init(character.cardInventoryId[i], i);
         add_card(base);
-        pos++;
     }
 }
 
@@ -31,12 +30,12 @@ void Deck::add_card(Card card)
     hand.push_back(card);
 }
 
-void Deck::remove_card(int index)
+void Deck::remove_card()
 {   
     if (hand.size() < 1) std::cerr << "Deck is empty.\n";
-    hand.erase(hand.begin()+index); size--;
+    hand.erase(hand.begin()+toRemove); size--;
     reformat_deck(hand, size);
-    std::cout << "Removed card " << index << std::endl;
+    std::cout << "Consumed card " << toRemove << std::endl;
 }
 
 void reformat_deck(std::vector<Card> &cards, size_t newSize)
@@ -51,7 +50,7 @@ void Deck::deck_iterate(int current, Character &chara, vector<Enemy> &stage_enem
 {
     if (hand[current].detect_cursor_hover(cursorX, cursorY) && process_click(clickQueued)) 
     {
-        assess_card(current, chara, stage_enemies);
+        select_card(current);
     }
     if (selectedCardIndex != NULL_CARD)
     {
@@ -64,11 +63,11 @@ void Deck::deck_iterate(int current, Character &chara, vector<Enemy> &stage_enem
         }
     }
 }
-void Deck::assess_card(int assessed, Character &chara, vector<Enemy> &stage_enemies)
+void Deck::select_card(int toSelect)
 {
-    if (assessed != selectedCardIndex)
+    if (toSelect != selectedCardIndex)
     {
-        selectedCardIndex = assessed;
-        cout << "Selected card number " << assessed << endl;
+        selectedCardIndex = toSelect;
+        cout << "Selected card number " << toSelect << endl;
     }
 }
