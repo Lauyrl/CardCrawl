@@ -17,6 +17,11 @@ bool Gui::detect_cursor_hover(int cursorX, int cursorY)
     return false;
 }
 
+bool Gui::detect_click()
+{
+    return (detect_cursor_hover(cursorX, cursorY) && process_click(clickQueued));
+}
+
 void Gui::move_rect(int new_x, int new_y)
 {
     rect.x = new_x;

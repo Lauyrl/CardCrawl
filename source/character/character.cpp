@@ -3,9 +3,17 @@
 
 extern Game game;
 
-int Character::health = 0; //static
-Character::Character(int health_) : Gui(1,1,1,1)
+double Character::maxHealth = 1.0;
+int Character::energy = 3;
+int Character::health = 1; //static
+
+std::vector<cardIdInv> Character::cardInventoryId = {
+    strike, strike, strike, defend, defend
+};
+
+Character::Character(int health_) : Gui(100, 180, 360, 260)
 {
+    maxHealth = health_;
     health = health_;
 }
 
@@ -15,11 +23,43 @@ Character Character::init(int health_)
     return profile;
 }
 
-void Character::character_display()
+void Character::display_block()
 {
-    
+    SDL_Rect chBlockBar{rect.x+70, 440, 320*(block/maxHealth), 10};
+    SDL_SetRenderDrawColor(game.renderer, 100, 150, 200, 100);
+    SDL_RenderFillRect(game.renderer, &chBlockBar);
 }
 
-std::vector<cardIdInv> Character::cardInventoryId = {
-    strike, strike, strike, strike, strike
-};
+void Character::display_hp()
+{
+    SDL_Rect chHealthBar{rect.x+70, 440, 320*(health/maxHealth), 10};
+    SDL_SetRenderDrawColor(game.renderer, 200, 0, 0, 100);
+    SDL_RenderFillRect(game.renderer, &chHealthBar);
+}
+
+void Character::character_display()
+{
+    display_hp();
+    display_block();
+    game.render_img("assets/character/ironclad.png", 100, 180, 360, 260, NULL);
+}
+
+void Character::gain_block(int amount)
+{
+    block += amount;
+}
+
+void Character::take_damge(int dmg)
+{
+    if (dmg >= block) 
+    {
+        block = 0;
+        dmg -= block;
+        std::cout << "You no more block! Pass through: "  << dmg << std::endl;
+        health -= dmg;
+    }
+    else 
+    {
+        block -= dmg;
+    }
+}

@@ -46,23 +46,6 @@ void reformat_deck(std::vector<Card> &cards, size_t newSize)
     }
 }
 
-void Deck::deck_iterate(int current, Character &chara, vector<Enemy> &stage_enemies, int numOfEnemies)
-{
-    if (hand[current].detect_cursor_hover(cursorX, cursorY) && process_click(clickQueued)) 
-    {
-        select_card(current);
-    }
-    if (selectedCardIndex != NULL_CARD)
-    {
-        int queried = hand[selectedCardIndex].query_target(stage_enemies, numOfEnemies);
-        if (queried != NULL_ENEMY)
-        {
-            hand[selectedCardIndex].activate(chara, stage_enemies[queried]);
-            toRemove = selectedCardIndex;
-            selectedCardIndex = NULL_CARD;
-        }
-    }
-}
 void Deck::select_card(int toSelect)
 {
     if (toSelect != selectedCardIndex)
@@ -71,3 +54,32 @@ void Deck::select_card(int toSelect)
         cout << "Selected card number " << toSelect << endl;
     }
 }
+
+void Deck::activate_card_process(Character &chara, vector<Enemy> &stage_enemies)
+{
+    int queried = NULL_TARGET;
+    if (hand[selectedCardIndex].attributes.intent == Attack) 
+        queried = hand[selectedCardIndex].query_targetE(stage_enemies);
+    else queried = hand[selectedCardIndex].query_targetC(chara);
+    if (queried != NULL_TARGET)
+    {
+        std::cout << "Queried target: " << queried << std::endl;
+        hand[selectedCardIndex].activate(chara, stage_enemies[queried]); //This can pass the 0th enemy if the target is a player (undefined if that one is dead)
+        toRemove = selectedCardIndex;
+        selectedCardIndex = NULL_CARD;
+    }
+}
+
+void Deck::deck_iterate(int current, Character &chara, vector<Enemy> &stage_enemies)
+{
+    hand[current].card_display(hand[current].id, hand[current].pos);
+    if (hand[current].detect_click()) 
+    {
+        select_card(current);
+    }
+    if (selectedCardIndex != NULL_CARD)
+    {
+        activate_card_process(chara, stage_enemies);
+    }
+}
+

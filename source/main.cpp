@@ -10,7 +10,7 @@ const int frameDelay = 1000/FPS;
 Uint32 frameStart;
 Uint32 frameTime;
 
-Character ironclad = Character(100);
+Character ironclad = Character(56);
 
 int main(int argc, char* argv[]) 
 {

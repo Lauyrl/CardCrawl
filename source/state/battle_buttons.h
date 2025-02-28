@@ -1,0 +1,14 @@
+#pragma once
+
+#include <iostream>
+#include "../gui/gui.h"
+#include "../game.h"
+
+using namespace std;
+
+class EndTurnButton : public Gui 
+{
+    public:
+        EndTurnButton();
+        void et_button_display();
+};

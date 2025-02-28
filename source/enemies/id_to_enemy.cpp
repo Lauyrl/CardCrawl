@@ -7,3 +7,4 @@ const map<enemId, const char*> eSpriteMap = {
 const map<enemId, enemAttributes> eAttriMap = {
     {acid_slime, {24, 3}}
 };
+

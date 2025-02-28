@@ -16,7 +16,8 @@ class Deck
         void set_up(Character character);
         void add_card(Card card);
         void remove_card();  
-        void deck_iterate(int current, Character &chara, vector<Enemy> &stage_enemies, int numOfEnemies);
+        void activate_card_process(Character &chara, vector<Enemy> &stage_enemies);
+        void deck_iterate(int current, Character &chara, vector<Enemy> &stage_enemies);
         void select_card(int toSelect);
 
         static std::vector<Card> hand;
