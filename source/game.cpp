@@ -20,10 +20,11 @@ Game::Game(const char* title, int xpos, int ypos, int w, int h)
 
 Game::~Game()
 {
-    IMG_Quit();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+    IMG_Quit();
+    TTF_Quit();
     cout << "Game cleaned." << endl;
 }
 

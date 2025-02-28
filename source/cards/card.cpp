@@ -15,7 +15,7 @@ Card::Card(cardIdInv id_, int initPos) : Gui(0, 0, 215, 285)
 
 Card card_init(cardIdInv id, int initPos)
 {
-    Card card = Card(id, initPos);
+    Card card(id, initPos);
     return card;
 }
 

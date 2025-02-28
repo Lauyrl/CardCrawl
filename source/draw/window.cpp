@@ -11,14 +11,14 @@ bool Game::init_window(const char* title, int xpos, int ypos, int w, int h, unsi
     window = SDL_CreateWindow(title, xpos, ypos, w, h, flag);
     if (!window) 
     {   
-        cout << "Window creation failed. " << SDL_GetError();
+        cerr << "Window creation failed. " << SDL_GetError();
         return FALSE;
     }
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer) 
     {
-        cout << "Rendering failed. " << SDL_GetError();
+        cerr << "Rendering failed. " << SDL_GetError();
         return FALSE;
     }
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
@@ -26,7 +26,12 @@ bool Game::init_window(const char* title, int xpos, int ypos, int w, int h, unsi
 
     if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG))
     {
-        cout << "Failed to initialize SDL_image for png. " << SDL_GetError();
+        cerr << "Failed to initialize SDL_image " << SDL_GetError();
+        return FALSE;
+    }
+    if (TTF_Init() == -1)
+    {
+        cerr << "Failed to initialize SDL_ttf for " << SDL_GetError();
         return FALSE;
     }
     return TRUE;

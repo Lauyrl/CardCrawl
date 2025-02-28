@@ -12,7 +12,7 @@ Deck::Deck(int size_)
 
 Deck deck_init(int size_)
 {
-    Deck deckObj = Deck(size_);
+    Deck deckObj(size_);
     return deckObj;
 }
 

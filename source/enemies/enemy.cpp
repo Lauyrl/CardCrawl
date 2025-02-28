@@ -3,8 +3,7 @@
 
 extern Game game;
 
-Enemy::Enemy() : Gui(640, 200, 200, 200)
-{}
+Enemy::Enemy() : Gui(640, 200, 200, 200) {}
 
 Enemy::Enemy(enemId id_, int initPos) : Gui(640, 240, 200, 200)
 {
@@ -17,7 +16,7 @@ Enemy::Enemy(enemId id_, int initPos) : Gui(640, 240, 200, 200)
 
 Enemy enemy_init(enemId id_, int initPos)
 {
-    Enemy enemy = Enemy(id_, initPos);
+    Enemy enemy(id_, initPos);
     return enemy;
 }
 

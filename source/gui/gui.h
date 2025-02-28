@@ -3,6 +3,7 @@
 #include <iostream>
 #include "../../incl/libraries.h"
 #include "input/cursor_variables.h"
+#include "../draw/text.h"
 
 class Gui 
 {

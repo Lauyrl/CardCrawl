@@ -5,7 +5,8 @@ extern Character ironclad;
 
 void init_components(Deck &deckObj, vector<Enemy> &stage_enemies)
 {
-    endTurn = EndTurnButton();
+    etButton = et_button_init();
+    eu = eu_init();
     turn = 0;
     deckObj = deck_init(DECK_MAX_SIZE);
     deckObj.set_up(ironclad);
@@ -50,8 +51,9 @@ void Game::display_battle()
     
     if (turn%2 == 0)
     {
-        endTurn.et_button_display();
-        if (endTurn.detect_click())
+        etButton.et_button_display();
+        eu.energy_display();
+        if (etButton.detect_click())
         {
             turn++;
         }

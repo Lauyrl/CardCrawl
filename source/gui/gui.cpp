@@ -2,7 +2,7 @@
 
 Gui::Gui(int x_root, int y_root, int width, int height)
 {
-    rect = SDL_Rect{x_root, y_root, width, height};
+    rect = {x_root, y_root, width, height};
 }
 
 int testCnt{0};
