@@ -1,27 +1,22 @@
-#include "deck.h"
+#include "deck.h" //using namespace std; included i think
 
 size_t Deck::size = 0; //size needs to be static and defined here or it breaks
 int Deck::selectedCardIndex = NULL_CARD;
-std::vector<Card> Deck::hand;
+vector<Card> Deck::hand;
+vector<Card> Deck::drawPile;
+vector<Card> Deck::discardPile;
 
-//Deck reworked to no longer be considered GUI - 02/26
 Deck::Deck(int size_)
 {
     size = size_;
-}
-
-Deck deck_init(int size_)
-{
-    Deck deckObj(size_);
-    return deckObj;
 }
 
 void Deck::set_up(Character character)
 {
     for (size_t i{0}; i < size; i++)
     {
-        Card base = card_init(character.cardInventoryId[i], i);
-        add_card(base);
+        Card card(character.cardInventoryId[i], i);
+        add_card(card);
     }
 }
 
@@ -32,26 +27,37 @@ void Deck::add_card(Card card)
 
 void Deck::remove_card()
 {   
-    if (hand.size() < 1) std::cerr << "Deck is empty.\n";
-    hand.erase(hand.begin()+toRemove); size--;
-    reformat_deck(hand, size);
-    std::cout << "Consumed card " << toRemove << std::endl;
-}
-
-void reformat_deck(std::vector<Card> &cards, size_t newSize)
-{
-    for (size_t rePos{0}; rePos < newSize; rePos++) 
+    // if (hand.size() < 1) std::cerr << "Deck is empty.\n";
+    if (toDiscard != NULL_CARD)
     {
-        cards[rePos].reposition_in_deck(rePos);
+        hand.erase(hand.begin()+toDiscard); size--;
+        reformat_deck();
+        cout << "Consumed card " << toDiscard << endl;
     }
 }
 
-void Deck::select_card(int toSelect)
+void Deck::reformat_deck()
 {
-    if (toSelect != selectedCardIndex)
+    for (size_t rePos{0}; rePos < size; rePos++) 
     {
+        hand[rePos].reposition_in_deck(rePos);
+    }
+}
+
+void Deck::select_card(int toSelect, int charEnergy)
+{
+    if (charEnergy >= hand[toSelect].attributes.energyCost && toSelect != selectedCardIndex)
+    {
+        if (selectedCardIndex != NULL_CARD) hand[selectedCardIndex].selected = false;
         selectedCardIndex = toSelect;
+        hand[selectedCardIndex].selected = true;
         cout << "Selected card number " << toSelect << endl;
+    }
+    else 
+    {
+        cout << "Could not select card " << selectedCardIndex << endl;
+        if (selectedCardIndex != NULL_CARD) hand[selectedCardIndex].selected = false;
+        selectedCardIndex = NULL_CARD;
     }
 }
 
@@ -59,25 +65,28 @@ void Deck::activate_card_process(Character &chara, vector<Enemy> &stage_enemies)
 {
     int queried = NULL_TARGET;
     if (hand[selectedCardIndex].attributes.intent == Attack) 
-        queried = hand[selectedCardIndex].query_targetE(stage_enemies);
+         queried = hand[selectedCardIndex].query_targetE(stage_enemies);
     else queried = hand[selectedCardIndex].query_targetC(chara);
     if (queried != NULL_TARGET)
     {
-        std::cout << "Queried target: " << queried << std::endl;
-        hand[selectedCardIndex].activate(chara, stage_enemies[queried]); //This can pass the 0th enemy if the target is a player (undefined if that one is dead)
-        toRemove = selectedCardIndex;
+        cout << "Queried target: " << queried << endl;
+        hand[selectedCardIndex].activate(chara, stage_enemies[queried]); //This passed the 0th enemy if the target is Character, can cause unintended behavior
+        toDiscard = selectedCardIndex;
+        discardPile.push_back(hand[toDiscard]);
         selectedCardIndex = NULL_CARD;
     }
 }
 
 void Deck::deck_iterate(int current, Character &chara, vector<Enemy> &stage_enemies)
 {
-    hand[current].card_display(hand[current].id, hand[current].pos);
+    hand[current].highlight();
+    if (hand[current].selected) hand[current].rect.y = 571;
+    hand[current].card_display();
     if (hand[current].detect_click()) 
     {
-        select_card(current);
+        select_card(current, chara.energy);
     }
-    if (selectedCardIndex != NULL_CARD)
+    if (selectedCardIndex != NULL_CARD) //SlCI is NULL_CARD after activation adn by default
     {
         activate_card_process(chara, stage_enemies);
     }

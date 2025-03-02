@@ -15,17 +15,16 @@ class Deck
         Deck(int size_);
         void set_up(Character character);
         void add_card(Card card);
-        void remove_card();  
+        void remove_card();
+        void reformat_deck();
         void activate_card_process(Character &chara, vector<Enemy> &stage_enemies);
         void deck_iterate(int current, Character &chara, vector<Enemy> &stage_enemies);
-        void select_card(int toSelect);
+        void select_card(int toSelect, int charEnergy);
 
-        static std::vector<Card> hand;
+        static vector<Card> hand;
+        static vector<Card> drawPile;
+        static vector<Card> discardPile;
         static size_t size;
         static int selectedCardIndex;   
-        int toRemove;
+        int toDiscard;
 };
-
-Deck deck_init(int size_);
-void reformat_deck(std::vector<Card> &hand_, size_t newSize);
-

@@ -2,12 +2,12 @@
 
 using namespace std;
 
+int Game::timeDelta = 0;
 Game::Game(const char* title, int xpos, int ypos, int w, int h)
 {
-    unsigned int flag = 0;
     if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
     {
-        if (!init_window(title, xpos, ypos, w, h, flag)) return;
+        if (!init_window(title, xpos, ypos, w, h)) return;
         isRunning = true;
     }
     else
@@ -20,11 +20,15 @@ Game::Game(const char* title, int xpos, int ypos, int w, int h)
 
 Game::~Game()
 {
+    cout << "Cleaning began." << endl;
+    cleanup_textures();
+    cout << "Textures cleaned." << endl;
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-    SDL_Quit();
+    cout << "Renderer and window cleaned." << endl;
     IMG_Quit();
     TTF_Quit();
+    SDL_Quit();
     cout << "Game cleaned." << endl;
 }
 
@@ -38,8 +42,36 @@ void Game::clear_render()
     SDL_SetRenderDrawColor(renderer, 25, 50, 0, 100);
     SDL_RenderClear(renderer);
 }
+
 void Game::present_render()
 {
     SDL_RenderPresent(renderer);
 }
 
+void Game::cleanup_textures()
+{
+    for (auto& thing:textureMap)
+    {
+        if (thing.second)
+        {
+            SDL_DestroyTexture(thing.second);
+            thing.second = NULL;
+        }
+    }
+    for (auto& thing:textTextureMap)
+    {
+        if (thing.second)
+        {
+            SDL_DestroyTexture(thing.second);
+            thing.second = NULL;
+        }
+    }
+    for (auto& thing:fontMap)
+    {
+        if (thing.second)
+        {
+            TTF_CloseFont(thing.second);
+            thing.second = NULL;
+        }
+    }
+}

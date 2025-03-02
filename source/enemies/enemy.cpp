@@ -3,21 +3,15 @@
 
 extern Game game;
 
-Enemy::Enemy() : Gui(640, 200, 200, 200) {}
+Enemy::Enemy() : Gui(ENEMY_POS_X, ENEMY_POS_Y, 200, 200) {}
 
-Enemy::Enemy(enemId id_, int initPos) : Gui(640, 240, 200, 200)
+Enemy::Enemy(enemId id_, int initPos) : Gui(ENEMY_POS_X, ENEMY_POS_Y, 200, 200)
 {
     id = id_;
     ePos = initPos;
     possibilities = eActionMap.at(id);
     attributes = eAttriMap.at(id);
-    move_rect(640+210*ePos, 240+(30*(ePos%2)));
-}
-
-Enemy enemy_init(enemId id_, int initPos)
-{
-    Enemy enemy(id_, initPos);
-    return enemy;
+    move_rect(ENEMY_POS_X+210*ePos, ENEMY_POS_Y+(30*(ePos%2)));
 }
 
 void Enemy::enemy_display()
@@ -38,15 +32,29 @@ void Enemy::take_damage(int damgeTaken)
     attributes.hp -= damgeTaken;
 }
 
-void Enemy::eAction(Character &chara)
+bool Enemy::e_action(Character &chara)
 {
-    int value = rand() % 100;
-    for (size_t i{0}; i < possibilities.size(); i++)
+    int t = game.timeDelta;
+    if (t == 1)
     {
-        if (value <= possibilities[i].actionValue) 
+        int value = rand() % 100;
+        for (size_t i{0}; i < possibilities.size(); i++)
         {
-            possibilities[i].action(chara, *this);
-            break;
+            if (value <= possibilities[i].actionValue) 
+            {
+                possibilities[i].action(chara, *this);
+                return false;
+            }
         }
     }
+    else 
+    {
+        move_rect(ENEMY_POS_X+210*ePos - (-t*t+10*t), ENEMY_POS_Y+(30*(ePos%2))); // can create offset
+        if (t == 14) 
+        {
+            move_rect(ENEMY_POS_X+210*ePos, ENEMY_POS_Y+(30*(ePos%2)));
+            return true;
+        }
+    }
+    return false;
 }

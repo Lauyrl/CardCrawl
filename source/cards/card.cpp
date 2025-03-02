@@ -5,7 +5,7 @@ extern Game game;
 
 const int CHARACTER_TARGET = 0;
 
-Card::Card(cardIdInv id_, int initPos) : Gui(0, 0, 215, 285) 
+Card::Card(cardIdInv id_, int initPos) : Gui(START_LOC_X, DEFAULT_Y, 215, 285) //This is for sure off center
 {
     id = id_;
     pos = initPos;
@@ -13,22 +13,29 @@ Card::Card(cardIdInv id_, int initPos) : Gui(0, 0, 215, 285)
     attributes = attriMap.at(id);
 }
 
-Card card_init(cardIdInv id, int initPos)
-{
-    Card card(id, initPos);
-    return card;
-}
-
-void Card::card_display(cardIdInv id, int pos)
+void Card::card_display()
 {
     game.render_img(cardSpriteMap.at(id), rect.x, rect.y, 210, 280, NULL);
+}
+
+void Card::highlight()
+{
+    if (detect_cursor_hover() && rect.y > 575)
+    {
+        rect.y -= 52;
+    }
+    if (!detect_cursor_hover() && rect.y < DEFAULT_Y)
+    {
+        rect.y += 52;
+    }
 }
 
 void Card::activate(Character &chara, Enemy &enemy)
 {
     auto it{actionMap.find(id)};
-    if (it == actionMap.end()) cout << "Action undefined" << endl;
+    if (it == actionMap.end()) cerr << "Action undefined " << endl;
     else actionMap.at(id)(chara, enemy);
+    chara.lose_energy(attributes.energyCost);
 }
 
 void Card::reposition_in_deck(int rePos)
@@ -41,10 +48,7 @@ int Card::query_targetE(vector<Enemy> stage_enemies)
 {
     for (size_t eIndex{0}; eIndex < stage_enemies.size(); eIndex++)
     {
-        if (stage_enemies[eIndex].detect_click())
-        {
-            return eIndex;
-        }
+        if (stage_enemies[eIndex].detect_click()) return eIndex;
     }
     return NULL_TARGET;
 }

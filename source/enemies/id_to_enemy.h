@@ -23,7 +23,7 @@ extern const map<enemId, const char*> eSpriteMap;
 extern const map<enemId, enemAttributes> eAttriMap;
 
 
-class Enemy;//this file cant know what enemy is
+class Enemy;//this file cant include enemy.h
             //but it only needs a partial definition ig
 struct possibleActions
 {
