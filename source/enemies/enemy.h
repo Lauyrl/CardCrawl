@@ -11,15 +11,14 @@ class Enemy : public Gui
 {
     public:
         Enemy();
-        Enemy(enemId id_, int initPos);
-        void enemy_display();
+        Enemy(enemyId id_, int initPos);
+        void display();
+        bool enemy_action(Character &chara);
         void display_hp();
-        void take_damage(int damgeTaken);
-        bool e_action(Character &chara);
-        SDL_Rect eRect;
+        void take_damage(int damageTaken);
 
-        int ePos;
-        enemId id;
+        int pos;
+        enemyId id;
         enemAttributes attributes;
         vector<possibleActions> possibilities;
 };

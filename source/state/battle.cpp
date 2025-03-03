@@ -3,14 +3,14 @@
 extern Game game; 
 extern Character ironclad;
 
-void init_components(Deck &deckObj, vector<Enemy> &stage_enemies)
+void init_components(Deck &deckObj, vector<Enemy> &stageEnemies)
 {
     turn = 0;
     deckObj = Deck(DECK_MAX_SIZE);
     deckObj.set_up(ironclad);
     for (int i{0}; i < MAX_ENEMIES; i++)
     {
-        stage_enemies.push_back(Enemy(acid_slime, i));
+        stageEnemies.push_back(Enemy(acid_slime, i));
     }
 }
 
@@ -19,32 +19,32 @@ void deck_process(Deck &deckObj)
     deckObj.toDiscard = NULL_CARD;
     for (size_t current{0}; current < deckObj.size; current++)
     {
-        deckObj.deck_iterate(current, ironclad, stage_enemies); 
+        deckObj.iterate(current, ironclad, stageEnemies); 
     }
     if (deckObj.toDiscard != NULL_CARD) deckObj.remove_card();
 }
 
-void enemies_process(vector<Enemy> &stage_enemies)
+void enemy_process(vector<Enemy> &stageEnemies)
 {
-    for (int i{stage_enemies.size()-1}; i >= 0 ; i--)
+    for (int i{stageEnemies.size()-1}; i >= 0 ; i--)
     {
-        if (stage_enemies[i].attributes.hp <= 0) stage_enemies.erase(stage_enemies.begin()+i);
-        else stage_enemies[i].enemy_display();
+        if (stageEnemies[i].attributes.hp <= 0) stageEnemies.erase(stageEnemies.begin()+i);
+        else stageEnemies[i].display();
     }
 }
 
-bool enemy_turn(Character &chara, vector<Enemy> &stage_enemies)
+bool enemy_turn(Character &chara, vector<Enemy> &stageEnemies)
 {
     // bool progress = false;
     // progress = ; 
-    if (!stage_enemies[activeEnemyIndex].e_action(ironclad)) return false; // return true after animation finishes
+    if (!stageEnemies[activeEnemyIdx].enemy_action(ironclad)) return false; // return true after animation finishes
     else 
     {
-        game.timeDelta = 0;
-        activeEnemyIndex++;
-        if (activeEnemyIndex < stage_enemies.size()) return false;
+        game.tick = 0;
+        activeEnemyIdx++;
+        if (activeEnemyIdx < stageEnemies.size()) return false;
     }
-    activeEnemyIndex = 0;
+    activeEnemyIdx = 0;
     return true;
 }
 
@@ -53,17 +53,17 @@ void Game::display_battle()
     // int frameStart = SDL_GetTicks();
     if (battleStart)
     {
-        init_components(deckObj, stage_enemies);
+        init_components(deckObj, stageEnemies);
         cout << "Initiation success" << endl;
         battleStart = false;
     }
     game.render_img("assets/scene/scene.jpg", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, &background); 
-    ironclad.character_display();
-    enemies_process(stage_enemies);
+    ironclad.display();
+    enemy_process(stageEnemies);
     // cout << SDL_GetTicks() - frameStart << endl; 
     if (turn%2 == 0)
     {
-        etButton.et_button_display();
+        etButton.display();
         ironclad.display_energy();
         if (etButton.detect_click())
         {
@@ -74,11 +74,11 @@ void Game::display_battle()
     }
     else
     {
-        game.timeDelta++;
-        if (enemy_turn(ironclad, stage_enemies)) //wait for enemy_turn() to finish
+        game.tick++;
+        if (enemy_turn(ironclad, stageEnemies)) //wait for enemy_turn() to finish
         {
-            game.timeDelta = 0;
-            ironclad.lose_energy(ironclad.energy-3); // Reset energy
+            game.tick = 0;
+            ironclad.reset_energy();
             turn++;
         }
     }

@@ -10,6 +10,6 @@ class EndTurnButton : public Gui
 {
     public:
         EndTurnButton();
-        void et_button_display();
+        void display();
         Text etText = Text(30, rect.x, rect.y, 100, 100, 100);
 };

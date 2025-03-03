@@ -11,6 +11,6 @@ SDL_Rect background{0, 280, 1920, 1225};
 EndTurnButton etButton;
 
 static Deck deckObj(DECK_MAX_SIZE);
-static std::vector<Enemy> stage_enemies;
-int activeEnemyIndex{0};
+static std::vector<Enemy> stageEnemies;
+int activeEnemyIdx{0};
 int turn{0};

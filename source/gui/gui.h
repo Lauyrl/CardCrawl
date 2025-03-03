@@ -8,12 +8,12 @@
 class Gui 
 {
     public:
-        Gui(int x_root, int y_root, int width, int height);
+        Gui(int posX, int posY, int width, int height);
         ~Gui();
         SDL_Rect rect;
         bool detect_cursor_hover();
         bool detect_click();
-        void move_rect(int new_x, int new_y);
+        void move_rect(int newX, int newY);
 };
 
 

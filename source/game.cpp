@@ -2,12 +2,12 @@
 
 using namespace std;
 
-int Game::timeDelta = 0;
-Game::Game(const char* title, int xpos, int ypos, int w, int h)
+int Game::tick = 0;
+Game::Game(const char* title, int posX, int posY, int width, int height)
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
     {
-        if (!init_window(title, xpos, ypos, w, h)) return;
+        if (!init_window(title, posX, posY, width, height)) return;
         isRunning = true;
     }
     else

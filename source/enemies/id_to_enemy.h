@@ -8,7 +8,7 @@
 
 using namespace std;
 
-enum enemId {
+enum enemyId {
     acid_slime
 };
 
@@ -18,9 +18,9 @@ struct enemAttributes
     double atk;
 };
 
-extern const map<enemId, const char*> eSpriteMap;
+extern const map<enemyId, const char*> eSpriteMap;
 
-extern const map<enemId, enemAttributes> eAttriMap;
+extern const map<enemyId, enemAttributes> eAttriMap;
 
 
 class Enemy;//this file cant include enemy.h
@@ -30,7 +30,7 @@ struct possibleActions
     int actionValue;
     function<void(Character&, Enemy&)> action;
 };
-extern const map<enemId, vector<possibleActions>> eActionMap;
+extern const map<enemyId, vector<possibleActions>> eActionMap;
 
 
 

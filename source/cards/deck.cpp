@@ -1,7 +1,7 @@
 #include "deck.h" //using namespace std; included i think
 
 size_t Deck::size = 0; //size needs to be static and defined here or it breaks
-int Deck::selectedCardIndex = NULL_CARD;
+int Deck::selectedCardIdx = NULL_CARD;
 vector<Card> Deck::hand;
 vector<Card> Deck::drawPile;
 vector<Card> Deck::discardPile;
@@ -11,11 +11,11 @@ Deck::Deck(int size_)
     size = size_;
 }
 
-void Deck::set_up(Character character)
+void Deck::set_up(Character chara)
 {
     for (size_t i{0}; i < size; i++)
     {
-        Card card(character.cardInventoryId[i], i);
+        Card card(chara.cardIdInventory[i], i);
         add_card(card);
     }
 }
@@ -31,12 +31,12 @@ void Deck::remove_card()
     if (toDiscard != NULL_CARD)
     {
         hand.erase(hand.begin()+toDiscard); size--;
-        reformat_deck();
+        reformat();
         cout << "Consumed card " << toDiscard << endl;
     }
 }
 
-void Deck::reformat_deck()
+void Deck::reformat()
 {
     for (size_t rePos{0}; rePos < size; rePos++) 
     {
@@ -44,51 +44,51 @@ void Deck::reformat_deck()
     }
 }
 
-void Deck::select_card(int toSelect, int charEnergy)
+void Deck::select_card(int toSelect, int charaEnergy)
 {
-    if (charEnergy >= hand[toSelect].attributes.energyCost && toSelect != selectedCardIndex)
+    if (charaEnergy >= hand[toSelect].attributes.cost && toSelect != selectedCardIdx)
     {
-        if (selectedCardIndex != NULL_CARD) hand[selectedCardIndex].selected = false;
-        selectedCardIndex = toSelect;
-        hand[selectedCardIndex].selected = true;
+        if (selectedCardIdx != NULL_CARD) hand[selectedCardIdx].selected = false;
+        selectedCardIdx = toSelect;
+        hand[selectedCardIdx].selected = true;
         cout << "Selected card number " << toSelect << endl;
     }
     else 
     {
-        cout << "Could not select card " << selectedCardIndex << endl;
-        if (selectedCardIndex != NULL_CARD) hand[selectedCardIndex].selected = false;
-        selectedCardIndex = NULL_CARD;
+        cout << "Could not select card " << selectedCardIdx << endl;
+        if (selectedCardIdx != NULL_CARD) hand[selectedCardIdx].selected = false;
+        selectedCardIdx = NULL_CARD;
     }
 }
 
-void Deck::activate_card_process(Character &chara, vector<Enemy> &stage_enemies)
+void Deck::activate_card_process(Character &chara, vector<Enemy> &stageEnemies)
 {
     int queried = NULL_TARGET;
-    if (hand[selectedCardIndex].attributes.intent == Attack) 
-         queried = hand[selectedCardIndex].query_targetE(stage_enemies);
-    else queried = hand[selectedCardIndex].query_targetC(chara);
+    if (hand[selectedCardIdx].attributes.intent == Attack) 
+         queried = hand[selectedCardIdx].query_targetE(stageEnemies);
+    else queried = hand[selectedCardIdx].query_targetC(chara);
     if (queried != NULL_TARGET)
     {
         cout << "Queried target: " << queried << endl;
-        hand[selectedCardIndex].activate(chara, stage_enemies[queried]); //This passed the 0th enemy if the target is Character, can cause unintended behavior
-        toDiscard = selectedCardIndex;
+        hand[selectedCardIdx].activate(chara, stageEnemies[queried]); //This passed the 0th enemy if the target is Character, can cause unintended behavior
+        toDiscard = selectedCardIdx;
         discardPile.push_back(hand[toDiscard]);
-        selectedCardIndex = NULL_CARD;
+        selectedCardIdx = NULL_CARD;
     }
 }
 
-void Deck::deck_iterate(int current, Character &chara, vector<Enemy> &stage_enemies)
+void Deck::iterate(int current, Character &chara, vector<Enemy> &stageEnemies)
 {
     hand[current].highlight();
     if (hand[current].selected) hand[current].rect.y = 571;
-    hand[current].card_display();
+    hand[current].display();
     if (hand[current].detect_click()) 
     {
         select_card(current, chara.energy);
     }
-    if (selectedCardIndex != NULL_CARD) //SlCI is NULL_CARD after activation adn by default
+    if (selectedCardIdx != NULL_CARD) //SlCI is NULL_CARD after activation adn by default
     {
-        activate_card_process(chara, stage_enemies);
+        activate_card_process(chara, stageEnemies);
     }
 }
 

@@ -6,7 +6,7 @@ double Character::maxHealth = 100.0;
 int Character::energy = 3;
 int Character::health = 1; //static
 
-std::vector<cardIdInv> Character::cardInventoryId = {
+std::vector<cardIdInv> Character::cardIdInventory = {
     strike, strike, strike, defend, defend
 };
 
@@ -31,7 +31,7 @@ void Character::display_hp()
     SDL_RenderFillRect(game.renderer, &chHealthBar);
 }
 
-void Character::character_display()
+void Character::display()
 {
     display_hp();
     display_block();
@@ -68,4 +68,9 @@ void Character::take_damge(int dmg)
 void Character::lose_energy(int amount)
 {
     energy -= amount;
+}
+
+void Character::reset_energy()
+{
+    lose_energy(energy-3);
 }

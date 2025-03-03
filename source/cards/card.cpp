@@ -3,19 +3,17 @@
 
 extern Game game;
 
-const int CHARACTER_TARGET = 0;
-
-Card::Card(cardIdInv id_, int initPos) : Gui(START_LOC_X, DEFAULT_Y, 215, 285) //This is for sure off center
+Card::Card(cardIdInv id_, int initPos) : Gui(CARD_POS_X_DEFAULT, CARD_POS_Y, 215, 285) //This is for sure off center
 {
     id = id_;
     pos = initPos;
-    move_rect(START_LOC_X+STEP_INCREMENT*pos, DEFAULT_Y);
-    attributes = attriMap.at(id);
+    move_rect(CARD_POS_X_DEFAULT+STEP_INCREMENT*pos, CARD_POS_Y);
+    attributes = cAttriMap.at(id);
 }
 
-void Card::card_display()
+void Card::display()
 {
-    game.render_img(cardSpriteMap.at(id), rect.x, rect.y, 210, 280, NULL);
+    game.render_img(cSpriteMap.at(id), rect.x, rect.y, 210, 280, NULL);
 }
 
 void Card::highlight()
@@ -24,7 +22,7 @@ void Card::highlight()
     {
         rect.y -= 52;
     }
-    if (!detect_cursor_hover() && rect.y < DEFAULT_Y)
+    if (!detect_cursor_hover() && rect.y < CARD_POS_Y)
     {
         rect.y += 52;
     }
@@ -32,23 +30,23 @@ void Card::highlight()
 
 void Card::activate(Character &chara, Enemy &enemy)
 {
-    auto it{actionMap.find(id)};
-    if (it == actionMap.end()) cerr << "Action undefined " << endl;
-    else actionMap.at(id)(chara, enemy);
-    chara.lose_energy(attributes.energyCost);
+    auto it{cActionMap.find(id)};
+    if (it == cActionMap.end()) cerr << "Action undefined " << endl;
+    else cActionMap.at(id)(chara, enemy);
+    chara.lose_energy(attributes.cost);
 }
 
 void Card::reposition_in_deck(int rePos)
 {
     pos = rePos;
-    move_rect(START_LOC_X+STEP_INCREMENT*pos, DEFAULT_Y);
+    move_rect(CARD_POS_X_DEFAULT+STEP_INCREMENT*pos, CARD_POS_Y);
 }
 
-int Card::query_targetE(vector<Enemy> stage_enemies)
+int Card::query_targetE(vector<Enemy> stageEnemies)
 {
-    for (size_t eIndex{0}; eIndex < stage_enemies.size(); eIndex++)
+    for (size_t eIdx{0}; eIdx < stageEnemies.size(); eIdx++)
     {
-        if (stage_enemies[eIndex].detect_click()) return eIndex;
+        if (stageEnemies[eIdx].detect_click()) return eIdx;
     }
     return NULL_TARGET;
 }

@@ -3,9 +3,9 @@
 
 using namespace std;
 
-bool Game::init_window(const char* title, int xpos, int ypos, int w, int h)
+bool Game::init_window(const char* title, int posX, int posY, int width, int height)
 {
-    window = SDL_CreateWindow(title, xpos, ypos, w, h, SDL_WINDOW_RESIZABLE);
+    window = SDL_CreateWindow(title, posX, posY, width, height, SDL_WINDOW_RESIZABLE);
     if (!window) 
     {   
         cerr << "Window creation failed. " << SDL_GetError();

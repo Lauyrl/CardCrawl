@@ -2,10 +2,10 @@
 
 extern Game game;
 
-Text::Text(int fontSize_, int x, int y, Uint8 r, Uint8 g, Uint8 b) 
+Text::Text(int fontSize_, int posX, int posY, Uint8 r, Uint8 g, Uint8 b) 
 {
     fontSize = fontSize_;
-    tRect  = {x, y, 1, 1};
+    tRect  = {posX, posY, 1, 1};
     tColor = {r, g, b, 255};//the 'g' value of tColor is used as a key to 
                             //textTextureMap so make microchanges per 
 }

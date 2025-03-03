@@ -1,8 +1,8 @@
 #include "gui.h"
 
-Gui::Gui(int x_root, int y_root, int width, int height)
+Gui::Gui(int posX, int posY, int width, int height)
 {
-    rect = {x_root, y_root, width, height};
+    rect = {posX, posY, width, height};
 }
 
 int testCnt{0};
@@ -22,10 +22,10 @@ bool Gui::detect_click()
     return (detect_cursor_hover() && process_click(clickQueued));
 }
 
-void Gui::move_rect(int new_x, int new_y)
+void Gui::move_rect(int newX, int newY)
 {
-    rect.x = new_x;
-    rect.y = new_y;
+    rect.x = newX;
+    rect.y = newY;
 }
 
 Gui::~Gui()

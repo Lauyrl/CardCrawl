@@ -7,19 +7,20 @@
 using namespace std;
 
 const int NULL_CARD = -1;
-const int START_LOC_X = 300;
+const int CARD_POS_X_DEFAULT = 300;
 const int STEP_INCREMENT = 190;
-const int DEFAULT_Y = 675;
+const int CARD_POS_Y = 675;
+const int CHARACTER_TARGET = 0;
 
 class Card : public Gui
 {
     public:
-        Card(cardIdInv id_, int cardPos); // Card IDs enum is defined in character.h
-        void card_display();
+        Card(cardIdInv id_, int initPos); // Card IDs enum is defined in character.h
+        void display();
         void highlight();
         void reposition_in_deck(int rePos);
         void activate(Character &chara, Enemy &enemy);
-        int query_targetE(vector<Enemy> stage_enemies);
+        int query_targetE(vector<Enemy> stageEnemies);
         int query_targetC(Character chara);
 
         int pos;

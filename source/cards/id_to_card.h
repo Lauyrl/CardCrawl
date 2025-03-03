@@ -14,11 +14,11 @@ enum cardIntent {Attack, Skill, Curse};
 struct CardAttributes
 {
     cardIntent intent;
-    int energyCost;
+    int cost;
 };
 
-extern const map<cardIdInv, const char*> cardSpriteMap;
+extern const map<cardIdInv, const char*> cSpriteMap;
 
-extern const map<cardIdInv, CardAttributes> attriMap;
+extern const map<cardIdInv, CardAttributes> cAttriMap;
 
-extern const map<cardIdInv, function<void(Character&, Enemy&)>> actionMap;
+extern const map<cardIdInv, function<void(Character&, Enemy&)>> cActionMap;
