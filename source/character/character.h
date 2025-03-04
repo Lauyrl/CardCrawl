@@ -1,16 +1,15 @@
 #pragma once
 
-#include <vector>
-#include <iostream>
-#include <string>
 #include <cstring>
+#include "../game.h"
 #include "../gui/gui.h"
 
 using namespace std;
 
 enum cardIdInv {
     strike,
-    defend
+    defend,
+    iron_wave
 };
 
 class Character : public Gui

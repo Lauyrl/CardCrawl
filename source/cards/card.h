@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include "../game.h"
 #include "../gui/gui.h"
 #include "id_to_card.h" //includes Enemy and Character
 
@@ -15,10 +15,11 @@ const int CHARACTER_TARGET = 0;
 class Card : public Gui
 {
     public:
+        Card();
         Card(cardIdInv id_, int initPos); // Card IDs enum is defined in character.h
         void display();
         void highlight();
-        void reposition_in_deck(int rePos);
+        void reposition_in_hand(int rePos);
         void activate(Character &chara, Enemy &enemy);
         int query_targetE(vector<Enemy> stageEnemies);
         int query_targetC(Character chara);

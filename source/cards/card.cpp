@@ -1,7 +1,14 @@
 #include "card.h"
-#include "../game.h"
 
 extern Game game;
+
+Card::Card() : Gui(CARD_POS_X_DEFAULT, CARD_POS_Y, 215, 285) 
+{
+    id = strike;
+    pos = 0;
+    move_rect(CARD_POS_X_DEFAULT+STEP_INCREMENT*pos, CARD_POS_Y);
+    attributes = cAttriMap.at(id);
+}
 
 Card::Card(cardIdInv id_, int initPos) : Gui(CARD_POS_X_DEFAULT, CARD_POS_Y, 215, 285) //This is for sure off center
 {
@@ -32,11 +39,15 @@ void Card::activate(Character &chara, Enemy &enemy)
 {
     auto it{cActionMap.find(id)};
     if (it == cActionMap.end()) cerr << "Action undefined " << endl;
-    else cActionMap.at(id)(chara, enemy);
+    else 
+    {
+        cActionMap.at(id)(chara, enemy);
+        selected = false;
+    }
     chara.lose_energy(attributes.cost);
 }
 
-void Card::reposition_in_deck(int rePos)
+void Card::reposition_in_hand(int rePos)
 {
     pos = rePos;
     move_rect(CARD_POS_X_DEFAULT+STEP_INCREMENT*pos, CARD_POS_Y);

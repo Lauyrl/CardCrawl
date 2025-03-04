@@ -1,7 +1,5 @@
 #pragma once
 
-#include <map>
-#include <string>
 #include <functional>
 #include "../enemies/enemy.h"
 #include "../character/character.h"

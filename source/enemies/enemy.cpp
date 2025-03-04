@@ -1,4 +1,3 @@
-#include <iostream>
 #include "enemy.h"
 
 extern Game game;
@@ -30,6 +29,7 @@ void Enemy::display_hp()
 void Enemy::take_damage(int damageTaken)
 {
     attributes.hp -= damageTaken;
+    // cout << enemy.attributes.hp << ' ' << endl;
 }
 
 bool Enemy::enemy_action(Character &chara)

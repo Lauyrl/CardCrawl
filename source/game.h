@@ -1,8 +1,11 @@
 #pragma once
 
-#include <iostream>
 #include <map>
+#include <random>
+#include <vector>
 #include <string>
+#include <iostream>
+#include <algorithm>
 #include "../incl/libraries.h"
 #include "../incl/constants.h"
 
@@ -37,3 +40,10 @@ class Game
 
         static int tick;
 };
+template <typename T>
+void shuffle_vector(std::vector<T> &vector)
+{
+    static std::random_device seed;                 //initialized once
+    static std::default_random_engine rng(seed());  //retains state while out of scope
+    std::ranges::shuffle(vector, rng);
+}

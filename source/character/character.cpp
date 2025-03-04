@@ -1,5 +1,4 @@
 #include "character.h"
-#include "../game.h"
 
 extern Game game;
 double Character::maxHealth = 100.0;
@@ -7,7 +6,7 @@ int Character::energy = 3;
 int Character::health = 1; //static
 
 std::vector<cardIdInv> Character::cardIdInventory = {
-    strike, strike, strike, defend, defend
+    strike, strike, strike, strike, defend, defend, defend, iron_wave, iron_wave, iron_wave
 };
 
 Character::Character(int health_) : Gui(140, 300, 280, 200)
@@ -48,6 +47,7 @@ void Character::display_energy()
 void Character::gain_block(int amount)
 {
     block += amount;
+    // cout << chara.block << ' ' << endl;
 }
 
 void Character::take_damge(int dmg)
@@ -56,12 +56,14 @@ void Character::take_damge(int dmg)
     {
         block = 0;
         dmg -= block;
-        cout << "Shieldless! Pass through: "  << dmg << std::endl;
+        // cout << "Shieldless! Pass through: "  << dmg << std::endl;
         health -= dmg;
+        // cout << chara.health << ' ' << chara.block << ' ' << endl;
     }
     else 
     {
         block -= dmg;
+        // cout << chara.health << ' ' << chara.block << ' ' << endl;
     }
 }
 

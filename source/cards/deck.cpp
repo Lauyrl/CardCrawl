@@ -1,46 +1,72 @@
 #include "deck.h" //using namespace std; included i think
 
-size_t Deck::size = 0; //size needs to be static and defined here or it breaks
+size_t Deck::maxSize = 0; //size needs to be static and defined here or it breaks
 int Deck::selectedCardIdx = NULL_CARD;
 vector<Card> Deck::hand;
 vector<Card> Deck::drawPile;
 vector<Card> Deck::discardPile;
 
-Deck::Deck(int size_)
+Deck::Deck(int maxSize_)
 {
-    size = size_;
+    maxSize = maxSize_;
 }
 
-void Deck::set_up(Character chara)
+void Deck::set_up_draw_pile(Character chara)
 {
-    for (size_t i{0}; i < size; i++)
+    shuffle_vector(chara.cardIdInventory);
+    drawPile.resize(chara.cardIdInventory.size());
+    for (size_t i{0}; i < chara.cardIdInventory.size(); i++)
     {
         Card card(chara.cardIdInventory[i], i);
-        add_card(card);
+        add_card(drawPile, i, card);
+        cout << "Added card " << i << " to draw pile" << endl;
     }
 }
 
-void Deck::add_card(Card card)
+void Deck::build_hand()
 {
-    hand.push_back(card);
+    shuffle_vector(drawPile);
+    hand.resize((drawPile.size()<maxSize) ? drawPile.size() : maxSize);
+    for (int i{(drawPile.size()<maxSize) ? drawPile.size()-1 : maxSize-1}; i >= 0 ; i--)
+    {
+        add_card(hand, i, drawPile[i]);
+        drawPile.erase(drawPile.begin()+i);
+    }
 }
 
-void Deck::remove_card()
+void Deck::clear_hand()
+{
+    for (size_t i{0}; i < hand.size() ; i++)
+    {
+        discardPile.push_back(hand[i]);
+        cout << "Cleared card " << i << endl;
+    }
+    hand.clear();
+}
+
+void Deck::add_card(vector<Card> &pile, int idx, Card card)
+{
+    pile[idx] = card;
+    pile[idx].reposition_in_hand(idx);
+    cout << "Added card " << idx << " to pile" << endl;
+}
+
+void Deck::discard_card()
 {   
     // if (hand.size() < 1) std::cerr << "Deck is empty.\n";
     if (toDiscard != NULL_CARD)
     {
-        hand.erase(hand.begin()+toDiscard); size--;
+        hand.erase(hand.begin()+toDiscard);
         reformat();
-        cout << "Consumed card " << toDiscard << endl;
+        cout << "Consumed card: " << toDiscard << endl;
     }
 }
 
 void Deck::reformat()
 {
-    for (size_t rePos{0}; rePos < size; rePos++) 
+    for (size_t rePos{0}; rePos < hand.size(); rePos++) 
     {
-        hand[rePos].reposition_in_deck(rePos);
+        hand[rePos].reposition_in_hand(rePos);
     }
 }
 
@@ -51,11 +77,11 @@ void Deck::select_card(int toSelect, int charaEnergy)
         if (selectedCardIdx != NULL_CARD) hand[selectedCardIdx].selected = false;
         selectedCardIdx = toSelect;
         hand[selectedCardIdx].selected = true;
-        cout << "Selected card number " << toSelect << endl;
+        cout << "Selected card number: " << toSelect << endl;
     }
     else 
     {
-        cout << "Could not select card " << selectedCardIdx << endl;
+        cout << "Could not select card: " << selectedCardIdx << endl;
         if (selectedCardIdx != NULL_CARD) hand[selectedCardIdx].selected = false;
         selectedCardIdx = NULL_CARD;
     }
@@ -72,7 +98,6 @@ void Deck::activate_card_process(Character &chara, vector<Enemy> &stageEnemies)
         cout << "Queried target: " << queried << endl;
         hand[selectedCardIdx].activate(chara, stageEnemies[queried]); //This passed the 0th enemy if the target is Character, can cause unintended behavior
         toDiscard = selectedCardIdx;
-        discardPile.push_back(hand[toDiscard]);
         selectedCardIdx = NULL_CARD;
     }
 }

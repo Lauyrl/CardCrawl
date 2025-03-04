@@ -1,7 +1,7 @@
 #pragma once
 
-#include "id_to_enemy.h"
 #include "../gui/gui.h"
+#include "id_to_enemy.h"
 
 const int ENEMY_POS_X = 640;
 const int ENEMY_POS_Y = 360;

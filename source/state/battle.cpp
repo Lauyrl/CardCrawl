@@ -6,8 +6,8 @@ extern Character ironclad;
 void init_components(Deck &deckObj, vector<Enemy> &stageEnemies)
 {
     turn = 0;
-    deckObj = Deck(DECK_MAX_SIZE);
-    deckObj.set_up(ironclad);
+    deckObj.set_up_draw_pile(ironclad);
+    deckObj.build_hand();
     for (int i{0}; i < MAX_ENEMIES; i++)
     {
         stageEnemies.push_back(Enemy(acid_slime, i));
@@ -17,11 +17,15 @@ void init_components(Deck &deckObj, vector<Enemy> &stageEnemies)
 void deck_process(Deck &deckObj)
 {
     deckObj.toDiscard = NULL_CARD;
-    for (size_t current{0}; current < deckObj.size; current++)
+    for (size_t current{0}; current < deckObj.hand.size(); current++)
     {
         deckObj.iterate(current, ironclad, stageEnemies); 
     }
-    if (deckObj.toDiscard != NULL_CARD) deckObj.remove_card();
+    if (deckObj.toDiscard != NULL_CARD) 
+    {
+        deckObj.discardPile.push_back(deckObj.hand[deckObj.toDiscard]);
+        deckObj.discard_card();
+    }
 }
 
 void enemy_process(vector<Enemy> &stageEnemies)
@@ -63,6 +67,17 @@ void Game::display_battle()
     // cout << SDL_GetTicks() - frameStart << endl; 
     if (turn%2 == 0)
     {
+        if (playerTurn) //this is for testing only pls change
+        {
+            deckObj.clear_hand();
+            if (deckObj.drawPile.size() == 0)
+            {
+                deckObj.drawPile = deckObj.discardPile;
+                deckObj.discardPile.clear();
+            }
+            deckObj.build_hand();
+            playerTurn = false;
+        }
         etButton.display();
         ironclad.display_energy();
         if (etButton.detect_click())
@@ -80,6 +95,7 @@ void Game::display_battle()
             game.tick = 0;
             ironclad.reset_energy();
             turn++;
+            playerTurn = true;
         }
     }
 }
