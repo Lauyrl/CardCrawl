@@ -6,7 +6,7 @@ int Character::energy = 3;
 int Character::health = 1; //static
 
 std::vector<cardIdInv> Character::cardIdInventory = {
-    strike, strike, strike, strike, defend, defend, defend, iron_wave, iron_wave, iron_wave
+    strike, strike, strike, strike, defend, defend, defend, iron_wave, iron_wave, iron_wave, strike, strike
 };
 
 Character::Character(int health_) : Gui(140, 300, 280, 200)

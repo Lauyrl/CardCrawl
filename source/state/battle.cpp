@@ -19,7 +19,7 @@ void deck_process(Deck &deckObj)
     deckObj.toDiscard = NULL_CARD;
     for (size_t current{0}; current < deckObj.hand.size(); current++)
     {
-        deckObj.iterate(current, ironclad, stageEnemies); 
+        deckObj.interact_cards(current, ironclad, stageEnemies); 
     }
     if (deckObj.toDiscard != NULL_CARD) 
     {
@@ -61,7 +61,28 @@ void Game::display_battle()
         cout << "Initiation success" << endl;
         battleStart = false;
     }
-    game.render_img("assets/scene/scene.jpg", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, &background); 
+    game.render_img("assets/scene/scene.jpg", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, &background);
+    drpButton.display();
+    dcpButton.display();
+    //
+    if (drpButton.detect_click()) 
+    {
+        for (size_t i{0}; i < deckObj.drawPile.size(); i++)
+        {
+            cout << deckObj.drawPile[i].id << ' ';
+        }
+        cout << endl;
+    }
+
+    if (dcpButton.detect_click()) 
+    {
+        for (size_t i{0}; i < deckObj.discardPile.size(); i++)
+        {
+            cout << deckObj.discardPile[i].id << ' ';
+        }
+        cout << endl;
+    }
+
     ironclad.display();
     enemy_process(stageEnemies);
     // cout << SDL_GetTicks() - frameStart << endl; 

@@ -19,7 +19,7 @@ class Deck
         void discard_card();
         void reformat();
         void activate_card_process(Character &chara, vector<Enemy> &stageEnemies);
-        void iterate(int current, Character &chara, vector<Enemy> &stageEnemies);
+        void interact_cards(int current, Character &chara, vector<Enemy> &stageEnemies);
         void select_card(int toSelect, int charaEnergy);
 
         static vector<Card> hand;

@@ -102,7 +102,7 @@ void Deck::activate_card_process(Character &chara, vector<Enemy> &stageEnemies)
     }
 }
 
-void Deck::iterate(int current, Character &chara, vector<Enemy> &stageEnemies)
+void Deck::interact_cards(int current, Character &chara, vector<Enemy> &stageEnemies)
 {
     hand[current].highlight();
     if (hand[current].selected) hand[current].rect.y = 571;

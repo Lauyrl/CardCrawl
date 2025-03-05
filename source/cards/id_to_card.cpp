@@ -28,8 +28,6 @@ void iron_wave_action(Character& chara, Enemy& enemy)
 {
     chara.gain_block(5);
     enemy.take_damage(5);
-    cout << chara.block << ' ' << endl;
-    cout << enemy.attributes.hp << ' ' << endl;
 }
 
 const map<cardIdInv, function<void(Character&, Enemy&)>> cActionMap = {
