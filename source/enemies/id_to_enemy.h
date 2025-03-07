@@ -29,10 +29,3 @@ extern const map<enemyId, vector<possibleActions>> eActionMap;
 extern const map<enemyId, const char*> eSpriteMap;
 
 extern const map<enemyId, enemAttributes> eAttriMap;
-
-
-
-
-
-
-

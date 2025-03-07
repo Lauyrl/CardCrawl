@@ -1,8 +1,9 @@
-- Cách chạy: tải cc.exe và các .dll
+- Cách chạy: tải cc.exe và các .dll và folder 'assets' (?)
 + Mọi thao tác đều bằng chuột
 
 
 Một số nguồn đã tham khảo:
+
 SDL:
 dev.uet SDL image demo
 dev.uet SDL event, keyboard
