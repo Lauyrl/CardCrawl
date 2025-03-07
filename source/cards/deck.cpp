@@ -1,5 +1,7 @@
 #include "deck.h" //using namespace std; included i think
 
+extern Game game;
+
 size_t Deck::maxSize = 0; //size needs to be static and defined here or it breaks
 int Deck::selectedCardIdx = NULL_CARD;
 vector<Card> Deck::hand;
@@ -11,7 +13,7 @@ Deck::Deck(int maxSize_)
     maxSize = maxSize_;
 }
 
-void Deck::set_up_draw_pile(Character chara)
+void Deck::set_up_dp(Character chara)
 {
     shuffle_vector(chara.cardIdInventory);
     drawPile.resize(chara.cardIdInventory.size());
@@ -106,9 +108,6 @@ void Deck::activate_card_process(Character &chara, vector<Enemy> &stageEnemies)
 
 void Deck::interact_cards(int current, Character &chara, vector<Enemy> &stageEnemies)
 {
-    hand[current].highlight();
-    if (hand[current].selected) hand[current].rect.y = 571;
-    hand[current].display();
     if (hand[current].detect_click()) 
     {
         select_card(current, chara.energy);
@@ -119,3 +118,27 @@ void Deck::interact_cards(int current, Character &chara, vector<Enemy> &stageEne
     }
 }
 
+void Deck::renew_hand()
+{
+    discard_hand();
+    if (drawPile.size() == 0)
+    {
+        drawPile = discardPile;
+        discardPile.clear();
+    }
+    build_hand();
+}
+
+void Deck::show_pile(vector<Card>& pile, int textType)
+{
+    SDL_Rect greyOut = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+    SDL_SetRenderDrawColor(game.renderer, 20, 20, 20, 80);
+    SDL_RenderFillRect(game.renderer, &greyOut);
+    for (int i{0}; i < pile.size(); i++)
+    {
+        pile[i].display_copy(200+200*(i%5), 160+240*(int)(i/5));
+    }
+    if (textType == DC_TEXT) pileLabel.render_text("                                       DISCARD PILE\nOnce full, cards are pushed back into draw pile\nAll cards currently in hand are discarded upon turn end");
+    if (textType == DP_TEXT) pileLabel.render_text("                                       DRAW PILE\nOnce empty, cards are retrieved from discard pile\nEach turn, by default, 5 cards are drawn from the draw pile into hand");
+
+}

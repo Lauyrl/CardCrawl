@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../../gui/gui.h"
 #include "../../game.h"
+#include "../../gui/gui.h"
+#include "../../cards/deck.h"
 
 using namespace std;
 
@@ -10,7 +11,7 @@ class EndTurnButton : public Gui
     public:
         EndTurnButton();
         void display();
-        Text etText = Text(30, rect.x+10, rect.y, 200, 200, 200);
+        Text etText = Text(30, rect.x+10, rect.y, 200, 200, 255);
 };
 
 class DrawPileButton : public Gui
@@ -18,6 +19,9 @@ class DrawPileButton : public Gui
     public:
         DrawPileButton();
         void display();
+        static bool displaying;
+        void button_process(Deck &deckObj);
+        
 };
 
 class DiscardPileButton : public Gui
@@ -25,4 +29,6 @@ class DiscardPileButton : public Gui
     public:
         DiscardPileButton();
         void display();
+        static bool displaying;
+        void button_process(Deck &deckObj);
 };

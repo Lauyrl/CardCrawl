@@ -18,6 +18,7 @@ class Card : public Gui
         Card();
         Card(cardIdInv id_, int initPos); // Card IDs enum is defined in character.h
         void display();
+        void display_copy(int x, int y);
         void highlight();
         void activate(Character &chara, Enemy &enemy);
         int query_targetE(vector<Enemy> stageEnemies);

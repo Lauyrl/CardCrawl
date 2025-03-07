@@ -23,6 +23,11 @@ void Card::display()
     game.render_img(cSpriteMap.at(id), rect.x, rect.y, 210, 280, 255, NULL);
 }
 
+void Card::display_copy(int x, int y)
+{
+    game.render_img(cSpriteMap.at(id), x, y, 180, 240, 255, NULL);
+}
+
 void Card::highlight()
 {
     if (detect_cursor_hover() && rect.y > 575)

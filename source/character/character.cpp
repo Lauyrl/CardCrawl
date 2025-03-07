@@ -19,14 +19,14 @@ Character::Character(int health_) : Gui(140, 300, 280, 200)
 void Character::display_block()
 {
     SDL_Rect chBlockBar{rect.x+70, rect.y+200, 220*(block/maxHealth), 10};
-    SDL_SetRenderDrawColor(game.renderer, 100, 150, 200, 100);
+    SDL_SetRenderDrawColor(game.renderer, 100, 150, 200, 240);
     SDL_RenderFillRect(game.renderer, &chBlockBar);
 }
 
 void Character::display_hp()
 {
     SDL_Rect chHealthBar{rect.x+70, rect.y+200, 220*(health/maxHealth), 10};
-    SDL_SetRenderDrawColor(game.renderer, 200, 0, 0, 100);
+    SDL_SetRenderDrawColor(game.renderer, 200, 0, 0, 240);
     SDL_RenderFillRect(game.renderer, &chHealthBar);
 }
 

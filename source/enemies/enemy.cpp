@@ -22,7 +22,7 @@ void Enemy::display()
 void Enemy::display_hp()
 {
     SDL_Rect eHealthBar{rect.x, rect.y+160, 140*(attributes.hp/eAttriMap.at(id).hp), 10};
-    SDL_SetRenderDrawColor(game.renderer, 200, 0, 0, 100);
+    SDL_SetRenderDrawColor(game.renderer, 200, 0, 0, 240);
     SDL_RenderFillRect(game.renderer, &eHealthBar);
 }
 

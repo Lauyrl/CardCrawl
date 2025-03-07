@@ -10,11 +10,10 @@ Text::Text(int fontSize_, int posX, int posY, Uint8 r, Uint8 g, Uint8 b)
                             //textTextureMap so make microchanges per 
 }
 
-Text::~Text() {}
-
 SDL_Texture* Text::load_text_texture(string textContent, TTF_Font* font)
 {
-    SDL_Surface* textSurface = TTF_RenderText_Solid(font, textContent.c_str(), tColor);
+    SDL_Surface* textSurface = TTF_RenderText_Blended_Wrapped(font, textContent.c_str(), tColor, 1200);
+    //SDL_Surface* textSurface = TTF_RenderText_Solid(font, textContent.c_str(), tColor);
     SDL_Texture* textTexture = NULL;
     auto it = game.textTextureMap.find(textContent+to_string(tColor.g));
     if (it == game.textTextureMap.end())
