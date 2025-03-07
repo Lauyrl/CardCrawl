@@ -7,7 +7,8 @@
 using namespace std;
 
 enum enemyId {
-    acid_slime
+    acid_slime,
+    cultist
 };
 
 struct enemAttributes 
@@ -16,19 +17,22 @@ struct enemAttributes
     double atk;
 };
 
-extern const map<enemyId, const char*> eSpriteMap;
-
-extern const map<enemyId, enemAttributes> eAttriMap;
-
-
-class Enemy;//this file cant include enemy.h
-            //but it only needs a partial definition ig
+class Enemy; //forward declaration
 struct possibleActions
 {
     int actionValue;
     function<void(Character&, Enemy&)> action;
 };
+
 extern const map<enemyId, vector<possibleActions>> eActionMap;
+
+extern const map<enemyId, const char*> eSpriteMap;
+
+extern const map<enemyId, enemAttributes> eAttriMap;
+
+
+
+
 
 
 

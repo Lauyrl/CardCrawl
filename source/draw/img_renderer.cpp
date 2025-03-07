@@ -15,9 +15,10 @@ SDL_Texture* Game::load_texture(const char *fileName)
 	else return it->second;
 }
 
-void Game::render_img(const char *fileName, int posX, int posY, int width, int height, SDL_Rect* clip) //fix the arg format to make it mroe consistent
+void Game::render_img(const char *fileName, int posX, int posY, int width, int height, Uint8 alpha, SDL_Rect* clip) //fix the arg format to make it mroe consistent
 {
 	SDL_Texture* texture = load_texture(fileName);
+	SDL_SetTextureAlphaMod(texture, alpha);
     SDL_Rect pos{posX, posY, width, height};
 	SDL_RenderCopy(renderer, texture, clip, &pos);
 }

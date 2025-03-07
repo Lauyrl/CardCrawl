@@ -34,12 +34,13 @@ Game::~Game()
 
 void Game::update()
 {
-    if (gameState == 2) display_battle();
+    if (gameState == map) display_map();
+    if (gameState == combat) display_combat();
 }
 
 void Game::clear_render()
 {
-    SDL_SetRenderDrawColor(renderer, 25, 50, 0, 100);
+    SDL_SetRenderDrawColor(renderer, 200, 160, 130, 100);
     SDL_RenderClear(renderer);
 }
 

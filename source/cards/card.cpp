@@ -20,7 +20,7 @@ Card::Card(cardIdInv id_, int initPos) : Gui(CARD_POS_X_DEFAULT, CARD_POS_Y, 215
 
 void Card::display()
 {
-    game.render_img(cSpriteMap.at(id), rect.x, rect.y, 210, 280, NULL);
+    game.render_img(cSpriteMap.at(id), rect.x, rect.y, 210, 280, 255, NULL);
 }
 
 void Card::highlight()
@@ -45,12 +45,6 @@ void Card::activate(Character &chara, Enemy &enemy)
         selected = false;
     }
     chara.lose_energy(attributes.cost);
-}
-
-void Card::reposition_in_hand(int rePos)
-{
-    pos = rePos;
-    move_rect(CARD_POS_X_DEFAULT+STEP_INCREMENT*pos, CARD_POS_Y);
 }
 
 int Card::query_targetE(vector<Enemy> stageEnemies)

@@ -34,12 +34,12 @@ void Character::display()
 {
     display_hp();
     display_block();
-    game.render_img("assets/character/ironclad.png", rect.x, rect.y, rect.w, rect.h, NULL);
+    game.render_img("assets/character/ironclad.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
 }
 
 void Character::display_energy()
 {
-    game.render_img("assets/ui/red_energy.png", rect.x-10, rect.y+240, 100, 100, NULL);
+    game.render_img("assets/ui/red_energy.png", rect.x-10, rect.y+240, 100, 100, 180, NULL);
     string energyStr = to_string(energy) + "/3";
     energyText.render_text(energyStr);
 }

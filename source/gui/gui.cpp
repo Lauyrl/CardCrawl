@@ -27,8 +27,3 @@ void Gui::move_rect(int newX, int newY)
     rect.x = newX;
     rect.y = newY;
 }
-
-Gui::~Gui()
-{
-
-}

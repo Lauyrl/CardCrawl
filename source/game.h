@@ -4,6 +4,7 @@
 #include <random>
 #include <vector>
 #include <string>
+#include <stdlib.h>
 #include <iostream>
 #include <algorithm>
 #include "../incl/libraries.h"
@@ -22,13 +23,18 @@ class Game
         void present_render();
 
         SDL_Texture* load_texture(const char *filename);
-        void render_img(const char *filename, int posX, int posY, int width, int height, SDL_Rect* clip);
+        void render_img(const char *filename, int posX, int posY, int width, int height, Uint8 alpha, SDL_Rect* clip);
         void cleanup_textures();
 
-        bool battleStart{1};
-        void display_battle();
+        enum gameStates {
+            start_menu, map, combat, event
+        };
+        bool combatStart{true};
+        bool mapGenerated{false};
+        void display_combat();
+        void display_map();
 
-        int gameState{2};
+        int gameState{map};
         
         bool isRunning;
 

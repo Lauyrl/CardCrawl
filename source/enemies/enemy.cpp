@@ -15,7 +15,7 @@ Enemy::Enemy(enemyId id_, int initPos) : Gui(ENEMY_POS_X, ENEMY_POS_Y, 200, 200)
 
 void Enemy::display()
 {
-    game.render_img(eSpriteMap.at(id), rect.x, rect.y, 150, 150, NULL);
+    game.render_img(eSpriteMap.at(id), rect.x, rect.y, 150, 150, 255, NULL);
     display_hp();
 }
 

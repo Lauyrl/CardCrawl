@@ -14,10 +14,10 @@ class Deck
         Deck(int size_);
         void set_up_draw_pile(Character chara);
         void build_hand();
-        void clear_hand();
+        void discard_hand();
         void add_card(vector<Card> &pile, int idx, Card card);
         void discard_card();
-        void reformat();
+        void reformat_hand();
         void activate_card_process(Character &chara, vector<Enemy> &stageEnemies);
         void interact_cards(int current, Character &chara, vector<Enemy> &stageEnemies);
         void select_card(int toSelect, int charaEnergy);

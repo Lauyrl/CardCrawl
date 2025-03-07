@@ -34,7 +34,7 @@ void Deck::build_hand()
     }
 }
 
-void Deck::clear_hand()
+void Deck::discard_hand()
 {
     for (size_t i{0}; i < hand.size() ; i++)
     {
@@ -47,7 +47,8 @@ void Deck::clear_hand()
 void Deck::add_card(vector<Card> &pile, int idx, Card card)
 {
     pile[idx] = card;
-    pile[idx].reposition_in_hand(idx);
+    pile[idx].pos = idx;
+    pile[idx].move_rect(CARD_POS_X_DEFAULT+STEP_INCREMENT*pile[idx].pos, CARD_POS_Y);
     cout << "Added card " << idx << " to pile" << endl;
 }
 
@@ -57,16 +58,17 @@ void Deck::discard_card()
     if (toDiscard != NULL_CARD)
     {
         hand.erase(hand.begin()+toDiscard);
-        reformat();
+        reformat_hand();
         cout << "Consumed card: " << toDiscard << endl;
     }
 }
 
-void Deck::reformat()
+void Deck::reformat_hand()
 {
     for (size_t rePos{0}; rePos < hand.size(); rePos++) 
     {
-        hand[rePos].reposition_in_hand(rePos);
+        hand[rePos].pos = rePos;
+        hand[rePos].move_rect(CARD_POS_X_DEFAULT+STEP_INCREMENT*hand[rePos].pos, CARD_POS_Y);
     }
 }
 

@@ -9,7 +9,7 @@ class Gui
 {
     public:
         Gui(int posX, int posY, int width, int height);
-        ~Gui();
+        //~Gui();
         SDL_Rect rect;
         bool detect_cursor_hover();
         bool detect_click();
