@@ -1,4 +1,5 @@
 #include "combat.h"
+//đổi tên từ battle.cpp
 
 void Game::display_combat()
 {
