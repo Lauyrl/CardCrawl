@@ -3,4 +3,5 @@
 extern int cursorX;
 extern int cursorY;
 extern bool clickQueued;
-extern bool process_click(bool &detector);
+extern bool clickReleased;
+extern bool process_click();

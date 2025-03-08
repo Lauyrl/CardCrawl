@@ -40,13 +40,13 @@ void Card::highlight()
     }
 }
 
-void Card::activate(Character &chara, Enemy &enemy)
+void Card::activate(Character &chara, vector<Enemy> &stageEnemies, int queried)
 {
     auto it{cActionMap.find(id)};
     if (it == cActionMap.end()) cerr << "Action undefined " << endl;
     else 
     {
-        cActionMap.at(id)(chara, enemy);
+        it->second(chara, stageEnemies, queried);
         selected = false;
     }
     chara.lose_energy(attributes.cost);

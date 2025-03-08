@@ -19,4 +19,4 @@ extern const map<cardIdInv, const char*> cSpriteMap;
 
 extern const map<cardIdInv, CardAttributes> cAttriMap;
 
-extern const map<cardIdInv, function<void(Character&, Enemy&)>> cActionMap;
+extern const map<cardIdInv, function<void(Character&, vector<Enemy>&, int)>> cActionMap;

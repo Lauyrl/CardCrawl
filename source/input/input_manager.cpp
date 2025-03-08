@@ -6,6 +6,7 @@
 void Game::handle_events()
 {
     SDL_Event event;
+    clickQueued = false;
     if (SDL_PollEvent(&event))
     {
         switch(event.type)
@@ -23,9 +24,10 @@ void Game::handle_events()
             }
             case (SDL_MOUSEBUTTONDOWN):
             {
-                if (event.button.button == SDL_BUTTON_LEFT) 
+                if (clickReleased && event.button.button == SDL_BUTTON_LEFT) 
                 {
                     clickQueued = true;
+                    clickReleased = false;
                 }
                 break;
             }
@@ -34,6 +36,7 @@ void Game::handle_events()
                 if (event.button.button == SDL_BUTTON_LEFT) 
                 {
                     clickQueued = false;
+                    clickReleased = true;
                 }
                 break;
             }

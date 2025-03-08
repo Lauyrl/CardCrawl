@@ -100,7 +100,7 @@ void Deck::activate_card_process(Character &chara, vector<Enemy> &stageEnemies)
     if (queried != NULL_TARGET)
     {
         cout << "Queried target: " << queried << endl;
-        hand[selectedCardIdx].activate(chara, stageEnemies[queried]); //This passed the 0th enemy if the target is Character, can cause unintended behavior
+        hand[selectedCardIdx].activate(chara, stageEnemies, queried); //This passed the 0th enemy if the target is Character, can cause unintended behavior
         toDiscard = selectedCardIdx;
         selectedCardIdx = NULL_CARD;
     }

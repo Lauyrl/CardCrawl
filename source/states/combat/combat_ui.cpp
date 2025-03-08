@@ -2,7 +2,7 @@
 
 extern Game game;
 
-EndTurnButton::EndTurnButton() : Gui(900, 100, 130, 40) {}
+EndTurnButton::EndTurnButton() : Gui(900, 600, 130, 40) {}
 
 void EndTurnButton::display()
 {

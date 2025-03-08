@@ -3,7 +3,7 @@
 #include "combat_ui.h"
 #include "../map/map.h"
 
-const int MAX_ENEMIES = 3;
+const int MAX_ENEMIES = 1; /////////////////////////////////////////////////////////
 
 extern Game game; 
 extern Character ironclad;

@@ -14,24 +14,25 @@ const map<cardIdInv, CardAttributes> cAttriMap = {
     {iron_wave, {Attack, 1}}
 };
 
-void strike_action(Character& chara, Enemy& enemy)
+void strike_action(Character& chara, vector<Enemy>& enemies, int queried)
 {
-    enemy.take_damage(6);
+    enemies[queried].take_damage(16); //BUFFED FOR DEBUGGING
 }
 
-void defend_action(Character& chara, Enemy& enemy)
-{
-    chara.gain_block(5);
-}
-
-void iron_wave_action(Character& chara, Enemy& enemy)
+void defend_action(Character& chara, vector<Enemy>& enemies, int queried)
 {
     chara.gain_block(5);
-    enemy.take_damage(5);
 }
 
-const map<cardIdInv, function<void(Character&, Enemy&)>> cActionMap = {
+void iron_wave_action(Character& chara, vector<Enemy>& enemies, int queried)
+{
+    chara.gain_block(5);
+    enemies[queried].take_damage(5);
+}
+
+const map<cardIdInv, function<void(Character&, vector<Enemy>&, int)>> cActionMap = {
     {strike, strike_action},
     {defend, defend_action},
     {iron_wave, iron_wave_action}
 };
+// check for invalid indices while working with queried

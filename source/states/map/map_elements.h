@@ -15,6 +15,7 @@ class Node : public Gui
         bool select();
         int pos;
         int lev;
+        int id;
         enum nodeType {
             combat, shop, event
         };
@@ -32,6 +33,7 @@ class Tree
         void nodes_process();
         void display();
         Node& cache_node(int pos, int lev);
+        static vector<int> playerPath;
         static map<int, Node> nodeMap;
         static int playerCurrentLev;
 };

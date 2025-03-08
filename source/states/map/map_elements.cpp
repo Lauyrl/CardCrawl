@@ -6,6 +6,7 @@ Node::Node(int pos_, int lev_) : Gui(0, 0, 60, 60)
 {
     pos = pos_;
     lev = lev_;
+    id = 10*pos_+lev_;
     move_rect(270+150*pos, 750-80*lev);
 }
 
@@ -13,7 +14,6 @@ bool Node::select()
 {
     if (detect_click()) 
     {
-        cout << "This node can be selected" << endl;
         game.gameState = game.gameStates::combat;
         game.combatStart = true;
         return true;
@@ -25,6 +25,7 @@ bool Node::select()
 // TREE
 int Tree::playerCurrentLev{0};
 map<int, Node> Tree::nodeMap;
+vector<int> Tree::playerPath = {};
 Tree::Tree()
 {
     srand(time(NULL));
@@ -82,7 +83,7 @@ void Tree::display()
     for (auto node:nodeMap) 
     {   
         int alpha;
-        if (node.second.lev != playerCurrentLev) alpha = 100;
+        if (!(node.second.lev == playerCurrentLev && (playerPath.size() == 0 || node.second.prev.find(playerPath.back()) != node.second.prev.end()))) alpha = 100;
         else alpha = 255;
         game.render_img("assets/map/monster.png", node.second.rect.x, node.second.rect.y, 60, 60, alpha, NULL);
     }
@@ -93,6 +94,14 @@ void Tree::nodes_process()
     display();
     for (auto node:nodeMap)
     {
-        if (node.second.lev == playerCurrentLev) {if (node.second.select()) playerCurrentLev++;}
+        if (node.second.lev == playerCurrentLev && (playerPath.size() == 0 || node.second.prev.find(playerPath.back()) != node.second.prev.end())) 
+        {
+            if (node.second.select()) 
+            {
+                playerPath.push_back(node.second.id);
+                cout << playerPath.back() << ' ' << node.second.id << endl;
+                playerCurrentLev++;
+            }
+        }
     }
 }

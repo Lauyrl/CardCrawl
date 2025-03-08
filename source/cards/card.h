@@ -20,7 +20,7 @@ class Card : public Gui
         void display();
         void display_copy(int x, int y);
         void highlight();
-        void activate(Character &chara, Enemy &enemy);
+        void activate(Character& chara, vector<Enemy>& stageEnemies, int queried);
         int query_targetE(vector<Enemy> stageEnemies);
         int query_targetC(Character chara);
 
