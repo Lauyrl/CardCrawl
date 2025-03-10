@@ -11,6 +11,7 @@ class Gui
         Gui(int posX, int posY, int width, int height);
         //~Gui();
         SDL_Rect rect;
+        int tick{0};
         bool detect_cursor_hover();
         bool detect_click();
         void move_rect(int newX, int newY);

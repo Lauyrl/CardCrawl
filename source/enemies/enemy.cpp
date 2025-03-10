@@ -34,7 +34,7 @@ void Enemy::take_damage(int damageTaken)
 
 bool Enemy::enemy_action(Character &chara)
 {
-    int t = game.tick;
+    tick++; int t = tick;
     if (t == 1)
     {
         int value = rand() % 100;
@@ -53,6 +53,7 @@ bool Enemy::enemy_action(Character &chara)
         if (t == 14) 
         {
             move_rect(ENEMY_POS_X+210*pos, ENEMY_POS_Y+(30*(pos%2)));
+            tick = 0;
             return true;
         }
     }

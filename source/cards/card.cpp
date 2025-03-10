@@ -38,6 +38,7 @@ void Card::highlight()
     {
         rect.y += 52;
     }
+    if (selected) rect.y = 571;
 }
 
 void Card::activate(Character &chara, vector<Enemy> &stageEnemies, int queried)

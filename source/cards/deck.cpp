@@ -3,10 +3,9 @@
 extern Game game;
 
 size_t Deck::maxSize = 0; //size needs to be static and defined here or it breaks
-int Deck::selectedCardIdx = NULL_CARD;
-vector<Card> Deck::hand;
-vector<Card> Deck::drawPile;
-vector<Card> Deck::discardPile;
+// vector<Card> Deck::hand;
+// vector<Card> Deck::drawPile;
+// vector<Card> Deck::discardPile;
 
 Deck::Deck(int maxSize_)
 {
@@ -59,7 +58,8 @@ void Deck::discard_card()
     // if (hand.size() < 1) std::cerr << "Deck is empty.\n";
     if (toDiscard != NULL_CARD)
     {
-        hand.erase(hand.begin()+toDiscard);
+        discardPile.push_back(hand[toDiscard]);
+        hand.erase(hand.begin() + toDiscard);
         reformat_hand();
         cout << "Consumed card: " << toDiscard << endl;
     }

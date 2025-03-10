@@ -29,10 +29,8 @@ void Game::display_combat()
     }
     else
     {
-        game.tick++;
         if (enemy_turn(ironclad, stageEnemies)) //wait for enemy_turn() to finish
         {
-            game.tick = 0;
             ironclad.reset_energy();
             rebuildHand = true;
             turn++;

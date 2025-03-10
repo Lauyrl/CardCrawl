@@ -26,11 +26,11 @@ class Deck
         void activate_card_process(Character &chara, vector<Enemy> &stageEnemies);
         void interact_cards(int current, Character &chara, vector<Enemy> &stageEnemies);
 
-        static vector<Card> hand;
-        static vector<Card> drawPile;
-        static vector<Card> discardPile;
+        vector<Card> hand;
+        vector<Card> drawPile;
+        vector<Card> discardPile;
         static size_t maxSize;
-        static int selectedCardIdx;   
-        int toDiscard;
+        int selectedCardIdx{NULL_CARD};   
+        int toDiscard{NULL_CARD};
         Text pileLabel = Text(30, 400, 30, 255, 255, 255);
 };

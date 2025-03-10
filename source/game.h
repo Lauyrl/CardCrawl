@@ -43,8 +43,6 @@ class Game
         std::map<std::string, SDL_Texture*> textTextureMap;
         SDL_Window* window;
         SDL_Renderer* renderer;
-
-        static int tick;
 };
 template <typename T>
 void shuffle_vector(std::vector<T> &vector)

@@ -2,7 +2,6 @@
 
 using namespace std;
 
-int Game::tick = 0;
 Game::Game(const char* title, int posX, int posY, int width, int height)
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) == 0)

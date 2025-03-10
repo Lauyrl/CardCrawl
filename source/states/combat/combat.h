@@ -3,7 +3,7 @@
 #include "combat_ui.h"
 #include "../map/map.h"
 
-const int MAX_ENEMIES = 1; /////////////////////////////////////////////////////////
+const int MAX_ENEMIES = 3; /////////////////////////////////////////////////////////
 
 extern Game game; 
 extern Character ironclad;
@@ -16,8 +16,8 @@ static Deck deckObj(DECK_MAX_SIZE);
 //mind repeated definitions for these
 std::vector<enemyId> possibleEnemies = {acid_slime, cultist, cultist, acid_slime, cultist};
 static std::vector<Enemy> stageEnemies;
-int activeEnemyIdx{0};
 int turn{0};
+int activeEnemyIdx{0};
 bool rebuildHand{false};
 bool inMenu{false};
 
@@ -25,8 +25,9 @@ bool inMenu{false};
 void init_components(Deck &deckObj, vector<Enemy> &stageEnemies)
 {
     turn = 0;
-    deckObj.set_up_dp(ironclad);
     deckObj.discardPile.clear();
+    deckObj.drawPile.clear();
+    deckObj.set_up_dp(ironclad);
     deckObj.build_hand();
     ironclad.reset_energy();
     shuffle_vector(possibleEnemies);
@@ -42,15 +43,10 @@ void hand_process(Deck &deckObj)
     for (size_t current{0}; current < deckObj.hand.size(); current++)
     {
         deckObj.hand[current].highlight();
-        if (deckObj.hand[current].selected) deckObj.hand[current].rect.y = 571;
         deckObj.hand[current].display();
         if (!inMenu) deckObj.interact_cards(current, ironclad, stageEnemies); 
     }
-    if (deckObj.toDiscard != NULL_CARD) 
-    {
-        deckObj.discardPile.push_back(deckObj.hand[deckObj.toDiscard]);
-        deckObj.discard_card();
-    }
+    if (deckObj.toDiscard != NULL_CARD) deckObj.discard_card();
 }
 
 void piles_process(DiscardPileButton &dcp, DrawPileButton &drp, Deck &deckObj)
@@ -74,7 +70,6 @@ bool enemy_turn(Character &chara, vector<Enemy> &stageEnemies)
     if (!stageEnemies[activeEnemyIdx].enemy_action(ironclad)) return false; // return true after animation finishes
     else 
     {
-        game.tick = 0;
         activeEnemyIdx++;
         if (activeEnemyIdx < stageEnemies.size()) return false;
     }
