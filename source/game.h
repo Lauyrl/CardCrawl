@@ -27,12 +27,13 @@ class Game
         void cleanup_textures();
 
         enum gameStates {
-            start_menu, map, combat, event
+            start_menu, map, combat, event, rest
         };
         bool combatStart{true};
         bool mapGenerated{false};
         void display_combat();
         void display_map();
+        void display_rest();
 
         int gameState{map};
         

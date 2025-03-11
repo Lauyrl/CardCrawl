@@ -35,6 +35,7 @@ void Game::update()
 {
     if (gameState == map) display_map();
     if (gameState == combat) display_combat();
+    if (gameState == rest) display_rest();
 }
 
 void Game::clear_render()

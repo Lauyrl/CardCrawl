@@ -28,4 +28,8 @@ class Card : public Gui
         cardIdInv id;
         CardAttributes attributes;
         bool selected{false};
+
+        static const map<cardIdInv, const char*> cSpriteMap;
+        static const map<cardIdInv, CardAttributes> cAttriMap;
+        static const map<cardIdInv, function<void(Character&, vector<Enemy>&, int)>> cActionMap;
 };

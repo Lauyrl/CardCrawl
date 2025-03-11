@@ -19,6 +19,10 @@ class Enemy : public Gui
 
         int pos;
         enemyId id;
-        enemAttributes attributes;
+        enemyAttributes attributes;
         vector<possibleActions> possibilities;
+
+        static const map<enemyId, const char*> eSpriteMap;
+        static const map<enemyId, enemyAttributes> eAttriMap;
+        static const map<enemyId, vector<possibleActions>> eActionMap;
 };

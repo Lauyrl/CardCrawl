@@ -13,12 +13,14 @@ class Node : public Gui
         Node();
         Node(int pos_, int lev_);
         bool select();
+        void rand_type();
         int pos;
         int lev;
         int id;
         enum nodeType {
-            combat, shop, event
+            combat, merchant, event, rest
         };
+        static vector<nodeType> possibleTypes;
         nodeType type;
         bool crossed{false};
         set<int> prev;

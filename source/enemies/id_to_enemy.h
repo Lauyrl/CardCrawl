@@ -5,13 +5,13 @@
 #include "../character/character.h"
 
 using namespace std;
-
+//define outside class to avoid clutter
 enum enemyId {
     acid_slime,
     cultist
 };
 
-struct enemAttributes 
+struct enemyAttributes 
 {
     double hp;
     double atk;
@@ -23,9 +23,3 @@ struct possibleActions
     int actionValue;
     function<void(Character&, Enemy&)> action;
 };
-
-extern const map<enemyId, vector<possibleActions>> eActionMap;
-
-extern const map<enemyId, const char*> eSpriteMap;
-
-extern const map<enemyId, enemAttributes> eAttriMap;
