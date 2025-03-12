@@ -21,23 +21,22 @@ class Game
         void clear_render();
         void update();
         void present_render();
+        bool isRunning;
 
         SDL_Texture* load_texture(const char *filename);
         void render_img(const char *filename, int posX, int posY, int width, int height, Uint8 alpha, SDL_Rect* clip);
         void cleanup_textures();
 
         enum gameStates {
-            start_menu, map, combat, event, rest
+            start_menu, map, combat, event, rest, merchant
         };
+        int gameState{map};
         bool combatStart{true};
         bool mapGenerated{false};
+        void state_switch(gameStates state);
         void display_combat();
         void display_map();
         void display_rest();
-
-        int gameState{map};
-        
-        bool isRunning;
 
         std::map<int, TTF_Font*> fontMap;
         std::map<std::string, SDL_Texture*> textureMap;
@@ -52,3 +51,5 @@ void shuffle_vector(std::vector<T> &vector)
     static std::default_random_engine rng(seed());  //retains state while out of scope
     std::ranges::shuffle(vector, rng);
 }
+
+extern Game game;

@@ -20,9 +20,9 @@ class Card : public Gui
         void display();
         void display_copy(int x, int y);
         void highlight();
-        void activate(Character& chara, vector<Enemy>& stageEnemies, int queried);
+        void activate(vector<Enemy>& stageEnemies, int queried);
         int query_targetE(vector<Enemy> stageEnemies);
-        int query_targetC(Character chara);
+        int query_targetC();
 
         int pos;
         cardIdInv id;
@@ -31,5 +31,5 @@ class Card : public Gui
 
         static const map<cardIdInv, const char*> cSpriteMap;
         static const map<cardIdInv, CardAttributes> cAttriMap;
-        static const map<cardIdInv, function<void(Character&, vector<Enemy>&, int)>> cActionMap;
+        static const map<cardIdInv, function<void(vector<Enemy>&, int)>> cActionMap;
 };

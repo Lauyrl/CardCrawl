@@ -2,10 +2,7 @@
 
 #include <set>
 #include <cstring>
-#include "../../game.h"
-#include "../../gui/gui.h"
-
-extern Game game;
+#include "../../gui/top_panel.h"
 
 class Node : public Gui
 {

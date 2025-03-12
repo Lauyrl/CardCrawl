@@ -16,10 +16,11 @@ void Game::display_combat()
     if (stageEnemies.size() == 0) combat_win();
     if (turn%2 == 0)
     {
-        if (rebuildHand) //for testing 
+        if (charaRenew) //for testing 
         {
             deckObj.renew_hand();
-            rebuildHand = false;
+            ironclad.block = 0;
+            charaRenew = false;
         }
         ironclad.display_energy();
         etButton.display();
@@ -29,10 +30,10 @@ void Game::display_combat()
     }
     else
     {
-        if (enemy_turn(ironclad, stageEnemies)) //wait for enemy_turn() to finish
+        if (enemy_turn(stageEnemies)) //wait for enemy_turn() to finish
         {
             ironclad.reset_energy();
-            rebuildHand = true;
+            charaRenew = true;
             turn++;
         }
     }

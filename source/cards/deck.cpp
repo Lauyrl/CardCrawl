@@ -1,7 +1,5 @@
 #include "deck.h" //using namespace std; included i think
 
-extern Game game;
-
 size_t Deck::maxSize = 0; //size needs to be static and defined here or it breaks
 // vector<Card> Deck::hand;
 // vector<Card> Deck::drawPile;
@@ -12,13 +10,13 @@ Deck::Deck(int maxSize_)
     maxSize = maxSize_;
 }
 
-void Deck::set_up_dp(Character chara)
+void Deck::set_up_dp()
 {
-    shuffle_vector(chara.cardIdInventory);
-    drawPile.resize(chara.cardIdInventory.size());
-    for (size_t i{0}; i < chara.cardIdInventory.size(); i++)
+    shuffle_vector(ironclad.cardIdInventory);
+    drawPile.resize(ironclad.cardIdInventory.size());
+    for (size_t i{0}; i < ironclad.cardIdInventory.size(); i++)
     {
-        Card card(chara.cardIdInventory[i], i);
+        Card card(ironclad.cardIdInventory[i], i);
         add_card(drawPile, i, card);
         cout << "Added card " << i << " to draw pile" << endl;
     }
@@ -74,9 +72,9 @@ void Deck::reformat_hand()
     }
 }
 
-void Deck::select_card(int toSelect, int charaEnergy)
+void Deck::select_card(int toSelect)
 {
-    if (charaEnergy >= hand[toSelect].attributes.cost && toSelect != selectedCardIdx)
+    if (ironclad.energy >= hand[toSelect].attributes.cost && toSelect != selectedCardIdx)
     {
         if (selectedCardIdx != NULL_CARD) hand[selectedCardIdx].selected = false;
         selectedCardIdx = toSelect;
@@ -91,30 +89,30 @@ void Deck::select_card(int toSelect, int charaEnergy)
     }
 }
 
-void Deck::activate_card_process(Character &chara, vector<Enemy> &stageEnemies)
+void Deck::activate_card_process(vector<Enemy> &stageEnemies)
 {
     int queried = NULL_TARGET;
     if (hand[selectedCardIdx].attributes.intent == Attack) 
          queried = hand[selectedCardIdx].query_targetE(stageEnemies);
-    else queried = hand[selectedCardIdx].query_targetC(chara);
+    else queried = hand[selectedCardIdx].query_targetC();
     if (queried != NULL_TARGET)
     {
         cout << "Queried target: " << queried << endl;
-        hand[selectedCardIdx].activate(chara, stageEnemies, queried); //This passed the 0th enemy if the target is Character, can cause unintended behavior
+        hand[selectedCardIdx].activate(stageEnemies, queried); //This passed the 0th enemy if the target is Character, can cause unintended behavior
         toDiscard = selectedCardIdx;
         selectedCardIdx = NULL_CARD;
     }
 }
 
-void Deck::interact_cards(int current, Character &chara, vector<Enemy> &stageEnemies)
+void Deck::interact_cards(int current, vector<Enemy> &stageEnemies)
 {
     if (hand[current].detect_click()) 
     {
-        select_card(current, chara.energy);
+        select_card(current);
     }
     if (selectedCardIdx != NULL_CARD) //SlCI is NULL_CARD after activation adn by default
     {
-        activate_card_process(chara, stageEnemies);
+        activate_card_process(stageEnemies);
     }
 }
 

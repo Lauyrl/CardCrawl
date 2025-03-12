@@ -15,23 +15,23 @@ const map<cardIdInv, CardAttributes> Card::cAttriMap = {
 };
 
 
-void strike_action(Character& chara, vector<Enemy>& enemies, int queried)
+void strike_action(vector<Enemy>& enemies, int queried)
 {
     enemies[queried].take_damage(16); //BUFFED FOR DEBUGGING
 }
 
-void defend_action(Character& chara, vector<Enemy>& enemies, int queried)
+void defend_action(vector<Enemy>& enemies, int queried)
 {
-    chara.gain_block(5);
+    ironclad.gain_block(5);
 }
 
-void iron_wave_action(Character& chara, vector<Enemy>& enemies, int queried)
+void iron_wave_action(vector<Enemy>& enemies, int queried)
 {
-    chara.gain_block(5);
+    ironclad.gain_block(5);
     enemies[queried].take_damage(5);
 }
 
-const map<cardIdInv, function<void(Character&, vector<Enemy>&, int)>> Card::cActionMap = {
+const map<cardIdInv, function<void(vector<Enemy>&, int)>> Card::cActionMap = {
     {strike, strike_action},
     {defend, defend_action},
     {iron_wave, iron_wave_action}

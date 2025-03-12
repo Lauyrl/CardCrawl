@@ -1,7 +1,5 @@
 #include "text.h"
 
-extern Game game;
-
 Text::Text(int fontSize_, int posX, int posY, Uint8 r, Uint8 g, Uint8 b) 
 {
     fontSize = fontSize_;

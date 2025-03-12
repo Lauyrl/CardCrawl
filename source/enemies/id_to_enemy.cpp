@@ -11,14 +11,14 @@ const map<enemyId, enemyAttributes> Enemy::eAttriMap = {
 };
 
 
-void eAttack1(Character &chara, Enemy &enemy)
+void eAttack1(Enemy &enemy)
 {
-    chara.take_damge(6);
+    ironclad.take_damge(6);
 }
 
-void eAttack2(Character &chara, Enemy &enemy)
+void eAttack2(Enemy &enemy)
 {
-    chara.take_damge(2);
+    ironclad.take_damge(2);
 }
 
 vector<possibleActions> acid_slime_ac = {

@@ -1,7 +1,5 @@
 #include "card.h"
 
-extern Game game;
-
 Card::Card() : Gui(CARD_POS_X_DEFAULT, CARD_POS_Y, 215, 285) 
 {
     id = strike;
@@ -41,16 +39,16 @@ void Card::highlight()
     if (selected) rect.y = 571;
 }
 
-void Card::activate(Character &chara, vector<Enemy> &stageEnemies, int queried)
+void Card::activate(vector<Enemy> &stageEnemies, int queried)
 {
     auto it{cActionMap.find(id)};
     if (it == cActionMap.end()) cerr << "Action undefined " << endl;
     else 
     {
-        it->second(chara, stageEnemies, queried);
+        it->second(stageEnemies, queried);
         selected = false;
     }
-    chara.lose_energy(attributes.cost);
+    ironclad.lose_energy(attributes.cost);
 }
 
 int Card::query_targetE(vector<Enemy> stageEnemies)
@@ -62,8 +60,8 @@ int Card::query_targetE(vector<Enemy> stageEnemies)
     return NULL_TARGET;
 }
 
-int Card::query_targetC(Character chara)
+int Card::query_targetC()
 {
-    if (chara.detect_click()) return CHARACTER_TARGET;
+    if (ironclad.detect_click()) return CHARACTER_TARGET;
     return NULL_TARGET;
 }

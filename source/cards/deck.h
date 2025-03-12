@@ -14,7 +14,7 @@ class Deck
 {
     public:
         Deck(int size_);
-        void set_up_dp(Character chara);
+        void set_up_dp();
         void show_pile(vector<Card>& pile, int textType);
         void build_hand();
         void reformat_hand();
@@ -22,9 +22,9 @@ class Deck
         void renew_hand();
         void add_card(vector<Card> &pile, int idx, Card card);
         void discard_card();
-        void select_card(int toSelect, int charaEnergy);
-        void activate_card_process(Character &chara, vector<Enemy> &stageEnemies);
-        void interact_cards(int current, Character &chara, vector<Enemy> &stageEnemies);
+        void select_card(int toSelect);
+        void activate_card_process(vector<Enemy> &stageEnemies);
+        void interact_cards(int current, vector<Enemy> &stageEnemies);
 
         vector<Card> hand;
         vector<Card> drawPile;

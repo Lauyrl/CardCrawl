@@ -13,7 +13,7 @@ class Enemy : public Gui
         Enemy();
         Enemy(enemyId id_, int initPos);
         void display();
-        bool enemy_action(Character &chara);
+        bool enemy_action();
         void display_hp();
         void take_damage(int damageTaken);
 

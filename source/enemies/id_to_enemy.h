@@ -21,5 +21,5 @@ class Enemy; //forward declaration
 struct possibleActions
 {
     int actionValue;
-    function<void(Character&, Enemy&)> action;
+    function<void(Enemy&)> action;
 };

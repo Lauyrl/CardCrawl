@@ -1,7 +1,5 @@
 #include "enemy.h"
 
-extern Game game;
-
 Enemy::Enemy() : Gui(ENEMY_POS_X, ENEMY_POS_Y, 200, 200) {}
 
 Enemy::Enemy(enemyId id_, int initPos) : Gui(ENEMY_POS_X, ENEMY_POS_Y, 200, 200)
@@ -32,7 +30,7 @@ void Enemy::take_damage(int damageTaken)
     // cout << enemy.attributes.hp << ' ' << endl;
 }
 
-bool Enemy::enemy_action(Character &chara)
+bool Enemy::enemy_action()
 {
     tick++; int t = tick;
     if (t == 1)
@@ -42,7 +40,7 @@ bool Enemy::enemy_action(Character &chara)
         {
             if (value <= possibilities[i].actionValue) 
             {
-                possibilities[i].action(chara, *this);
+                possibilities[i].action(*this);
                 return false;
             }
         }
