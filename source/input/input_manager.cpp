@@ -45,3 +45,10 @@ void Game::handle_events()
         }
     }
 }
+
+void Game::state_switch(gameStates state)
+{
+    gameState = state;
+    SDL_WarpMouseInWindow(window, SCREEN_WIDTH/2+100, SCREEN_HEIGHT/2+200);
+    cursorX = 0; cursorY = 0;
+}

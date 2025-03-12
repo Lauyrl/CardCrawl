@@ -5,9 +5,6 @@
 
 const int MAX_ENEMIES = 4; /////////////////////////////////////////////////////////
 
-extern Game game; 
-extern Character ironclad;
-
 SDL_Rect background{0, 280, 1920, 1225};
 static EndTurnButton etButton;
 static DrawPileButton drpButton;
@@ -18,7 +15,7 @@ std::vector<enemyId> possibleEnemies = {acid_slime, cultist, cultist, acid_slime
 static std::vector<Enemy> stageEnemies;
 int turn{0};
 int activeEnemyIdx{0};
-bool rebuildHand{false};
+bool charaRenew{false};
 bool inMenu{false};
 
 
@@ -27,7 +24,7 @@ void init_components(Deck &deckObj, vector<Enemy> &stageEnemies)
     turn = 0;
     deckObj.discardPile.clear();
     deckObj.drawPile.clear();
-    deckObj.set_up_dp(ironclad);
+    deckObj.set_up_dp();
     deckObj.build_hand();
     ironclad.reset_energy();
     shuffle_vector(possibleEnemies);
@@ -44,7 +41,7 @@ void hand_process(Deck &deckObj)
     {
         deckObj.hand[current].highlight();
         deckObj.hand[current].display();
-        if (!inMenu) deckObj.interact_cards(current, ironclad, stageEnemies); 
+        if (!inMenu) deckObj.interact_cards(current, stageEnemies); 
     }
     if (deckObj.toDiscard != NULL_CARD) deckObj.discard_card();
 }
@@ -65,9 +62,9 @@ void enemy_process(vector<Enemy> &stageEnemies)
     }
 }
 
-bool enemy_turn(Character &chara, vector<Enemy> &stageEnemies)
+bool enemy_turn(vector<Enemy> &stageEnemies)
 {
-    if (!stageEnemies[activeEnemyIdx].enemy_action(ironclad)) return false; // return true after animation finishes
+    if (!stageEnemies[activeEnemyIdx].enemy_action()) return false; // return true after animation finishes
     else 
     {
         activeEnemyIdx++;
@@ -79,6 +76,6 @@ bool enemy_turn(Character &chara, vector<Enemy> &stageEnemies)
 
 void combat_win()
 {
-    game.gameState = game.gameStates::map;
+    game.state_switch(game.gameStates::map);
     stageEnemies.clear();
 }

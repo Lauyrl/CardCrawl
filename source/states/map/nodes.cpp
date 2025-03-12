@@ -19,13 +19,13 @@ bool Node::select()
         {
             case (combat):
             {
-                game.gameState = game.gameStates::combat;
+                game.state_switch(game.gameStates::combat);
                 game.combatStart = true;
                 return true;
             }
             case (rest):
             {
-                game.gameState = game.gameStates::rest;
+                game.state_switch(game.gameStates::rest);
                 return true;
             }
         }

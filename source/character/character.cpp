@@ -1,19 +1,17 @@
 #include "character.h"
 
-extern Game game;
 double Character::maxHealth = 100.0;
-int Character::energy = 3;
 int Character::health = 1; //static
 
 std::vector<cardIdInv> Character::cardIdInventory = {
     strike, strike, strike, strike, defend, defend, defend, iron_wave, iron_wave, iron_wave, strike, strike
 };
-
+Character::Character() : Gui(140, 300, 280, 200) {}
 Character::Character(int health_) : Gui(140, 300, 280, 200)
 {
     maxHealth = health_;
     health = health_;
-    energy = 3;
+    //energy = 3;
 }
 
 void Character::display_block()
@@ -39,9 +37,15 @@ void Character::display()
 
 void Character::display_energy()
 {
-    game.render_img("assets/ui/red_energy.png", rect.x-10, rect.y+240, 100, 100, 180, NULL);
+    game.render_img("assets/ui/combat/red_energy.png", rect.x-10, rect.y+240, 100, 100, 180, NULL);
     string energyStr = to_string(energy) + "/3";
     energyText.render_text(energyStr);
+}
+
+void Character::heal (int amount)
+{
+    health += amount;
+    if (health > maxHealth) health = maxHealth;
 }
 
 void Character::gain_block(int amount)

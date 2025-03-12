@@ -1,7 +1,5 @@
 #include "combat_ui.h"
 
-extern Game game;
-
 EndTurnButton::EndTurnButton() : Gui(900, 600, 130, 40) {}
 
 void EndTurnButton::display()
@@ -16,7 +14,7 @@ bool DrawPileButton::displaying = false;
 DrawPileButton::DrawPileButton() : Gui(10, 670, 150, 150) {}
 void DrawPileButton::display()
 {
-    game.render_img("assets/ui/draw_pile.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
+    game.render_img("assets/ui/combat/draw_pile.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
 }
 
 void DrawPileButton::button_process(Deck &deckObj)
@@ -36,7 +34,7 @@ bool DiscardPileButton::displaying = false;
 DiscardPileButton::DiscardPileButton() : Gui(1340, 670, 150, 150) {}
 void DiscardPileButton::display()
 {
-    game.render_img("assets/ui/discard_pile.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
+    game.render_img("assets/ui/combat/discard_pile.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
 }
 
 void DiscardPileButton::button_process(Deck &deckObj)
