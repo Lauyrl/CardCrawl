@@ -1,9 +1,10 @@
 #include "game.h"
-#include "character/character.h"
+#include "gui/top_panel.h"
 
 using namespace std;
 
 Character ironclad(56);
+TopPanel strip;
 Game game("CardCrawl", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 const int FPS = 60;
