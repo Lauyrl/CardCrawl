@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../character/character.h"
+#include "../../gui/top_panel.h"
 
 enum restOption{
     sleep
@@ -17,4 +17,4 @@ class Option : public Gui
 };
 
 Option sleepOp(sleep);
-static bool restInit{true};
+

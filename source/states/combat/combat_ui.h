@@ -3,6 +3,7 @@
 #include "../../game.h"
 #include "../../gui/gui.h"
 #include "../../cards/deck.h"
+#include "../../gui/top_panel.h"
 
 using namespace std;
 

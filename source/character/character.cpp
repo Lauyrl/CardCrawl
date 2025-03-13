@@ -2,6 +2,7 @@
 
 double Character::maxHealth = 100.0;
 int Character::health = 1; //static
+int Character::gold = 0;
 
 std::vector<cardIdInv> Character::cardIdInventory = {
     strike, strike, strike, strike, defend, defend, defend, iron_wave, iron_wave, iron_wave, strike, strike

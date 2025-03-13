@@ -33,10 +33,12 @@ class Game
         int gameState{map};
         bool combatStart{true};
         bool mapGenerated{false};
+        bool restInit{true};
         void state_switch(gameStates state);
-        void display_combat();
         void display_map();
         void display_rest();
+        void display_event();
+        void display_combat();
 
         std::map<int, TTF_Font*> fontMap;
         std::map<std::string, SDL_Texture*> textureMap;

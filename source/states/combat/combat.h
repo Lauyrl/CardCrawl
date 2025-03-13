@@ -3,7 +3,7 @@
 #include "combat_ui.h"
 #include "../map/map.h"
 
-const int MAX_ENEMIES = 4; /////////////////////////////////////////////////////////
+const int MAX_ENEMIES = 1; /////////////////////////////////////////////////////////
 
 SDL_Rect background{0, 280, 1920, 1225};
 static EndTurnButton etButton;
@@ -17,7 +17,6 @@ int turn{0};
 int activeEnemyIdx{0};
 bool charaRenew{false};
 bool inMenu{false};
-
 
 void init_components(Deck &deckObj, vector<Enemy> &stageEnemies)
 {

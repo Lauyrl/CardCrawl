@@ -38,4 +38,5 @@ void Game::display_combat()
         }
     }
     piles_process(dcpButton, drpButton, deckObj);
+    panel.display();
 }
