@@ -11,15 +11,17 @@ enum enemyId {
     cultist
 };
 
-struct enemyAttributes 
-{
-    double hp;
-    double atk;
-};
-
 class Enemy; //forward declaration
 struct possibleActions
 {
     int actionValue;
     function<void(Enemy&)> action;
+};
+
+struct enemyAttributes 
+{
+    double hp;
+    double atk;
+    const char* sprite;
+    vector<possibleActions> actions;
 };

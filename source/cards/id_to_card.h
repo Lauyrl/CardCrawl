@@ -12,6 +12,8 @@ enum cardIntent {
 
 struct CardAttributes 
 {
-    cardIntent intent;
     int cost;
+    cardIntent intent;
+    const char* sprite;
+    function<void(vector<Enemy>&, int)> action;
 };

@@ -6,14 +6,13 @@ Enemy::Enemy(enemyId id_, int initPos) : Gui(ENEMY_POS_X, ENEMY_POS_Y, 200, 200)
 {
     id = id_;
     pos = initPos;
-    possibilities = eActionMap.at(id);
     attributes = eAttriMap.at(id);
     move_rect(ENEMY_POS_X+210*pos, ENEMY_POS_Y+(30*(pos%2)));
 }
 
 void Enemy::display()
 {
-    game.render_img(eSpriteMap.at(id), rect.x, rect.y, 150, 150, 255, NULL);
+    game.render_img(attributes.sprite, rect.x, rect.y, 150, 150, 255, NULL);
     display_hp();
 }
 
@@ -24,23 +23,17 @@ void Enemy::display_hp()
     SDL_RenderFillRect(game.renderer, &eHealthBar);
 }
 
-void Enemy::take_damage(int damageTaken)
-{
-    attributes.hp -= damageTaken;
-    // cout << enemy.attributes.hp << ' ' << endl;
-}
-
 bool Enemy::enemy_action()
 {
     tick++; int t = tick;
     if (t == 1)
     {
         int value = rand() % 100;
-        for (size_t i{0}; i < possibilities.size(); i++)
+        for (size_t i{0}; i < attributes.actions.size(); i++)
         {
-            if (value <= possibilities[i].actionValue) 
+            if (value <= attributes.actions[i].actionValue) 
             {
-                possibilities[i].action(*this);
+                attributes.actions[i].action(*this);
                 return false;
             }
         }
@@ -56,4 +49,10 @@ bool Enemy::enemy_action()
         }
     }
     return false;
+}
+
+void Enemy::take_damage(int damageTaken)
+{
+    attributes.hp -= damageTaken;
+    // cout << enemy.attributes.hp << ' ' << endl;
 }

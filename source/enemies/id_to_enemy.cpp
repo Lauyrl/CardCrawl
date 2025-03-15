@@ -1,19 +1,9 @@
 #include "enemy.h"
 
-const map<enemyId, const char*> Enemy::eSpriteMap = {
-    {acid_slime, "assets/enemies/acid_slime.png"},
-    {cultist, "assets/enemies/cultist2.png"}
-};
-
-const map<enemyId, enemyAttributes> Enemy::eAttriMap = {
-    {acid_slime, {24, 3}},
-    {cultist, {18, 5}}
-};
-
-
 void eAttack1(Enemy &enemy)
 {
     ironclad.take_damge(6);
+    cout << "6 dmg" << endl;
 }
 
 void eAttack2(Enemy &enemy)
@@ -31,7 +21,7 @@ vector<possibleActions> cultist_ac = {
     {100, eAttack2}
 };
 
-const map<enemyId, vector<possibleActions>> Enemy::eActionMap = {
-    {acid_slime, acid_slime_ac},
-    {cultist, cultist_ac}
+const map<enemyId, enemyAttributes> Enemy::eAttriMap = {
+    {acid_slime, {24, 3, "assets/enemies/acid_slime.png", acid_slime_ac}},
+    {cultist,    {18, 5, "assets/enemies/cultist2.png", cultist_ac}}
 };
