@@ -28,15 +28,17 @@ class Game
         void cleanup_textures();
 
         enum gameStates {
-            start_menu, map, combat, event, rest, merchant
+            start_menu, map, combat, event, rest, shop
         };
         int gameState{map};
-        bool combatStart{true};
+        bool combatInit{true};
         bool mapGenerated{false};
         bool restInit{true};
+        bool eventInit{true};
         void state_switch(gameStates state);
         void display_map();
         void display_rest();
+        void display_shop();
         void display_event();
         void display_combat();
 

@@ -20,7 +20,7 @@ bool Node::select()
             case (combat):
             {
                 game.state_switch(game.gameStates::combat);
-                game.combatStart = true;
+                game.combatInit = true;
                 return true;
             }
             case (rest):
@@ -34,13 +34,18 @@ bool Node::select()
                 game.state_switch(game.gameStates::event);
                 return true;
             }
+            case (shop):
+            {
+                game.state_switch(game.gameStates::shop);
+                return true;
+            }
         }
         
     }
     return false;
 }
 
-vector<Node::nodeType> Node::possibleTypes = {combat, rest, event};
+vector<Node::nodeType> Node::possibleTypes = {event, shop}; //combat, rest, 
 void Node::rand_type()
 {
     shuffle_vector(possibleTypes);

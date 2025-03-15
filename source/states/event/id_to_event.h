@@ -23,6 +23,7 @@ enum choiceId {
 };
 struct choiceAttributes
 {
+    int uses;
     string label;
-    function<void()> effect;
+    function<bool()> effect;
 };

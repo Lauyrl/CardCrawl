@@ -15,7 +15,7 @@ class Node : public Gui
         int lev;
         int id;
         enum nodeType {
-            combat, merchant, event, rest
+            combat, shop, event, rest
         };
         static vector<nodeType> possibleTypes;
         nodeType type;

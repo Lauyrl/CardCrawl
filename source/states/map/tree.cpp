@@ -79,6 +79,11 @@ void Tree::display()
                 game.render_img("assets/map/event.png", node.second.rect.x, node.second.rect.y, 60, 60, alpha, NULL);
                 break;
             }
+            case (node.second.shop):
+            {
+                game.render_img("assets/map/shop.png", node.second.rect.x, node.second.rect.y, 60, 60, alpha, NULL);
+                break;
+            }
         }
     }
 }

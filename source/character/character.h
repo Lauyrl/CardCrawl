@@ -3,6 +3,7 @@
 #include <cstring>
 #include "../game.h"
 #include "../gui/gui.h"
+#include "relics.h"
 
 using namespace std;
 
@@ -34,6 +35,10 @@ class Character : public Gui
         int block;
         static std::vector<cardIdInv> cardIdInventory;
         Text energyText = Text(50, rect.x+10, rect.y+260, 200, 200, 200);
+
+        static map<Relic, bool> relicInv;
+        void combat_start_relic();
+        void combat_start_relic_renew();
 };
 
 extern Character ironclad;
