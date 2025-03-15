@@ -17,14 +17,14 @@ void DrawPileButton::display()
     game.render_img("assets/ui/combat/draw_pile.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
 }
 
-void DrawPileButton::button_process(Deck &deckObj)
+void DrawPileButton::button_process()
 {
     if (detect_click())
     {
         if (!displaying) displaying = true;
         else displaying = false;
     }
-    if (displaying) deckObj.show_pile(deckObj.drawPile, DP_TEXT);
+    if (displaying) deck.display_pile(deck.drawPile, DP_TEXT);
     display();
 
 }
@@ -37,13 +37,13 @@ void DiscardPileButton::display()
     game.render_img("assets/ui/combat/discard_pile.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
 }
 
-void DiscardPileButton::button_process(Deck &deckObj)
+void DiscardPileButton::button_process()
 {
     if (detect_click())
     {
         if (!displaying) displaying = true;
         else displaying = false;
     }
-    if (displaying) deckObj.show_pile(deckObj.discardPile, DC_TEXT);
+    if (displaying) deck.display_pile(deck.discardPile, DC_TEXT);
     display();
 }

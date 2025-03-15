@@ -21,7 +21,7 @@ class DrawPileButton : public Gui
         DrawPileButton();
         void display();
         static bool displaying;
-        void button_process(Deck &deckObj);
+        void button_process();
         
 };
 
@@ -31,5 +31,5 @@ class DiscardPileButton : public Gui
         DiscardPileButton();
         void display();
         static bool displaying;
-        void button_process(Deck &deckObj);
+        void button_process();
 };

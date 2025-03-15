@@ -14,23 +14,28 @@ class Deck
 {
     public:
         Deck(int size_);
-        void set_up_dp();
-        void show_pile(vector<Card>& pile, int textType);
+        void renew();
+        void set_up_piles(bool shuffle = true);
+        void display_pile(vector<Card>& pile, int textType, bool move = false);
         void build_hand();
         void reformat_hand();
         void discard_hand();
         void renew_hand();
+        void hand_process(bool inMenu, vector<Enemy>& stageEnemies);
         void add_card(vector<Card> &pile, int idx, Card card);
-        void discard_card();
+        void discard_used();
         void select_card(int toSelect);
         void activate_card_process(vector<Enemy> &stageEnemies);
-        void interact_cards(int current, vector<Enemy> &stageEnemies);
+        void interact_card(int current, vector<Enemy> &stageEnemies);
+        int interact_cards_event();
 
         vector<Card> hand;
         vector<Card> drawPile;
         vector<Card> discardPile;
         static size_t maxSize;
-        int selectedCardIdx{NULL_CARD};   
-        int toDiscard{NULL_CARD};
+        int selectedIdx{NULL_CARD};   
+        int usedIdx{NULL_CARD};
         Text pileLabel = Text(30, 400, 30, 255, 255, 255);
 };
+
+extern Deck deck;

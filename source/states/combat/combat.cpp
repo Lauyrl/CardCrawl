@@ -4,11 +4,11 @@
 void Game::display_combat()
 {
     // int frameStart = SDL_GetTicks();
-    if (combatStart)
+    if (combatInit)
     {
-        init_components(deckObj, stageEnemies);
+        init_components(stageEnemies);
         cout << "Initiation success" << endl;
-        combatStart = false;
+        combatInit = false;
     }
     game.render_img("assets/scene/scene.jpg", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 255, &background);
     ironclad.display();
@@ -16,16 +16,17 @@ void Game::display_combat()
     if (stageEnemies.size() == 0) combat_win();
     if (turn%2 == 0)
     {
-        if (charaRenew) //for testing 
+        if (charaRenew)
         {
-            deckObj.renew_hand();
+            deck.renew_hand();
             ironclad.block = 0;
+            ironclad.combat_start_relic();
             charaRenew = false;
         }
+        if (!inMenu && etButton.detect_click()) turn++;
         ironclad.display_energy();
         etButton.display();
-        if (!inMenu && etButton.detect_click()) turn++;
-        hand_process(deckObj);
+        deck.hand_process(inMenu, stageEnemies);
         //cout << SDL_GetTicks() - frameStart << endl; 
     }
     else
@@ -37,6 +38,6 @@ void Game::display_combat()
             turn++;
         }
     }
-    piles_process(dcpButton, drpButton, deckObj);
+    piles_process(dcpButton, drpButton);
     panel.display();
 }
