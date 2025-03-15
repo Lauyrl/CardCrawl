@@ -19,7 +19,7 @@ bool Gui::detect_cursor_hover()
 
 bool Gui::detect_click()
 {
-    if (detect_cursor_hover()) return clickQueued;
+    if (detect_cursor_hover()) return process_click();
     return false;
 }
 
