@@ -2,9 +2,9 @@
 
 double Character::maxHealth = 100.0;
 int Character::health = 1; //static
-int Character::gold = 0;
+int Character::gold = 100;
 
-std::vector<cardIdInv> Character::cardIdInventory = {
+std::vector<cardIdInv> Character::cardIdInv = {
     strike, strike, strike, strike, defend, defend, defend, iron_wave, iron_wave, iron_wave, strike, strike
 };
 Character::Character() : Gui(140, 300, 280, 200) {}
@@ -12,7 +12,6 @@ Character::Character(int health_) : Gui(140, 300, 280, 200)
 {
     maxHealth = health_;
     health = health_;
-    //energy = 3;
 }
 
 void Character::display_block()
@@ -61,15 +60,10 @@ void Character::take_damge(int dmg)
     {
         block = 0;
         dmg -= block;
-        // cout << "Shieldless! Pass through: "  << dmg << std::endl;
         health -= dmg;
-        // cout << chara.health << ' ' << chara.block << ' ' << endl;
     }
-    else 
-    {
-        block -= dmg;
-        // cout << chara.health << ' ' << chara.block << ' ' << endl;
-    }
+    else block -= dmg;
+    // cout << chara.health << ' ' << chara.block << ' ' << endl;
 }
 
 void Character::lose_energy(int amount)
@@ -80,4 +74,9 @@ void Character::lose_energy(int amount)
 void Character::reset_energy()
 {
     lose_energy(energy-3);
+}
+
+void Character::reformat_relics()
+{
+    for (int i{0}; i < relicInv.size(); i++) relicInv[i].move_rect(60*i-25, 30);
 }

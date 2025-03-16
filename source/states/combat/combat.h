@@ -3,7 +3,7 @@
 #include "combat_ui.h"
 #include "../map/map.h"
 
-const int MAX_ENEMIES = 5; /////////////////////////////////////////////////////////
+const int MAX_ENEMIES = 2; /////////////////////////////////////////////////////////
 
 SDL_Rect background{0, 280, 1920, 1225};
 static EndTurnButton etButton;
@@ -22,14 +22,17 @@ void init_components(vector<Enemy> &stageEnemies)
 {
     turn = 0;
     deck.set_up_piles();
+    cout << "1" << endl;
     deck.build_hand();
+    cout << "2" << endl;
     ironclad.reset_energy();
+    cout << "3" << endl;
     ironclad.combat_start_relic_renew();
+    cout << "4" << endl;
+    ironclad.combat_start_relic();
     shuffle_vector(possibleEnemies);
-    for (int i{0}; i < MAX_ENEMIES; i++)
-    {
-        stageEnemies.push_back(Enemy(possibleEnemies[i], i));
-    }
+    for (int i{0}; i < MAX_ENEMIES; i++) stageEnemies.push_back(Enemy(possibleEnemies[i], i));
+    cout << "Initiation success" << endl;
 }
 
 void piles_process(DiscardPileButton &dcp, DrawPileButton &drp)

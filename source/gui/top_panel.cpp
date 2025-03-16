@@ -11,14 +11,5 @@ void TopPanel::display()
     healthText.render_text(healthStr);
     goldText.render_text(to_string(ironclad.gold));
 
-    int it{0};
-    for (auto relic:ironclad.relicInv)
-    {
-        //if (relic.second)
-        {
-            // string relicImgDir = "assets/relics/" + relic.first + ".png";
-            // game.render_img(relicImgDir.c_str(), 120*it-25, 30, 100, 100, 200, NULL);
-            // it++;
-        }  
-    }
+    for (auto relic:ironclad.relicInv) relic.display();
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <set>
 #include <cstring>
 #include "../game.h"
 #include "../gui/gui.h"
@@ -33,10 +34,11 @@ class Character : public Gui
         static int gold;
         int energy{3};
         int block;
-        static std::vector<cardIdInv> cardIdInventory;
+        static std::vector<cardIdInv> cardIdInv;
         Text energyText = Text(50, rect.x+10, rect.y+260, 200, 200, 200);
 
-        static map<Relic, bool> relicInv;
+        static vector<Relic> relicInv;
+        void reformat_relics();
         void combat_start_relic();
         void combat_start_relic_renew();
 };
