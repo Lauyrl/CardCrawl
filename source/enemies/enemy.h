@@ -22,7 +22,5 @@ class Enemy : public Gui
         enemyAttributes attributes;
         vector<possibleActions> possibilities;
 
-        static const map<enemyId, const char*> eSpriteMap;
         static const map<enemyId, enemyAttributes> eAttriMap;
-        static const map<enemyId, vector<possibleActions>> eActionMap;
 };

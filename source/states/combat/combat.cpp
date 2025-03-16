@@ -4,23 +4,22 @@
 void Game::display_combat()
 {
     // int frameStart = SDL_GetTicks();
+    game.render_img("assets/scene/scene.jpg", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 255, &background);
     if (combatInit)
     {
         init_components(stageEnemies);
-        cout << "Initiation success" << endl;
         combatInit = false;
     }
-    game.render_img("assets/scene/scene.jpg", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 255, &background);
     ironclad.display();
     enemy_process(stageEnemies);
     if (stageEnemies.size() == 0) combat_win();
+    
     if (turn%2 == 0)
     {
         if (charaRenew)
         {
             deck.renew_hand();
             ironclad.block = 0;
-            ironclad.combat_start_relic();
             charaRenew = false;
         }
         if (!inMenu && etButton.detect_click()) turn++;

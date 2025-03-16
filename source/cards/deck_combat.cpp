@@ -11,6 +11,17 @@ void Deck::build_hand()
     }
 }
 
+void Deck::renew_hand()
+{
+    discard_hand();
+    if (drawPile.size() == 0)
+    {
+        drawPile = discardPile;
+        discardPile.clear();
+    }
+    build_hand();
+}
+
 void Deck::discard_hand()
 {
     for (size_t i{0}; i < hand.size() ; i++)
@@ -48,7 +59,7 @@ void Deck::hand_process(bool inMenu, vector<Enemy>& stageEnemies)
     for (size_t current{0}; current < hand.size(); current++)
     {
         hand[current].highlight();
-        hand[current].display();
+        hand[current].display_in_hand();
         if (!inMenu) interact_card(current, stageEnemies); 
     }
     if (usedIdx != NULL_CARD) discard_used();
@@ -64,17 +75,6 @@ void Deck::interact_card(int current, vector<Enemy> &stageEnemies)
     {
         activate_card_process(stageEnemies);
     }
-}
-
-void Deck::renew_hand()
-{
-    discard_hand();
-    if (drawPile.size() == 0)
-    {
-        drawPile = discardPile;
-        discardPile.clear();
-    }
-    build_hand();
 }
 
 void Deck::activate_card_process(vector<Enemy> &stageEnemies)

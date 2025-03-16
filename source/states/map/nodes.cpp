@@ -11,6 +11,13 @@ Node::Node(int pos_, int lev_) : Gui(0, 0, 60, 60)
     move_rect(270+150*pos, 750-80*lev);
 }
 
+vector<Node::nodeType> Node::possibleTypes = {shop, combat, rest, event}; //combat, rest, 
+void Node::rand_type()
+{
+    shuffle_vector(possibleTypes);
+    type = possibleTypes.back();
+}
+
 bool Node::select()
 {
     if (detect_click()) 
@@ -43,11 +50,4 @@ bool Node::select()
         
     }
     return false;
-}
-
-vector<Node::nodeType> Node::possibleTypes = {event, shop}; //combat, rest, 
-void Node::rand_type()
-{
-    shuffle_vector(possibleTypes);
-    type = possibleTypes.back();
 }

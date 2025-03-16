@@ -6,7 +6,7 @@ Deck::Deck(int maxSize_) {maxSize = maxSize_;}
 void Deck::set_up_piles(bool shuffle)
 {
     renew();
-    vector<cardIdInv> copy = ironclad.cardIdInventory;
+    vector<cardIdInv> copy = ironclad.cardIdInv;
     if (shuffle) shuffle_vector(copy);
     drawPile.resize(copy.size());
     for (size_t i{0}; i < copy.size(); i++)

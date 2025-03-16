@@ -17,7 +17,7 @@ class Card : public Gui
     public:
         Card();
         Card(cardIdInv id_, int initPos); // Card IDs enum is defined in character.h
-        void display();
+        void display_in_hand();
         void display_copy(int x, int y, bool move = false);
         void highlight();
         void activate(vector<Enemy>& stageEnemies, int queried);
@@ -29,7 +29,5 @@ class Card : public Gui
         CardAttributes attributes;
         bool selected{false};
 
-        static const map<cardIdInv, const char*> cSpriteMap;
         static const map<cardIdInv, CardAttributes> cAttriMap;
-        static const map<cardIdInv, function<void(vector<Enemy>&, int)>> cActionMap;
 };

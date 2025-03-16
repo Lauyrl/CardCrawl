@@ -35,6 +35,7 @@ class Game
         bool mapGenerated{false};
         bool restInit{true};
         bool eventInit{true};
+        bool shopInit{true};
         void state_switch(gameStates state);
         void display_map();
         void display_rest();

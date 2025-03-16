@@ -37,6 +37,7 @@ void Game::update()
     if (gameState == combat) display_combat();
     if (gameState == rest) display_rest();
     if (gameState == event) display_event();
+    if (gameState == shop) display_shop();
 }
 
 void Game::clear_render()

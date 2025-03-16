@@ -14,7 +14,7 @@ Card::Card(cardIdInv id_, int initPos) : Gui(CARD_POS_X_DEFAULT+STEP_INCREMENT*i
     attributes = cAttriMap.at(id);
 }
 
-void Card::display()
+void Card::display_in_hand()
 {
     if (selected) rect.y = 571;
     game.render_img(attributes.sprite, rect.x, rect.y, 210, 280, 255, NULL);
@@ -31,14 +31,8 @@ void Card::display_copy(int x, int y, bool move)
 
 void Card::highlight()
 {
-    if (detect_cursor_hover() && rect.y > 575)
-    {
-        rect.y -= 52;
-    }
-    if (!detect_cursor_hover() && rect.y < CARD_POS_Y)
-    {
-        rect.y += 52;
-    }
+    if (detect_cursor_hover() && rect.y > 575)         rect.y -= 52;
+    if (!detect_cursor_hover() && rect.y < CARD_POS_Y) rect.y += 52;
 }
 
 void Card::activate(vector<Enemy> &stageEnemies, int queried)
