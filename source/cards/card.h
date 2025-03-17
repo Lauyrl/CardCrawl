@@ -18,14 +18,14 @@ class Card : public Gui
         Card();
         Card(cardIdInv id_, int initPos); // Card IDs enum is defined in character.h
         void display_in_hand();
-        void display_copy(int x, int y, bool move = false);
+        void display_copy(int x, int y, bool move = false, bool highlight = true);
         void highlight();
         void activate(vector<Enemy>& stageEnemies, int queried);
         int query_targetE(vector<Enemy> stageEnemies);
         int query_targetC();
 
-        int pos;
-        cardIdInv id;
+        int pos{0};
+        cardIdInv id{strike};
         CardAttributes attributes;
         bool selected{false};
 

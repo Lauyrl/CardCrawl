@@ -28,20 +28,14 @@ void Deck::add_card(vector<Card> &pile, int idx, Card card)
 void Deck::display_pile(vector<Card>& pile, int textType, bool move)
 {
     SDL_Rect greyOut = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
-    SDL_SetRenderDrawColor(game.renderer, 20, 20, 20, 80);
+    SDL_SetRenderDrawColor(game.renderer, 8, 8, 8, 80);
     SDL_RenderFillRect(game.renderer, &greyOut);
     for (int i{0}; i < pile.size(); i++)
     {
-        pile[i].display_copy(200+200*(i%5), 160+260*(int)(i/5), move);
+        pile[i].display_copy(252+200*(i%5), 150+260*(int)(i/5), move);
     }
     if (textType == DC_TEXT) pileLabel.render_text("                                       DISCARD PILE\nOnce full, cards are pushed back into draw pile\nAll cards currently in hand are discarded upon turn end");
     if (textType == DP_TEXT) pileLabel.render_text("                                       DRAW PILE\nOnce empty, cards are retrieved from discard pile\nEach turn, by default, 5 cards are drawn from the draw pile into hand");
-}
-
-void Deck::renew()
-{
-    drawPile.clear(); hand.clear(); discardPile.clear();
-    selectedIdx = NULL_CARD; usedIdx = NULL_CARD;
 }
 
 int Deck::interact_cards_event()
@@ -49,4 +43,10 @@ int Deck::interact_cards_event()
     for (int i{0}; i < drawPile.size(); i++) 
         if (drawPile[i].detect_click()) return i;
     return NULL_CARD;
+}
+
+void Deck::renew()
+{
+    drawPile.clear(); hand.clear(); discardPile.clear();
+    selectedIdx = NULL_CARD; usedIdx = NULL_CARD;
 }

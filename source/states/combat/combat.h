@@ -3,7 +3,7 @@
 #include "combat_ui.h"
 #include "../map/map.h"
 
-const int MAX_ENEMIES = 2; /////////////////////////////////////////////////////////
+const int MAX_ENEMIES = 1; /////////////////////////////////////////////////////////
 
 SDL_Rect background{0, 280, 1920, 1225};
 static EndTurnButton etButton;
@@ -29,8 +29,11 @@ void init_components(vector<Enemy> &stageEnemies)
     cout << "3" << endl;
     ironclad.combat_start_relic_renew();
     cout << "4" << endl;
+    //
     ironclad.combat_start_relic();
+    //
     shuffle_vector(possibleEnemies);
+    stageEnemies.clear();
     for (int i{0}; i < MAX_ENEMIES; i++) stageEnemies.push_back(Enemy(possibleEnemies[i], i));
     cout << "Initiation success" << endl;
 }

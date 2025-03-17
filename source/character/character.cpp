@@ -1,11 +1,11 @@
-#include "character.h"
+#include "../cards/deck.h"
 
 double Character::maxHealth = 100.0;
 int Character::health = 1; //static
-int Character::gold = 100;
+int Character::gold = 10000;
 
 std::vector<cardIdInv> Character::cardIdInv = {
-    strike, strike, strike, strike, defend, defend, defend, iron_wave, iron_wave, iron_wave, strike, strike
+    strike, strike, strike, strike, strike, strike, defend, defend, defend, iron_wave, iron_wave, iron_wave
 };
 Character::Character() : Gui(140, 300, 280, 200) {}
 Character::Character(int health_) : Gui(140, 300, 280, 200)
@@ -71,10 +71,7 @@ void Character::lose_energy(int amount)
     energy -= amount;
 }
 
-void Character::reset_energy()
-{
-    lose_energy(energy-3);
-}
+void Character::reset_energy() { lose_energy(energy-3); }
 
 void Character::reformat_relics()
 {

@@ -11,7 +11,7 @@ Node::Node(int pos_, int lev_) : Gui(0, 0, 60, 60)
     move_rect(270+150*pos, 750-80*lev);
 }
 
-vector<Node::nodeType> Node::possibleTypes = {shop, combat, rest, event}; //combat, rest, 
+vector<Node::nodeType> Node::possibleTypes = {shop}; //combat, rest, event, shop
 void Node::rand_type()
 {
     shuffle_vector(possibleTypes);

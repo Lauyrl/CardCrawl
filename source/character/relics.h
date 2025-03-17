@@ -4,7 +4,7 @@
 #include <functional>
 #include "../gui/gui.h"
 enum relicId {
-    anchor, blood_vial
+    anchor, blood_vial, circlet
 };
 
 struct relicAttributes

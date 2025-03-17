@@ -67,14 +67,8 @@ void Deck::hand_process(bool inMenu, vector<Enemy>& stageEnemies)
 
 void Deck::interact_card(int current, vector<Enemy> &stageEnemies)
 {
-    if (hand[current].detect_click()) 
-    {
-        select_card(current);
-    }
-    if (selectedIdx != NULL_CARD) //SlCI is NULL_CARD after activation adn by default
-    {
-        activate_card_process(stageEnemies);
-    }
+    if (hand[current].detect_click()) select_card(current);
+    if (selectedIdx != NULL_CARD)     activate_card_process(stageEnemies); //SlCI is NULL_CARD after activation adn by default
 }
 
 void Deck::activate_card_process(vector<Enemy> &stageEnemies)

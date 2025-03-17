@@ -2,15 +2,10 @@
 
 using namespace std;
 
-void strike_action(vector<Enemy>& enemies, int queried)
-{
-    enemies[queried].take_damage(16); //BUFFED FOR DEBUGGING
-}
+void strike_action(vector<Enemy>& enemies, int queried) { enemies[queried].take_damage(16); }
+//BUFFED FOR DEBUGGING 
 
-void defend_action(vector<Enemy>& enemies, int queried)
-{
-    ironclad.gain_block(5);
-}
+void defend_action(vector<Enemy>& enemies, int queried) { ironclad.gain_block(5); }
 
 void iron_wave_action(vector<Enemy>& enemies, int queried)
 {

@@ -1,13 +1,11 @@
 #include "gui.h"
 
-Gui::Gui(int posX, int posY, int width, int height)
-{
-    rect = {posX, posY, width, height};
-}
+Gui::Gui(int posX, int posY, int width, int height) { rect = {posX, posY, width, height}; }
 
-int testCnt{0};
+
 bool Gui::detect_cursor_hover()
 {
+    static int testCnt{0};
     if (cursorX > rect.x && cursorX < rect.x+rect.w && cursorY > rect.y && cursorY < rect.y+rect.h) 
     {
         // std::cout << "Detected " << testCnt << std::endl;
