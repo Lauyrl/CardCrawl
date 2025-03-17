@@ -3,51 +3,36 @@
 void Game::display_shop()
 {
     game.render_img("assets/scene/shop_rug.png",0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 255, NULL);
-    static Shop shop;
     static ReturnButton rtButton;
+    static Shop shop;
     if (game.shopInit)
     {
+        deck.set_up_piles(false);
+        srand(time(NULL));
         shop.generate_items();
+        shop.rsButton.used = false;
         game.shopInit = false;
     }
-    shop.process();
     rtButton.process();
+    shop.process();
     panel.display();
 }
 
-vector<cardIdInv> Shop::cardIds = {strike, defend, iron_wave};
-vector<relicId> Shop::relicIds = {anchor, blood_vial};
 Shop::Shop() {}
 void Shop::process()
 {
+    if (!rsButton.active) purchase_process();
     display_items();
-    purchase_process();
-}
-void Shop::generate_items()
-{
-    shopCards.clear(); shopRelics.clear();
-    shuffle_vector(cardIds);
-    for (int i{cardIds.size()-1}; i >= 0; i--)
-    {
-        shopCards.push_back(CardItem(20, Card(cardIds[i], i)));
-        shopCards.back().card.move_rect(200+200*i, 200);
-        shopCards.back().costText = Text(20, shopCards.back().card.rect.x+80, shopCards.back().card.rect.y+240,255,255,255);
-    }
-    shuffle_vector(relicIds);
-    for (int i{relicIds.size()-1}; i >= 0; i--)
-    {
-        shopRelics.push_back(RelicItem(20, Relic(relicIds[i])));
-        shopRelics.back().relic.move_rect(240+200*i, 500);
-        shopRelics.back().costText = Text(20, shopRelics.back().relic.rect.x+37, shopRelics.back().relic.rect.y+80,255,255,255);
-    }
+    rsButton.process();
 }
 void Shop::display_items()
 {
+    bool toHighlight = !(rsButton.active);
     for (auto cardItem:shopCards)
     {
-        cardItem.card.display_copy(cardItem.card.rect.x, cardItem.card.rect.y, true);
+        cardItem.card.display_copy(cardItem.card.rect.x, cardItem.card.rect.y, true, toHighlight);
         cardItem.costText.render_text(to_string(cardItem.cost));
-        game.render_img("assets/ui/gold.png", cardItem.card.rect.x+42, cardItem.card.rect.y+232, 40, 40, 255, NULL);
+        game.render_img("assets/ui/gold.png", cardItem.card.rect.x+43, cardItem.card.rect.y+232, 40, 40, 255, NULL);
     }
     for (auto relicItem:shopRelics)
     {
@@ -71,15 +56,16 @@ void Shop::purchase_process()
     {
         if (shopRelics[i].cost <= ironclad.gold && shopRelics[i].relic.detect_click()) 
         {
-            ironclad.relicInv.push_back(Relic(shopRelics[i].relic.id));
-            ironclad.gold -= shopCards[i].cost;
+            ironclad.relicInv.push_back(Relic(shopRelics[i].relic.id)); //written weirdly so that new relic elems have correct rect
+            ironclad.gold -= shopRelics[i].cost;
+            if (shopRelics[i].relic.id != circlet) shopRelics[i].pool->erase(shopRelics[i].relic.id);
             shopRelics.erase(shopRelics.begin()+i);
         }
     }
 }
 
-ReturnButton::ReturnButton() : Gui(0, 600, 270, 90)
-{}
+
+ReturnButton::ReturnButton() : Gui(0, 710, 270, 90) {}
 
 void ReturnButton::display()
 {
@@ -93,5 +79,35 @@ void ReturnButton::process()
     {
         game.shopInit = true;
         game.state_switch(Game::gameStates::map);
+    }
+}
+
+int RemovalService::cost{75};
+RemovalService::RemovalService() : Gui(1050, 415, 200, 280) {}
+void RemovalService::display()
+{
+    Uint8 alpha;
+    if (used) alpha = 80;
+    else alpha = 255;
+    game.render_img("assets/ui/removal_service.png", rect.x, rect.y, rect.w, rect.h, alpha, NULL);
+    game.render_img("assets/ui/gold.png", rect.x+56, rect.y+272, 40, 40, 255, NULL);
+    costText.render_text(to_string(cost));
+}
+
+void RemovalService::process()
+{
+    display();
+    if (!used && ironclad.gold >= cost && (active || detect_click())) 
+    {
+        active = true;
+        deck.display_pile(deck.drawPile, 3, true);
+        int chosen = deck.interact_cards_event(); 
+        if (chosen != NULL_CARD)
+        {
+            ironclad.cardIdInv.erase(ironclad.cardIdInv.begin()+chosen);
+            ironclad.gold -= cost;
+            active = false;
+            used = true;
+        }
     }
 }
