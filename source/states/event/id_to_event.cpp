@@ -2,8 +2,8 @@
 
 bool duplicator_pray_ef()
 {
-    deck.display_pile(deck.drawPile, 3, true);
-    int chosenCard = deck.interact_cards_event();
+    int chosenCard = NULL_CARD;
+    chosenCard = deck.interact_cards_event(panel.inMenu, 3);
     if (chosenCard != NULL_CARD)
     {
         ironclad.cardIdInv.push_back(deck.drawPile[chosenCard].id);

@@ -5,7 +5,7 @@ void Game::display_event()
     static Event teste;
     if (eventInit)
     {
-        deck.set_up_piles(false);
+        deck.renew_inventory();
         for (auto& choice:teste.attributes.choices) choice.currentUses = choice.attributes.uses;
         eventInit = false;
     }
@@ -54,7 +54,7 @@ void Choice::process()
     if (currentUses > 0 && !Event::inMenu)
     {
         display();
-        if (detect_click()) 
+        if (!panel.inMenu && detect_click()) 
         {
             Event::inMenu = true;
             cursorX = 0; cursorY = 0;

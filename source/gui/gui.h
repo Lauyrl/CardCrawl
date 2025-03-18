@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include "../../incl/libraries.h"
-#include "../input/cursor_variables.h"
+#include "../input/mouse_input.h"
 #include "../draw/text.h"
 
 class Gui 

@@ -3,17 +3,15 @@
 void Game::display_shop()
 {
     game.render_img("assets/scene/shop_rug.png",0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 255, NULL);
-    static ReturnButton rtButton;
     static Shop shop;
     if (game.shopInit)
     {
-        deck.set_up_piles(false);
+        deck.renew_inventory();
         srand(time(NULL));
         shop.generate_items();
         shop.rsButton.used = false;
         game.shopInit = false;
     }
-    rtButton.process();
     shop.process();
     panel.display();
 }
@@ -21,7 +19,11 @@ void Game::display_shop()
 Shop::Shop() {}
 void Shop::process()
 {
-    if (!rsButton.active) purchase_process();
+    if (!rsButton.active && !panel.inMenu) 
+    {
+        purchase_process();
+        rtButton.process();
+    }
     display_items();
     rsButton.process();
 }
@@ -50,6 +52,7 @@ void Shop::purchase_process()
             ironclad.cardIdInv.push_back(shopCards[i].card.id);
             ironclad.gold -= shopCards[i].cost;
             shopCards.erase(shopCards.begin()+i);
+            deck.renew_inventory();
         }
     }
     for (int i{shopRelics.size()-1}; i >= 0; i--)
@@ -97,11 +100,11 @@ void RemovalService::display()
 void RemovalService::process()
 {
     display();
-    if (!used && ironclad.gold >= cost && (active || detect_click())) 
+    if (!panel.inMenu && !used && ironclad.gold >= cost && (active || detect_click())) 
     {
         active = true;
-        deck.display_pile(deck.drawPile, 3, true);
-        int chosen = deck.interact_cards_event(); 
+        int chosen = NULL_CARD;
+        chosen = deck.interact_cards_event(panel.inMenu, 3); 
         if (chosen != NULL_CARD)
         {
             ironclad.cardIdInv.erase(ironclad.cardIdInv.begin()+chosen);

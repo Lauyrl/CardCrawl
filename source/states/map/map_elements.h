@@ -3,7 +3,8 @@
 #include <set>
 #include <cstring>
 #include "../../gui/top_panel.h"
-
+const int NODE_POS_Y_DEFAULT = 750;
+const int NODE_Y_STEP_INCREMENT = -80;
 class Node : public Gui
 {
     public:
@@ -35,5 +36,6 @@ class Tree
         static vector<int> playerPath;
         static map<int, Node> nodeMap;
         static int playerCurrentLev;
+        int scrollVal{0};
 };
 

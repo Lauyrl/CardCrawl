@@ -16,7 +16,7 @@ Tree::Tree()
 
 Node& Tree::cache_node(int pos, int lev)
 {
-    int nodeId = pos*10+lev;
+    int nodeId = lev*10+pos;
     auto it = nodeMap.find(nodeId);
     if (it == nodeMap.end()) 
     {
@@ -28,18 +28,18 @@ Node& Tree::cache_node(int pos, int lev)
 
 void Tree::generate_path(int start)
 {
-    int prev = start;
-    for (int lev{1}; lev < 10; lev++)
+    int prevPos = start;
+    for (int lev{1}; lev < 20; lev++)
     {
-        int next;
-        if      (prev == 1) next = rand() % 2+prev; 
-        else if (prev == 5) next = rand() % 2+(prev-1);
-        else                next = rand() % 3+(prev-1);
-        Node& cached = cache_node(next, lev);
+        int nextPos;
+        if      (prevPos == 1) nextPos = rand() % 2+prevPos; 
+        else if (prevPos == 5) nextPos = rand() % 2+(prevPos-1);
+        else                   nextPos = rand() % 3+(prevPos-1);
+        Node& cached = cache_node(nextPos, lev);
         cached.rand_type();
-        cached.prev.insert(prev*10+lev-1);
-        nodeMap.find(prev*10+lev-1)->second.next.insert(next*10+lev);
-        prev = next;
+        cached.prev.insert((lev-1)*10+prevPos);
+        nodeMap.find((lev-1)*10+prevPos)->second.next.insert(lev*10+nextPos);
+        prevPos = nextPos;
     }
 }
 
@@ -53,15 +53,17 @@ void draw_thick_line(int x1, int y1, int x2, int y2)
 
 void Tree::display()
 {
-    for (auto node:nodeMap)
+    if (!panel.inMenu) scroll_val_upper(scrollVal, 1000);
+    for (const auto& node:nodeMap)
     {
-        for (auto next:node.second.next) draw_thick_line(30+node.second.rect.x, 30+node.second.rect.y, 300+150*(next/10), 780-80*(next%10));
+        for (const auto& next:node.second.next) draw_thick_line(30+node.second.rect.x, 30+NODE_POS_Y_DEFAULT+NODE_Y_STEP_INCREMENT*node.second.lev+scrollVal, 300+150*(next%10), NODE_POS_Y_DEFAULT+30+NODE_Y_STEP_INCREMENT*(next/10)+scrollVal);
     }
-    for (auto node:nodeMap) 
+    for (auto& node:nodeMap) 
     {   
         int alpha;
         if (!(node.second.lev == playerCurrentLev && (playerPath.size() == 0 || node.second.prev.find(playerPath.back()) != node.second.prev.end()))) alpha = 100;
         else alpha = 255;
+        node.second.rect.y = NODE_POS_Y_DEFAULT+NODE_Y_STEP_INCREMENT*node.second.lev+scrollVal;
         switch (node.second.type)
         {
             case (node.second.combat):
@@ -86,6 +88,7 @@ void Tree::display()
             }
         }
     }
+    if (!panel.inMenu) scrollDirection = SCROLL_NULL;
 }
 
 void Tree::nodes_process()
@@ -95,7 +98,7 @@ void Tree::nodes_process()
     {
         if (node.second.lev == playerCurrentLev && (playerPath.size() == 0 || node.second.prev.find(playerPath.back()) != node.second.prev.end())) 
         {
-            if (node.second.select()) 
+            if (!panel.inMenu && node.second.select()) 
             {
                 if (playerCurrentLev > 0) cout << playerPath.back() << " to " << node.second.id << endl;
                 playerPath.push_back(node.second.id);

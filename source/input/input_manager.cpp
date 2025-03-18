@@ -1,5 +1,5 @@
 #include "../../incl/libraries.h"
-#include "cursor_variables.h"
+#include "mouse_input.h"
 #include "../game.h"
 
 
@@ -40,8 +40,20 @@ void Game::handle_events()
                 }
                 break;
             }
-            default: 
-                break;
+            case (SDL_MOUSEWHEEL):
+            {
+                if (event.wheel.y > 0) 
+                {
+                    scrollDirection = SCROLL_UP;
+                    std::cout << "UP" << std::endl;
+                }
+                else if (event.wheel.y < 0) 
+                {
+                    scrollDirection = SCROLL_DOWN;
+                    std::cout << "DOWN" << std::endl;
+                }
+            }
+            default: break;
         }
     }
 }

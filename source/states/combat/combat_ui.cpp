@@ -23,6 +23,7 @@ void DrawPileButton::button_process()
     {
         if (!displaying) displaying = true;
         else displaying = false;
+        panel.dButton.active = false;
     }
     if (displaying) deck.display_pile(deck.drawPile, DP_TEXT);
     display();
@@ -43,6 +44,7 @@ void DiscardPileButton::button_process()
     {
         if (!displaying) displaying = true;
         else displaying = false;
+        panel.dButton.active = false;
     }
     if (displaying) deck.display_pile(deck.discardPile, DC_TEXT);
     display();

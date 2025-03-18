@@ -6,12 +6,12 @@ Node::Node(int pos_, int lev_) : Gui(0, 0, 60, 60)
 {
     pos = pos_;
     lev = lev_;
-    id = 10*pos_+lev_;
+    id  = lev*10+pos;
     type = combat;
-    move_rect(270+150*pos, 750-80*lev);
+    move_rect(270+150*pos, NODE_POS_Y_DEFAULT+NODE_Y_STEP_INCREMENT*lev);
 }
 
-vector<Node::nodeType> Node::possibleTypes = {shop}; //combat, rest, event, shop
+vector<Node::nodeType> Node::possibleTypes = {shop, combat}; //combat, rest, event, shop
 void Node::rand_type()
 {
     shuffle_vector(possibleTypes);
@@ -47,7 +47,6 @@ bool Node::select()
                 return true;
             }
         }
-        
     }
     return false;
 }

@@ -9,14 +9,16 @@ const int DECK_HEIGHT = 300;
 const int DECK_MAX_SIZE = 5;
 const int DP_TEXT = 0;
 const int DC_TEXT = 1;
+const int INV_TEXT = 2;
 
 class Deck
 {
     public:
         Deck(int size_);
         void renew();
-        void set_up_piles(bool shuffle = true);
-        void display_pile(vector<Card>& pile, int textType, bool move = false);
+        void renew_inventory();
+        void set_up_piles();
+        void display_pile(vector<Card>& pile, int textType, bool move = false, bool highlight = false);
         void build_hand();
         void reformat_hand();
         void discard_hand();
@@ -27,15 +29,18 @@ class Deck
         void select_card(int toSelect);
         void activate_card_process(vector<Enemy> &stageEnemies);
         void interact_card(int current, vector<Enemy> &stageEnemies);
-        int interact_cards_event();
+        int interact_cards_event(bool inMenu, int textType);
 
         vector<Card> hand;
         vector<Card> drawPile;
         vector<Card> discardPile;
+        vector<Card> inventory;
         static size_t maxSize;
         int selectedIdx{NULL_CARD};   
         int usedIdx{NULL_CARD};
         Text pileLabel = Text(30, 400, 30, 255, 255, 255);
+
+        int scrollVal{1};
 };
 
 extern Deck deck;

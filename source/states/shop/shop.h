@@ -41,6 +41,13 @@ class RemovalService : public Gui
         static int cost;
         Text costText = Text(20, rect.x+94, rect.y+280, 255, 255, 255);
 };
+class ReturnButton : public Gui
+{
+    public:
+        ReturnButton();
+        void display();
+        void process();
+};
 class Shop
 {
     public: 
@@ -52,12 +59,7 @@ class Shop
         vector<CardItem>  shopCards;
         vector<RelicItem> shopRelics;
         RemovalService rsButton;
+        ReturnButton rtButton;
 };
 
-class ReturnButton : public Gui
-{
-    public:
-        ReturnButton();
-        void display();
-        void process();
-};
+

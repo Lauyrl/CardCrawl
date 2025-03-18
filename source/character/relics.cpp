@@ -12,7 +12,7 @@ const map<relicId, relicAttributes> Relic::relAttriMap = {
 
 Relic::Relic() : Gui(-25, 30, 100, 100)
 {
-    id = anchor;
+    id = circlet;
     attributes = relAttriMap.at(id);
 }
 Relic::Relic(relicId id_) : Gui(60*((int)ironclad.relicInv.size())-25, 30, 100, 100)
