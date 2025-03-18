@@ -3,18 +3,14 @@
 void anchor_ef()     { ironclad.block += 10; }
 void blood_vial_ef() { ironclad.heal(2); }
 void circlet_ef()    { cout << "circlet." << endl; }
-const map<relicId, relicAttributes> Relic::relAttriMap = {
+const unordered_map<relicId, relicAttributes> Relic::relAttriMap = {
+    {circlet,    {"assets/relics/circlet.png", circlet_ef}},
     {anchor,     {"assets/relics/anchor.png", anchor_ef}},
-    {blood_vial, {"assets/relics/blood_vial.png", blood_vial_ef}},
-    {circlet,    {"assets/relics/circlet.png", circlet_ef}}
+    {blood_vial, {"assets/relics/blood_vial.png", blood_vial_ef}}
 };
 
 
-Relic::Relic() : Gui(-25, 30, 100, 100)
-{
-    id = circlet;
-    attributes = relAttriMap.at(id);
-}
+Relic::Relic() : Gui(-25, 30, 100, 100) {}
 Relic::Relic(relicId id_) : Gui(60*((int)ironclad.relicInv.size())-25, 30, 100, 100)
 {
     id = id_;

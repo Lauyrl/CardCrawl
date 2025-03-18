@@ -1,5 +1,6 @@
 #pragma once
 
+#include <utility>
 #include "../../game.h"
 #include "../../gui/gui.h"
 #include "../../cards/deck.h"
@@ -11,16 +12,30 @@ class GoldReward : public Gui
         GoldReward();
         void display();
         void process();
-        int amount;
+        int amount{0};
+        Text amountText = Text(28, rect.x+70, rect.y+20, 0, 0, 0);
+        bool used{false};
 };
 class RelicReward : public Gui
 {
     public:
-        RelicReward();
+        RelicReward(int order_);
+        void display(bool pairUsed);
+        void process();
+        int order;
+        Relic relic;
+        set<relicId>* pool;
+        bool used{false};
+};
+class RelicRewardPair
+{
+    public:
+        RelicRewardPair();
         void display();
         void process();
-        Relic first;
-        Relic second;
+        RelicReward first  = RelicReward(0);
+        RelicReward second = RelicReward(1);
+        bool used{false};
 };
 class ChooseCardReward : public Gui
 {
@@ -29,6 +44,8 @@ class ChooseCardReward : public Gui
         void display();
         void process();
         vector<Card> choices;
+        bool active{false};
+        bool used{false};
 };
 class RewardMenu : public Gui
 {
@@ -37,7 +54,7 @@ class RewardMenu : public Gui
         void display();
         bool process();
         void generate_items();
-        GoldReward gReward = GoldReward();
-        RelicReward rReward = RelicReward();
-        ChooseCardReward ccReward = ChooseCardReward();
+        GoldReward gReward;
+        RelicRewardPair rRewardPair;
+        ChooseCardReward ccReward;
 };

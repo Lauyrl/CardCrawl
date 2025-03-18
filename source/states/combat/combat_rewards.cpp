@@ -1,58 +1,107 @@
 #include "combat.h"
 
-GoldReward::GoldReward() : Gui(500, 400, 100, 300) 
-{ amount = 0; }
+GoldReward::GoldReward() : Gui(465, 270, 510, 100) {};
 void GoldReward::display() 
 {
-    game.render_img("assets/ui/combat/reward_item_panel.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
+    Uint8 alpha = (used)? 100:240;
+    game.render_img("assets/ui/combat/reward_item_panel.png", rect.x, rect.y, rect.w, rect.h, alpha, NULL);
+    game.render_img("assets/ui/gold.png", rect.x+23, rect.y+16, 70, 70, alpha, NULL);
+    amountText.render_text(to_string(amount));
+
 }
-void GoldReward::process() {}
-
-
-RelicReward::RelicReward() : Gui(500, 500, 100, 300) 
-{ 
-    first  = Relic(circlet); 
-    second = Relic(circlet); 
-}
-
-void RelicReward::display() 
+void GoldReward::process() 
 {
-    game.render_img("assets/ui/combat/reward_item_panel.png", first.rect.x,  first.rect.y,  rect.w, rect.h, 255, NULL);
-    game.render_img("assets/ui/combat/reward_item_panel.png", second.rect.x, second.rect.y, rect.w, rect.h, 255, NULL);
+    if (!panel.inMenu && !used && detect_click())
+    {
+        ironclad.gold += amount;
+        used = true;
+    }
 }
-void RelicReward::process() {}
 
-
-ChooseCardReward::ChooseCardReward() : Gui(500, 600, 100, 300) 
-{ 
-    choices = vector<Card>(3); 
+RelicReward::RelicReward(int order_) : Gui(465, 370+100*order_, 510, 100) { order = order_; }
+void RelicReward::display(bool pairUsed) 
+{
+    Uint8 alpha = (used)? 100:240;
+    if (pairUsed) alpha = 20;
+    game.render_img("assets/ui/combat/reward_item_panel.png", rect.x, rect.y, rect.w, rect.h, alpha, NULL);
+    relic.move_rect(rect.x+12, rect.y);
+    relic.display();
 }
+void RelicReward::process() 
+{
+    if (!panel.inMenu && detect_click())
+    {
+        ironclad.relicInv.push_back(Relic(relic.id));
+        if (relic.id != circlet) pool->erase(relic.id);
+        used = true;
+    }
+}
+
+RelicRewardPair::RelicRewardPair() {}
+void RelicRewardPair::display() 
+{
+    first.display(second.used);
+    second.display(first.used);
+    game.render_img("assets/ui/combat/relic_link.png", 640, 393, 150, 150, 200, NULL);
+
+}
+void RelicRewardPair::process() 
+{
+    used = (first.used || second.used); if (!used) first.process();
+    used = (first.used || second.used); if (!used) second.process();
+}
+
+ChooseCardReward::ChooseCardReward() : Gui(465, 570, 510, 100) {}
 void ChooseCardReward::display() 
 {
-    game.render_img("assets/ui/combat/reward_item_panel.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
+    Uint8 alpha = (used)? 100:240;
+    game.render_img("assets/ui/combat/reward_item_panel.png", rect.x, rect.y, rect.w, rect.h, alpha, NULL);
+    game.render_img("assets/ui/combat/normal_card_reward.png", rect.x+22, rect.y+15, 70, 70, alpha, NULL);
+    if (active)
+        for (int i{0}; i < 3; i++) choices[i].display_copy(400+i*250, 320, true, true);
 }
-void ChooseCardReward::process() {}
+void ChooseCardReward::process() 
+{
+    if (!panel.inMenu && !used && detect_click()) active = true;
+    if (active)
+    {
+        for (int i{2}; i >= 0; i--)
+        {
+            if (!panel.inMenu && choices[i].detect_click())
+            {
+                ironclad.cardIdInv.push_back(choices[i].id);
+                choices.erase(choices.begin()+i);
+                active = false;
+                used = true;
+                break;
+            }
+        }
+    }
+}
 
-
-RewardMenu::RewardMenu() : Gui(480, 380, 140, 1000) { tick = 0; }
+RewardMenu::RewardMenu() : Gui(280, 100, 880, 640) {}
 void RewardMenu::display() 
 {
-    game.render_img("assets/ui/combat/reward_sheet.png", 300, 200, 400, 600, 255, NULL);
+    game.render_img("assets/ui/combat/reward_sheet.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
     gReward.display();
-    rReward.display();
+    rRewardPair.display();
     ccReward.display();
 }
 bool RewardMenu::process() 
 {
     display();
-    tick++;
-    if (tick == 360) return true;
-    return false;
+    ccReward.process();
+    if (ccReward.active) return false;
+    gReward.process();
+    rRewardPair.process();
+    return (gReward.used && rRewardPair.used && ccReward.used);
 }
-
 void RewardMenu::generate_items()
 {
+    gReward.used = false;
     gReward.amount = rand() % 100;
+
+    ccReward.used = false; ccReward.active = false;
     ccReward.choices.clear();
     ccReward.choices.resize(3);
     for (int i{0}; i < 3; i++)
@@ -67,28 +116,35 @@ void RewardMenu::generate_items()
         ccReward.choices[i].move_rect(160+200*i, 100);
     }
 
-
-    vector<relicId> copyCommon  (  commonRelicPool.begin(),   commonRelicPool.end());
-    vector<relicId> copyUncommon(uncommonRelicPool.begin(), uncommonRelicPool.end());
+    rRewardPair.used = false; rRewardPair.first.used = false; rRewardPair.second.used = false;
+    vector<relicId> copyCommon (commonRelicPool.begin(), commonRelicPool.end());
+    vector<relicId> copyUncommon (uncommonRelicPool.begin(), uncommonRelicPool.end());
     vector<relicId>* copy;
     int seed = rand() % 10;
-    if (seed >= 0 && seed < 8) copy = &copyCommon;            
-    else copy = &copyUncommon;
-    shuffle_vector(*copy);
-    if (copy->size() == 0) rReward.first = Relic(circlet);
-    else
+    if (seed >= 0 && seed < 8) 
     {
-        rReward.first = Relic(copy->front());
-        copy->erase(copy->begin());
+        copy = &copyCommon;
+        rRewardPair.first.pool = &commonRelicPool;
+        rRewardPair.second.pool = &commonRelicPool;
     }
-    rReward.first.move_rect(580+130, 405+175);
-    shuffle_vector(*copy);
-    if (copy->size() == 0) rReward.second = Relic(circlet);
-    else
+    else 
     {
-        rReward.second = Relic(copy->front());
-        copy->erase(copy->begin());
+        copy = &copyUncommon;
+        rRewardPair.first.pool = &uncommonRelicPool;
+        rRewardPair.second.pool = &uncommonRelicPool;
     }
-    rReward.second.move_rect(580+130, 405+175);
+    for (int i{0}; i < 2; i++)
+    {
+        RelicReward* current;
+        if (i == 0) current = &rRewardPair.first;
+        else        current = &rRewardPair.second;
+        shuffle_vector(*copy);
+        if (copy->size() == 0) current->relic = Relic(circlet);
+        else
+        {
+            current->relic = Relic(copy->front());
+            copy->erase(copy->begin());
+        }
+        current->relic.move_rect(580+130, 405+175);
+    }
 }
-

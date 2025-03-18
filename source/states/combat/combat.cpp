@@ -49,8 +49,8 @@ SDL_Rect background = {0, 280, 1920, 1225};
 EndTurnButton etButton;
 DrawPileButton drpButton;
 DiscardPileButton dcpButton;
-vector<Enemy> stageEnemies;
 vector<enemyId> possibleEnemies = {acid_slime, acid_slime, cultist, cultist, cultist};
+vector<Enemy> stageEnemies;
 RewardMenu rMenu;
 int turn = 0;
 int activeEnemyIdx = 0;
@@ -67,7 +67,7 @@ void init_components(vector<Enemy> &stageEnemies)
     stageEnemies.clear();
     shuffle_vector(possibleEnemies);
     for (int i{0}; i < MAX_ENEMIES; i++) stageEnemies.push_back(Enemy(possibleEnemies[i], i));
-    //rMenu.generate_items();
+    rMenu.generate_items();
     cout << "Initiation success" << endl;
 }
 
@@ -108,7 +108,7 @@ void combat_win()
     if (rMenu.process())
     {
         stageEnemies.clear();
-    //game.combatInit?;
         game.state_switch(game.gameStates::map);
     }
+    panel.display();
 }

@@ -3,8 +3,9 @@
 #include <map>
 #include <functional>
 #include "../gui/gui.h"
+
 enum relicId {
-    anchor, blood_vial, circlet
+    circlet, anchor, blood_vial
 };
 
 struct relicAttributes
@@ -20,7 +21,7 @@ class Relic : public Gui
         Relic(relicId id_);
         void display();
         bool active{true};
-        relicId id;
+        relicId id{circlet};
         relicAttributes attributes;
-        static const map<relicId, relicAttributes> relAttriMap;
+        static const unordered_map<relicId, relicAttributes> relAttriMap;
 };
