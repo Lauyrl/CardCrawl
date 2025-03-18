@@ -1,6 +1,6 @@
 #include "pools.h"
 
-vector<cardIdInv> commonCardPool   = {strike, defend, iron_wave};
+vector<cardIdInv> commonCardPool   = {strike, defend, iron_wave, flex};
 vector<cardIdInv> uncommonCardPool = {strike, strike};
 vector<cardIdInv> rareCardPool     = {strike, strike};
  

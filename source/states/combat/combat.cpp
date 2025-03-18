@@ -24,6 +24,8 @@ void Game::display_combat()
         {
             deck.renew_hand();
             ironclad.block = 0;
+            ironclad.reset_energy();
+            ironclad.decrement_statuses();
             charaRenew = false;
         }
         if (!inMenu && etButton.detect_click()) turn++;
@@ -36,7 +38,6 @@ void Game::display_combat()
     {
         if (enemy_turn(stageEnemies)) //wait for enemy_turn() to finish
         {
-            ironclad.reset_energy();
             charaRenew = true;
             turn++;
         }
@@ -61,8 +62,7 @@ void init_components(vector<Enemy> &stageEnemies)
     turn = 0;
     deck.set_up_piles();
     deck.build_hand();
-    ironclad.reset_energy();
-    ironclad.combat_start_relic_renew();
+    ironclad.renew();
     ironclad.combat_start_relic();
     stageEnemies.clear();
     shuffle_vector(possibleEnemies);

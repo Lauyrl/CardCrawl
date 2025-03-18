@@ -28,6 +28,7 @@ bool Enemy::enemy_action()
     tick++; int t = tick;
     if (t == 1)
     {
+        srand(time(NULL));
         int value = rand() % 100;
         for (size_t i{0}; i < attributes.actions.size(); i++)
         {
@@ -51,8 +52,9 @@ bool Enemy::enemy_action()
     return false;
 }
 
-void Enemy::take_damage(int damageTaken)
+void Enemy::take_damage(int dmgTaken)
 {
-    attributes.hp -= damageTaken;
-    // cout << enemy.attributes.hp << ' ' << endl;
+    int totalDmgTaken = dmgTaken+ironclad.statuses[strength].level*ironclad.statuses[strength].value;
+    attributes.hp -= totalDmgTaken;
+    cout << totalDmgTaken << endl;
 }

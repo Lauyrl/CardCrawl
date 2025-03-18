@@ -5,7 +5,7 @@
 #include "../map/map.h"
 #include "../../pools/pools.h"
 
-const int MAX_ENEMIES = 1; /////////////////////////////////////////////////////////
+const int MAX_ENEMIES = 3; /////////////////////////////////////////////////////////
 
 extern SDL_Rect background;
 extern EndTurnButton etButton;

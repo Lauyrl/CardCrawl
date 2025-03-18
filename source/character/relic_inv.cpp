@@ -5,7 +5,7 @@ vector<Relic> Character::relicInv;
 set<relicId> combatStartRelics = {anchor, blood_vial};
 void Character::combat_start_relic()
 {
-    for (auto relic:relicInv)
+    for (auto& relic:relicInv)
     {
         if (combatStartRelics.find(relic.id) != combatStartRelics.end() && relic.active)
         {
@@ -18,7 +18,7 @@ void Character::combat_start_relic()
 
 void Character::combat_start_relic_renew()
 {
-    for (auto relic:relicInv)
+    for (const auto& relic:relicInv)
     {
         if (combatStartRelics.find(relic.id) != combatStartRelics.end() && relic.active)
             relicInv[relic.id].active = true;

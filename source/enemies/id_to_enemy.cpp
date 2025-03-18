@@ -3,7 +3,7 @@
 void eAttack1(Enemy &enemy)
 {
     ironclad.take_damge(6);
-    cout << "6 dmg" << endl;
+    //cout << "6 dmg" << endl;
 }
 
 void eAttack2(Enemy &enemy)
@@ -11,14 +11,22 @@ void eAttack2(Enemy &enemy)
     ironclad.take_damge(2);
 }
 
+void weaken(Enemy &enemy)
+{
+    ironclad.statuses.at(vulnerable).level++;
+    cout << ironclad.statuses.at(vulnerable).level << endl;
+}
+
 vector<possibleActions> acid_slime_ac = {
-    {50,  eAttack1},
-    {100, eAttack2}
+    {10, eAttack1},
+    {15, eAttack2},
+    {100, weaken}
 };
 
 vector<possibleActions> cultist_ac = {
-    {60,  eAttack1},
-    {100, eAttack2}
+    {10, eAttack1},
+    {15, eAttack2},
+    {100, weaken}
 };
 
 const map<enemyId, enemyAttributes> Enemy::eAttriMap = {

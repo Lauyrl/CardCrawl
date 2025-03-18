@@ -54,7 +54,7 @@ void RelicRewardPair::process()
 ChooseCardReward::ChooseCardReward() : Gui(465, 570, 510, 100) {}
 void ChooseCardReward::display() 
 {
-    Uint8 alpha = (used)? 100:240;
+    Uint8 alpha = (used || active)? 100:240;
     game.render_img("assets/ui/combat/reward_item_panel.png", rect.x, rect.y, rect.w, rect.h, alpha, NULL);
     game.render_img("assets/ui/combat/normal_card_reward.png", rect.x+22, rect.y+15, 70, 70, alpha, NULL);
     if (active)

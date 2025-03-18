@@ -4,16 +4,12 @@
 #include <cstring>
 #include "../game.h"
 #include "../gui/gui.h"
-#include "relics.h"
-
+#include "conditions.h"
 using namespace std;
 
 enum cardIdInv {
-    strike,
-    defend,
-    iron_wave
+    strike, defend, iron_wave, flex
 };
-
 class Character : public Gui
 {
     public:
@@ -21,6 +17,7 @@ class Character : public Gui
         Character(int health_);
         void display_block();
         void display_hp();
+        void display_statuses();
         void display_energy();
         void display();
         void heal(int amount);
@@ -41,6 +38,12 @@ class Character : public Gui
         void reformat_relics();
         void combat_start_relic();
         void combat_start_relic_renew();
+
+        static map<statusId, status> statuses;
+        void renew();
+        void decrement_statuses();
+
+        int flexEndTurnEffect{0};
 };
 
 extern Character ironclad;
