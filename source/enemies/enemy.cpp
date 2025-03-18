@@ -13,6 +13,7 @@ Enemy::Enemy(enemyId id_, int initPos) : Gui(ENEMY_POS_X, ENEMY_POS_Y, 200, 200)
 void Enemy::display()
 {
     game.render_img(attributes.sprite, rect.x, rect.y, 150, 150, 255, NULL);
+    display_intent();
     display_hp();
 }
 
@@ -23,21 +24,32 @@ void Enemy::display_hp()
     SDL_RenderFillRect(game.renderer, &eHealthBar);
 }
 
+void Enemy::display_intent()
+{
+    game.render_img(intentSprite, rect.x+38, rect.y-32, 50, 50, 220, NULL);
+}
+
+void Enemy::generate_intent()
+{
+    int value = rand_int(0, 100);
+    for (size_t i{0}; i < attributes.actions.size(); i++)
+    {
+        if (value <= attributes.actions[i].actionValue) 
+        {
+            intended = attributes.actions[i].action;
+            intentSprite = attributes.actions[i].intentSprite;
+            return;
+        }
+    }
+}
+
 bool Enemy::enemy_action()
 {
     tick++; int t = tick;
     if (t == 1)
     {
-        srand(time(NULL));
-        int value = rand() % 100;
-        for (size_t i{0}; i < attributes.actions.size(); i++)
-        {
-            if (value <= attributes.actions[i].actionValue) 
-            {
-                attributes.actions[i].action(*this);
-                return false;
-            }
-        }
+        intended(*this);
+        return false;
     }
     else 
     {

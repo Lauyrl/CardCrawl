@@ -21,6 +21,7 @@ extern RewardMenu rMenu;
 
 void init_components(vector<Enemy> &stageEnemies);
 void piles_process(DiscardPileButton &dcp, DrawPileButton &drp);
+void enemy_generate_intents(vector<Enemy> &stageEnemies);
 void enemy_process(vector<Enemy> &stageEnemies);
 bool enemy_turn(vector<Enemy> &stageEnemies);
 void combat_win();

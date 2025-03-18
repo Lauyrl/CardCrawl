@@ -79,3 +79,11 @@ void Game::cleanup_textures()
         }
     }
 }
+
+int rand_int(int min, int max)
+{
+    static std::random_device seed;
+    static std::mt19937 mt(seed());
+    std::uniform_int_distribution<int> dist(min, max);
+    return dist(mt);
+}

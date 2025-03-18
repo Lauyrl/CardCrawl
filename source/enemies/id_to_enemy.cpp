@@ -6,10 +6,7 @@ void eAttack1(Enemy &enemy)
     //cout << "6 dmg" << endl;
 }
 
-void eAttack2(Enemy &enemy)
-{
-    ironclad.take_damge(2);
-}
+void eAttack2(Enemy &enemy) { ironclad.take_damge(2); }
 
 void weaken(Enemy &enemy)
 {
@@ -18,18 +15,18 @@ void weaken(Enemy &enemy)
 }
 
 vector<possibleActions> acid_slime_ac = {
-    {10, eAttack1},
-    {15, eAttack2},
-    {100, weaken}
+    {10, eAttack1, "assets/ui/combat/intent/attack1.png"},
+    {50, eAttack2, "assets/ui/combat/intent/attack2.png"},
+    {100, weaken,  "assets/ui/combat/intent/debuff1.png"}
 };
 
 vector<possibleActions> cultist_ac = {
-    {10, eAttack1},
-    {15, eAttack2},
-    {100, weaken}
+    {10, eAttack1, "assets/ui/combat/intent/attack1.png"},
+    {50, eAttack2, "assets/ui/combat/intent/attack2.png"},
+    {100, weaken,  "assets/ui/combat/intent/debuff1.png"}
 };
 
 const map<enemyId, enemyAttributes> Enemy::eAttriMap = {
     {acid_slime, {24, 3, "assets/enemies/acid_slime.png", acid_slime_ac}},
-    {cultist,    {18, 5, "assets/enemies/cultist2.png", cultist_ac}}
+    {cultist,    {18, 5, "assets/enemies/cultist2.png"  , cultist_ac}}
 };

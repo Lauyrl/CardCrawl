@@ -13,7 +13,9 @@ class Enemy : public Gui
         Enemy();
         Enemy(enemyId id_, int initPos);
         void display();
+        void generate_intent();
         bool enemy_action();
+        void display_intent();
         void display_hp();
         void take_damage(int damageTaken);
 
@@ -21,6 +23,9 @@ class Enemy : public Gui
         enemyId id;
         enemyAttributes attributes;
         vector<possibleActions> possibilities;
+        function<void(Enemy&)> intended = [](Enemy&){};
+        
+        const char* intentSprite = ""; //for testing only
 
         static const map<enemyId, enemyAttributes> eAttriMap;
 };

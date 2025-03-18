@@ -49,6 +49,7 @@ class Game
         SDL_Window* window;
         SDL_Renderer* renderer;
 };
+
 template <typename T>
 void shuffle_vector(std::vector<T> &vector)
 {
@@ -56,5 +57,6 @@ void shuffle_vector(std::vector<T> &vector)
     static std::default_random_engine rng(seed());  //retains state while out of scope
     std::ranges::shuffle(vector, rng);
 }
+int rand_int(int min, int max); //this had to be defined in .cpp for some reosn
 
 extern Game game;

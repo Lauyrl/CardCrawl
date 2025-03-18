@@ -6,10 +6,8 @@ map<int, Node> Tree::nodeMap;
 vector<int> Tree::playerPath = {};
 Tree::Tree()
 {
-    srand(time(NULL));
     cache_node(1, 0); cache_node(3, 0); cache_node(5, 0);
     generate_path(1);
-    generate_path(3);
     generate_path(3);
     generate_path(5);
 }
@@ -32,9 +30,9 @@ void Tree::generate_path(int start)
     for (int lev{1}; lev < 20; lev++)
     {
         int nextPos;
-        if      (prevPos == 1) nextPos = rand() % 2+prevPos; 
-        else if (prevPos == 5) nextPos = rand() % 2+(prevPos-1);
-        else                   nextPos = rand() % 3+(prevPos-1);
+        if      (prevPos == 1) nextPos = rand_int(prevPos, prevPos+1); 
+        else if (prevPos == 5) nextPos = rand_int(prevPos-1, prevPos);
+        else                   nextPos = rand_int(prevPos-1, prevPos+1);
         Node& cached = cache_node(nextPos, lev);
         cached.rand_type();
         cached.prev.insert((lev-1)*10+prevPos);

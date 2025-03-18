@@ -99,7 +99,7 @@ bool RewardMenu::process()
 void RewardMenu::generate_items()
 {
     gReward.used = false;
-    gReward.amount = rand() % 100;
+    gReward.amount = rand_int(0, 100);
 
     ccReward.used = false; ccReward.active = false;
     ccReward.choices.clear();
@@ -108,7 +108,7 @@ void RewardMenu::generate_items()
     {
         shuffle_vector(commonCardPool); shuffle_vector(uncommonCardPool); shuffle_vector(rareCardPool);
         vector<cardIdInv>* poolRand;
-        int seed = rand() % 10;
+        int seed = rand_int(0, 10);
         if      (seed >= 0 && seed < 6) poolRand = &commonCardPool;            
         else if (seed >= 6 && seed < 9) poolRand = &uncommonCardPool;
         else                            poolRand = &rareCardPool;
@@ -120,7 +120,7 @@ void RewardMenu::generate_items()
     vector<relicId> copyCommon (commonRelicPool.begin(), commonRelicPool.end());
     vector<relicId> copyUncommon (uncommonRelicPool.begin(), uncommonRelicPool.end());
     vector<relicId>* copy;
-    int seed = rand() % 10;
+    int seed = rand_int(0, 10);
     if (seed >= 0 && seed < 8) 
     {
         copy = &copyCommon;

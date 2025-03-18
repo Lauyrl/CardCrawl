@@ -16,6 +16,7 @@ struct possibleActions
 {
     int actionValue;
     function<void(Enemy&)> action;
+    const char* intentSprite;
 };
 
 struct enemyAttributes 

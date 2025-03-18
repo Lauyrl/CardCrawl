@@ -27,6 +27,7 @@ void Game::display_combat()
             ironclad.reset_energy();
             ironclad.decrement_statuses();
             charaRenew = false;
+            enemy_generate_intents(stageEnemies);
         }
         if (!inMenu && etButton.detect_click()) turn++;
         ironclad.display_energy();
@@ -66,7 +67,11 @@ void init_components(vector<Enemy> &stageEnemies)
     ironclad.combat_start_relic();
     stageEnemies.clear();
     shuffle_vector(possibleEnemies);
-    for (int i{0}; i < MAX_ENEMIES; i++) stageEnemies.push_back(Enemy(possibleEnemies[i], i));
+    for (int i{0}; i < MAX_ENEMIES; i++) 
+    {
+        stageEnemies.push_back(Enemy(possibleEnemies[i], i));
+        stageEnemies.back().generate_intent();
+    }
     rMenu.generate_items();
     cout << "Initiation success" << endl;
 }
@@ -90,6 +95,8 @@ void enemy_process(vector<Enemy> &stageEnemies)
         else stageEnemies[i].display();
     }
 }
+
+void enemy_generate_intents(vector<Enemy> &stageEnemies) { for (auto& enemy:stageEnemies) enemy.generate_intent(); }
 
 bool enemy_turn(vector<Enemy> &stageEnemies)
 {

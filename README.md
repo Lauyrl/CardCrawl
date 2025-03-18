@@ -61,6 +61,8 @@ Forward declaration:
 https://www.geeksforgeeks.org/what-are-forward-declarations-in-c/  
 <br/>
 
-Shuffle vector:
+Shuffle vector & true random:
 
 https://stackoverflow.com/questions/6926433/how-to-shuffle-a-stdvector
+
+https://stackoverflow.com/questions/19665818/generate-random-numbers-using-c11-random-library
