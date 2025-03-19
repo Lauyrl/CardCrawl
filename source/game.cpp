@@ -34,10 +34,11 @@ Game::~Game()
 void Game::update()
 {
     if (gameState == map) display_map();
-    if (gameState == combat) display_combat();
     if (gameState == rest) display_rest();
-    if (gameState == event) display_event();
     if (gameState == shop) display_shop();
+    if (gameState == event) display_event();
+    if (gameState == combat) display_combat();
+    if (gameState == treasure) display_treasure();
 }
 
 void Game::clear_render()

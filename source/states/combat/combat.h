@@ -1,11 +1,11 @@
 #pragma once
 
 #include "combat_ui.h"
-#include "combat_rewards.h"
+#include "rewards.h"
 #include "../map/map.h"
 #include "../../pools/pools.h"
 
-const int MAX_ENEMIES = 3; /////////////////////////////////////////////////////////
+const int MAX_ENEMIES = 1; /////////////////////////////////////////////////////////
 
 extern SDL_Rect background;
 extern EndTurnButton etButton;

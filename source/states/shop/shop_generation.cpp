@@ -6,8 +6,7 @@ void Shop::generate_items()
     shopCards.resize(8); shopRelics.resize(6);
     for (int i{0}; i < 8; i++)
     {
-        shuffle_vector(commonCardPool); shuffle_vector(uncommonCardPool); shuffle_vector(rareCardPool);
-        int seed = rand_int(0, 10);
+        int seed = rand_int(0, 9);
         int costRand;
         vector<cardIdInv>* poolRand;
         if (seed >= 0 && seed < 6)
@@ -25,7 +24,9 @@ void Shop::generate_items()
             costRand = rand_int(56, 74);
             poolRand = &rareCardPool;
         }
-        shopCards[i] = CardItem(costRand, Card((*poolRand)[0], i));
+        shuffle_vector(*poolRand);
+        shopCards[i] = CardItem(costRand, Card(poolRand->front(), i));
+        cout << "generated card id" << poolRand->front() << endl;
         shopCards[i].pool = poolRand;
         shopCards[i].card.move_rect(160+200*(i%6), 100+320*(i/6));
         shopCards[i].costText = Text(20, shopCards[i].card.rect.x+81, shopCards[i].card.rect.y+240,255,255,255);
@@ -37,7 +38,7 @@ void Shop::generate_items()
     vector<relicId> copyRare(rareRelicPool.begin(), rareRelicPool.end());
     for (int i{0}; i < 6; i++)
     {
-        int seed = rand_int(0, 10);
+        int seed = rand_int(0, 9);
         int costRand;
         set<relicId>* poolRand;
         vector<relicId>* copy;
@@ -63,7 +64,8 @@ void Shop::generate_items()
         if (copy->size() == 0) shopRelics[i] = RelicItem(100, Relic(circlet));
         else
         {
-            shopRelics[i] = RelicItem(costRand, Relic((*copy)[0]));
+            shopRelics[i] = RelicItem(costRand, Relic(copy->front()));
+            cout << "generated relic id" << copy->front() << endl;
             copy->erase(copy->begin());
         }
         shopRelics[i].pool = poolRand;

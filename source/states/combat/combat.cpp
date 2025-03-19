@@ -72,7 +72,7 @@ void init_components(vector<Enemy> &stageEnemies)
         stageEnemies.push_back(Enemy(possibleEnemies[i], i));
         stageEnemies.back().generate_intent();
     }
-    rMenu.generate_items();
+    rMenu.generate_items(20, 100, 6, 10, 9, 7, 10, 9);
     cout << "Initiation success" << endl;
 }
 

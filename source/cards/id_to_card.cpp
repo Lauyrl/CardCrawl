@@ -19,8 +19,8 @@ void iron_wave_action(vector<Enemy>& enemies, int queried)
 }
 
 const map<cardIdInv, CardAttributes> Card::cAttriMap = {
-    {strike,    {1, Attack, "assets/cards/strike_r.png", strike_action}},
-    {defend,    {1, Skill, "assets/cards/defend_r.png", defend_action}},
+    {strike,    {1, Attack, "assets/cards/strike_r.png" , strike_action}},
+    {defend,    {1, Skill, "assets/cards/defend_r.png"  , defend_action}},
     {iron_wave, {1, Attack, "assets/cards/iron_wave.png", iron_wave_action}},
-    {flex,      {0, Skill, "assets/cards/flex.png", flex_action}},
+    {flex,      {0, Skill, "assets/cards/flex.png"      , flex_action}},
 };

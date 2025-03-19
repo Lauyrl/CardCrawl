@@ -7,6 +7,7 @@ void Game::display_shop()
     if (game.shopInit)
     {
         deck.renew_inventory();
+        cout << "renewed" << endl;
         shop.generate_items();
         shop.rsButton.used = false;
         game.shopInit = false;

@@ -1,9 +1,6 @@
 #include "card.h"
 
-Card::Card() : Gui(CARD_POS_X_DEFAULT, CARD_POS_Y, 215, 285) 
-{
-    attributes = cAttriMap.at(strike);
-}
+Card::Card() : Gui(CARD_POS_X_DEFAULT, CARD_POS_Y, 215, 285) {}//{ attributes = cAttriMap.at(strike); }
 
 Card::Card(cardIdInv id_, int initPos) : Gui(CARD_POS_X_DEFAULT+STEP_INCREMENT*initPos, CARD_POS_Y, 215, 285) //This is for sure off center
 {

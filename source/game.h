@@ -28,20 +28,22 @@ class Game
         void cleanup_textures();
 
         enum gameStates {
-            start_menu, map, combat, event, rest, shop
+            start_menu, map, combat, event, rest, shop, treasure
         };
         int gameState{map};
-        bool combatInit{true};
-        bool mapGenerated{false};
         bool restInit{true};
-        bool eventInit{true};
         bool shopInit{true};
+        bool eventInit{true};
+        bool combatInit{true};
+        bool treasureInit{true};
+        bool mapGenerated{false};
         void state_switch(gameStates state);
         void display_map();
         void display_rest();
         void display_shop();
         void display_event();
         void display_combat();
+        void display_treasure();
 
         std::map<int, TTF_Font*> fontMap;
         std::map<std::string, SDL_Texture*> textureMap;

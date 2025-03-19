@@ -11,7 +11,7 @@ Node::Node(int pos_, int lev_) : Gui(0, 0, 60, 60)
     move_rect(270+150*pos, NODE_POS_Y_DEFAULT+NODE_Y_STEP_INCREMENT*lev);
 }
 
-vector<Node::nodeType> Node::possibleTypes = {shop, combat}; //combat, rest, event, shop
+vector<Node::nodeType> Node::possibleTypes = {shop, combat, combat, event, treasure}; //combat, rest, event, shop
 void Node::rand_type()
 {
     shuffle_vector(possibleTypes);
@@ -44,6 +44,13 @@ bool Node::select()
             case (shop):
             {
                 game.state_switch(game.gameStates::shop);
+                game.shopInit = true;
+                return true;
+            }
+            case (treasure):
+            {
+                game.state_switch(game.gameStates::treasure);
+                game.treasureInit = true;
                 return true;
             }
         }

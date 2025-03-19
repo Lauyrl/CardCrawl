@@ -84,6 +84,11 @@ void Tree::display()
                 game.render_img("assets/map/shop.png", node.second.rect.x, node.second.rect.y, 60, 60, alpha, NULL);
                 break;
             }
+            case (node.second.treasure):
+            {
+                game.render_img("assets/map/treasure.png", node.second.rect.x, node.second.rect.y, 60, 60, alpha, NULL);
+                break;
+            }
         }
     }
     if (!panel.inMenu) scrollDirection = SCROLL_NULL;

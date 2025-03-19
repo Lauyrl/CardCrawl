@@ -41,11 +41,11 @@ void Character::display_statuses()
     }
 }
 
-void Character::display()
+void Character::display(bool info)
 {
-    display_hp();
-    display_block();
-    display_statuses();
+    if (info) display_hp();
+    if (info) display_block();
+    if (info) display_statuses();
     game.render_img("assets/character/ironclad.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
 }
 

@@ -19,7 +19,7 @@ class Character : public Gui
         void display_hp();
         void display_statuses();
         void display_energy();
-        void display();
+        void display(bool info = true);
         void heal(int amount);
         void gain_block(int amount);
         void take_damge(int dmg);
