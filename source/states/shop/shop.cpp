@@ -59,7 +59,7 @@ void Shop::purchase_process()
     {
         if (shopRelics[i].cost <= ironclad.gold && shopRelics[i].relic.detect_click()) 
         {
-            ironclad.relicInv.push_back(Relic(shopRelics[i].relic.id)); //written weirdly so that new relic elems have correct rect
+            ironclad.add_relic(shopRelics[i].relic.id)
             ironclad.gold -= shopRelics[i].cost;
             if (shopRelics[i].relic.id != circlet) shopRelics[i].pool->erase(shopRelics[i].relic.id);
             shopRelics.erase(shopRelics.begin()+i);

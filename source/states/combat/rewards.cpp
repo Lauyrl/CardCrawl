@@ -31,7 +31,7 @@ void RelicReward::process()
 {
     if (!panel.inMenu && detect_click())
     {
-        ironclad.relicInv.push_back(Relic(relic.id));
+        ironclad.add_relic(relic.id);
         if (relic.id != circlet) pool->erase(relic.id);
         used = true;
     }
@@ -120,7 +120,7 @@ void RewardMenu::generate_items(int gMin, int gMax, int cUncomThres, int cRareTh
         for (int i{0}; i < 3; i++)
         {
             shuffle_vector(commonCardPool); shuffle_vector(uncommonCardPool); shuffle_vector(rareCardPool);
-            vector<cardIdInv>* poolRand;
+            vector<cardId>* poolRand;
             int seed = rand_int(0, cMax);
             if (seed >= 0 && seed < cUncomThres) poolRand = &commonCardPool;            
             else if (seed >= cUncomThres && seed < rRareThres) poolRand = &uncommonCardPool;

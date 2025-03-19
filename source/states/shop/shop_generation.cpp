@@ -8,7 +8,7 @@ void Shop::generate_items()
     {
         int seed = rand_int(0, 9);
         int costRand;
-        vector<cardIdInv>* poolRand;
+        vector<cardId>* poolRand;
         if (seed >= 0 && seed < 6)
         {
             costRand = rand_int(20, 28);

@@ -11,7 +11,7 @@ void TopPanel::display()
     goldText.render_text(to_string(ironclad.gold));
     dButton.process();
     inMenu = dButton.active;
-    for (auto relic:ironclad.relicInv) relic.display();
+    for (auto relic:ironclad.relicInv) relic.second.display();
 }
 
 DeckButton::DeckButton() : Gui(1300, 0, 50, 50) {}

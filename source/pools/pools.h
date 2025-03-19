@@ -2,9 +2,9 @@
 
 #include "../gui/top_panel.h"
 
-extern vector<cardIdInv> commonCardPool;
-extern vector<cardIdInv> uncommonCardPool;
-extern vector<cardIdInv> rareCardPool;
+extern vector<cardId> commonCardPool;
+extern vector<cardId> uncommonCardPool;
+extern vector<cardId> rareCardPool;
 
 extern set<relicId> commonRelicPool;
 extern set<relicId> uncommonRelicPool;

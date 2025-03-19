@@ -14,12 +14,14 @@ struct eventAttributes
     string titleText;
     string descText;
     vector<Choice> choices;
+    bool unique;
 };
 
 
 enum choiceId {
     leave,
-    duplicator_pray
+    duplicator_pray,
+    bf_spirits_offer
 };
 struct choiceAttributes
 {

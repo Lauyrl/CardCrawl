@@ -6,22 +6,28 @@ void Deck::build_hand()
     hand.resize((drawPile.size()<maxSize) ? drawPile.size() : maxSize);
     for (int i{(drawPile.size()<maxSize) ? drawPile.size()-1 : maxSize-1}; i >= 0 ; i--)
     {
-        add_card(hand, i, drawPile[i]);
+        hand[i] = Card(drawPile[i].id, i);
+        hand[i].selected = false;
         drawPile.erase(drawPile.begin()+i);
     }
 }
 
 void Deck::renew_hand()
 {
+    selectedIdx = NULL_CARD;
     discard_hand();
+    refill_draw_pile();
+    build_hand();
+}
+
+void Deck::refill_draw_pile()
+{
     if (drawPile.size() == 0)
     {
         drawPile = discardPile;
         discardPile.clear();
     }
-    build_hand();
 }
-
 void Deck::discard_hand()
 {
     for (size_t i{0}; i < hand.size() ; i++)
@@ -58,9 +64,15 @@ void Deck::hand_process(bool inMenu, vector<Enemy>& stageEnemies)
     usedIdx = NULL_CARD;
     for (size_t current{0}; current < hand.size(); current++)
     {
-        hand[current].highlight();
-        hand[current].display_in_hand();
+        if (hand[current].highlight()) highlightedIdx = current;
+        hand[current].display_in_hand(hand.size());   
         if (!inMenu) interact_card(current, stageEnemies); 
+    }
+    if (selectedIdx != NULL_CARD) hand[selectedIdx].display_in_hand(hand.size());
+    if (highlightedIdx != NULL_CARD)
+    {
+        hand[highlightedIdx].display_in_hand(hand.size());
+        highlightedIdx = NULL_CARD;
     }
     if (usedIdx != NULL_CARD) discard_used();
 }
@@ -68,7 +80,7 @@ void Deck::hand_process(bool inMenu, vector<Enemy>& stageEnemies)
 void Deck::interact_card(int current, vector<Enemy> &stageEnemies)
 {
     if (hand[current].detect_click()) select_card(current);
-    if (selectedIdx != NULL_CARD)     activate_card_process(stageEnemies); //SlCI is NULL_CARD after activation adn by default
+    if (selectedIdx != NULL_CARD) activate_card_process(stageEnemies); //SlCI is NULL_CARD after activation adn by default
 }
 
 void Deck::activate_card_process(vector<Enemy> &stageEnemies)

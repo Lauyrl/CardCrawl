@@ -1,9 +1,9 @@
 #include "pools.h"
 
-vector<cardIdInv> commonCardPool   = {strike, defend, iron_wave, flex};
-vector<cardIdInv> uncommonCardPool = {strike, strike};
-vector<cardIdInv> rareCardPool     = {strike, strike};
+vector<cardId> commonCardPool   = {strike, defend, iron_wave, flex};
+vector<cardId> uncommonCardPool = {strike, strike};
+vector<cardId> rareCardPool     = {strike, strike};
  
 set<relicId> commonRelicPool   = {anchor, blood_vial};
-set<relicId> uncommonRelicPool = {anchor, blood_vial};
+set<relicId> uncommonRelicPool = {shuriken, gremlin_horn};
 set<relicId> rareRelicPool     = {anchor, blood_vial};

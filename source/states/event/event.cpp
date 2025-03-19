@@ -2,40 +2,52 @@
 
 void Game::display_event()
 {
-    static Event teste;
+    static Event event;
     if (eventInit)
     {
         deck.renew_inventory();
-        for (auto& choice:teste.attributes.choices) choice.currentUses = choice.attributes.uses;
+        event.generate();
+        for (auto& choice:event.attributes.choices) choice.currentUses = choice.attributes.uses;
         eventInit = false;
     }
     
     render_img("assets/scene/def_background.jpg", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 255, NULL);
     render_img("assets/events/panel.png", 50, 150, 1380, 650, 255, NULL);
-    teste.process();
+    event.process();
 
     panel.display();
 }
 
-static vector<eventId> eventIdList = {duplicator};
+static vector<eventId> eventIdList = {bf_spirits, duplicator}; //duplicator, bf_spirits
 bool Event::inMenu = false;
-Event::Event()
+Event::Event() {}
+
+void Event::generate()
 {
     shuffle_vector(eventIdList);
     id = eventIdList.back();
     attributes = evAttriMap.at(id);
+    complete = false;
 }
 
 void Event::process()
 {
-    game.render_img(attributes.imgName.c_str(), 100, 260, 480, 480, 255, NULL);
+    game.render_img(attributes.imgName.c_str(), 100, 272, 480, 480, 255, NULL);
     title.render_text(attributes.titleText);
     desc.render_text(attributes.descText);
-    for (Choice& choice:attributes.choices) choice.process();
+    if (!complete)
+    {
+        for (Choice& choice:attributes.choices) 
+        {
+            if (attributes.unique) { if (choice.process()) complete = true; }
+            else choice.process();
+        }
+    }
+    if (complete) attributes.choices.back().process();
 }
 
 
-Choice::Choice(choiceId id_, int pos_) : Gui(580, 500+100*pos_, 800, 50) 
+Choice::Choice(choiceId id_, int pos_) : Gui(616, 622+80*pos_, 760, 50) 
 {
     id = id_;
     pos = pos_;
@@ -45,11 +57,11 @@ Choice::Choice(choiceId id_, int pos_) : Gui(580, 500+100*pos_, 800, 50)
 
 void Choice::display()
 {
-    game.render_img("assets/ui/event/enabled_button.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
+    game.render_img("assets/events/enabled_button.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
     label.render_text(attributes.label);
 }
 
-void Choice::process()
+bool Choice::process()
 {
     if (currentUses > 0 && !Event::inMenu)
     {
@@ -68,6 +80,8 @@ void Choice::process()
         {
             chosen = false;
             Event::inMenu = false;
+            return true;
         } 
     }
+    return false;
 }

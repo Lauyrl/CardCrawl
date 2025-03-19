@@ -28,5 +28,5 @@ vector<possibleActions> cultist_ac = {
 
 const map<enemyId, enemyAttributes> Enemy::eAttriMap = {
     {acid_slime, {24, 3, "assets/enemies/acid_slime.png", acid_slime_ac}},
-    {cultist,    {18, 5, "assets/enemies/cultist2.png"  , cultist_ac}}
+    {cultist,    {18, 5, "assets/enemies/cultist.png"  , cultist_ac}}
 };

@@ -18,7 +18,7 @@ void iron_wave_action(vector<Enemy>& enemies, int queried)
     enemies[queried].take_damage(5);
 }
 
-const map<cardIdInv, CardAttributes> Card::cAttriMap = {
+const map<cardId, CardAttributes> Card::cAttriMap = {
     {strike,    {1, Attack, "assets/cards/strike_r.png" , strike_action}},
     {defend,    {1, Skill, "assets/cards/defend_r.png"  , defend_action}},
     {iron_wave, {1, Attack, "assets/cards/iron_wave.png", iron_wave_action}},

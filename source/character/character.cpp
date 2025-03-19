@@ -4,7 +4,7 @@ double Character::maxHealth = 100.0;
 int Character::health = 1; //static
 int Character::gold = 10000;
 
-std::vector<cardIdInv> Character::cardIdInv = {
+std::vector<cardId> Character::cardIdInv = {
     strike, strike, strike, strike, strike, defend, defend, defend, iron_wave, iron_wave
 };
 Character::Character() : Gui(140, 300, 280, 200) {}
@@ -36,6 +36,8 @@ void Character::display_statuses()
         if(status.second.level != 0) 
         {
             game.render_img(status.second.sprite, 68+rect.x+30*i, rect.y+210, 30, 30, 200, NULL);
+            status.second.levelText = Text(16, 89+rect.x+30*i, rect.y+220, 240, 240, 240);
+            status.second.levelText.render_text(to_string(status.second.level));
             i++;
         }
     }
@@ -43,9 +45,12 @@ void Character::display_statuses()
 
 void Character::display(bool info)
 {
-    if (info) display_hp();
-    if (info) display_block();
-    if (info) display_statuses();
+    if (info) 
+    {
+        display_hp();
+        display_block();
+        display_statuses();
+    }
     game.render_img("assets/character/ironclad.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
 }
 
@@ -60,7 +65,15 @@ void Character::lose_energy(int amount) { energy -= amount; }
 
 void Character::reset_energy() { lose_energy(energy-3); }
 
-void Character::reformat_relics() { for (int i{0}; i < relicInv.size(); i++) relicInv[i].move_rect(60*i-25, 30); }
+void Character::reformat_relics() 
+{
+    int i{0}; 
+    for (auto& relic:relicInv) 
+    {
+        relic.second.move_rect(60*i-25, 30);
+        i++; 
+    }
+}
 
 void Character::heal (int amount)
 {
@@ -68,11 +81,7 @@ void Character::heal (int amount)
     if (health > maxHealth) health = maxHealth;
 }
 
-void Character::gain_block(int amount)
-{
-    block += amount;
-    // cout << chara.block << ' ' << endl;
-}
+void Character::gain_block(int amount) { block += amount; }
 
 void Character::take_damge(int dmg)
 {
@@ -92,6 +101,32 @@ void Character::renew()
 {
     reset_energy();
     combat_start_relic_renew();
+    during_turn_relic_renew();
     for (auto& status:statuses) { status.second.level = 0; }
     flexEndTurnEffect = 0;
+    attackCardsUsed = 0;
+}
+
+void Character::renew_turn()
+{
+    block = 0;
+    reset_energy();
+    decrement_statuses();
+    during_turn_relic_renew();
+    attackCardsUsed = 0;
+}
+
+void Character::add_card(cardId id)
+{
+    cardIdInv.push_back(id);
+    if (relicInv.find(singing_bowl) != relicInv.end()) 
+    {
+        maxHealth += 2; heal(2);
+    }
+}
+
+void Character::add_relic(relicId id)
+{
+    relicInv[id] = Relic(id);
+    reformat_relics();
 }

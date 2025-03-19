@@ -5,7 +5,7 @@
 #include "../gui/gui.h"
 
 enum relicId {
-    circlet, anchor, blood_vial
+    circlet, anchor, blood_vial, shuriken, gremlin_horn, singing_bowl
 };
 
 struct relicAttributes
@@ -36,6 +36,7 @@ struct status
     int level;
     double value;
     const char* sprite;
+    Text levelText = Text(0,0,0,0,0,0);
 };
 
 

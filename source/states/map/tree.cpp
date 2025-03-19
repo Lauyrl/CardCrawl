@@ -51,7 +51,7 @@ void draw_thick_line(int x1, int y1, int x2, int y2)
 
 void Tree::display()
 {
-    if (!panel.inMenu) scroll_val_upper(scrollVal, 1000);
+    if (!panel.inMenu) scroll_val(scrollVal, 0, 1000);
     for (const auto& node:nodeMap)
     {
         for (const auto& next:node.second.next) draw_thick_line(30+node.second.rect.x, 30+NODE_POS_Y_DEFAULT+NODE_Y_STEP_INCREMENT*node.second.lev+scrollVal, 300+150*(next%10), NODE_POS_Y_DEFAULT+30+NODE_Y_STEP_INCREMENT*(next/10)+scrollVal);
@@ -59,7 +59,7 @@ void Tree::display()
     for (auto& node:nodeMap) 
     {   
         int alpha;
-        if (!(node.second.lev == playerCurrentLev && (playerPath.size() == 0 || node.second.prev.find(playerPath.back()) != node.second.prev.end()))) alpha = 100;
+        if (!(node.second.lev == playerCurrentLev && (playerPath.size() == 0 || node.second.prev.find(playerPath.back()) != node.second.prev.end()))) alpha = 80;
         else alpha = 255;
         node.second.rect.y = NODE_POS_Y_DEFAULT+NODE_Y_STEP_INCREMENT*node.second.lev+scrollVal;
         switch (node.second.type)

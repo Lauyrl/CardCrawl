@@ -23,9 +23,7 @@ void Game::display_combat()
         if (charaRenew)
         {
             deck.renew_hand();
-            ironclad.block = 0;
-            ironclad.reset_energy();
-            ironclad.decrement_statuses();
+            ironclad.renew_turn();
             charaRenew = false;
             enemy_generate_intents(stageEnemies);
         }
@@ -33,6 +31,7 @@ void Game::display_combat()
         ironclad.display_energy();
         etButton.display();
         deck.hand_process(inMenu, stageEnemies);
+        ironclad.during_turn_relic(enemyDeaths);
         //cout << SDL_GetTicks() - frameStart << endl; 
     }
     else
@@ -44,6 +43,7 @@ void Game::display_combat()
         }
     }
     piles_process(dcpButton, drpButton);
+    enemyDeaths = 0;
     panel.display();
 }
 
@@ -55,6 +55,7 @@ vector<enemyId> possibleEnemies = {acid_slime, acid_slime, cultist, cultist, cul
 vector<Enemy> stageEnemies;
 RewardMenu rMenu;
 int turn = 0;
+int enemyDeaths = 0;
 int activeEnemyIdx = 0;
 bool inMenu = false;
 bool charaRenew = false;
@@ -73,6 +74,7 @@ void init_components(vector<Enemy> &stageEnemies)
         stageEnemies.back().generate_intent();
     }
     rMenu.generate_items(20, 100, 6, 10, 9, 7, 10, 9);
+    enemyDeaths = 0;
     cout << "Initiation success" << endl;
 }
 
@@ -91,7 +93,11 @@ void enemy_process(vector<Enemy> &stageEnemies)
 {
     for (int i{stageEnemies.size()-1}; i >= 0 ; i--)
     {
-        if (stageEnemies[i].attributes.hp <= 0) stageEnemies.erase(stageEnemies.begin()+i);
+        if (stageEnemies[i].attributes.hp <= 0) 
+        {
+            stageEnemies.erase(stageEnemies.begin()+i);
+            enemyDeaths++;
+        }
         else stageEnemies[i].display();
     }
 }

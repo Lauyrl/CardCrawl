@@ -5,7 +5,7 @@
 #include "../map/map.h"
 #include "../../pools/pools.h"
 
-const int MAX_ENEMIES = 1; /////////////////////////////////////////////////////////
+const int MAX_ENEMIES = 3; /////////////////////////////////////////////////////////
 
 extern SDL_Rect background;
 extern EndTurnButton etButton;
@@ -14,6 +14,7 @@ extern DiscardPileButton dcpButton;
 extern vector<Enemy> stageEnemies;
 extern vector<enemyId> possibleEnemies;
 extern int turn;
+extern int enemyDeaths;
 extern int activeEnemyIdx;
 extern bool inMenu;
 extern bool charaRenew;

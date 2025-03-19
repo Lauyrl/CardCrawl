@@ -10,12 +10,13 @@ class Event
     public:
         Event();
         void process();
-        Text title = Text(50, 260, 160, 255, 255, 255);
-        Text desc  = Text(24, 600, 240, 255, 255, 255);
+        void generate();
+        Text title = Text(50, 260, 170, 255, 255, 255);
+        Text desc  = Text(24, 620, 280, 255, 255, 255);
         eventId id;
         eventAttributes attributes;
-        bool filter{false};
         static bool inMenu;
+        bool complete{false};
         static const map<eventId, eventAttributes> evAttriMap;
 };
 
@@ -24,7 +25,7 @@ class Choice : public Gui
     public:
         Choice(choiceId id_, int pos_);
         void display();
-        void process();
+        bool process();
         int pos;
         bool chosen{false};
         int currentUses;
