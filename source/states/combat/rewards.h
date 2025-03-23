@@ -13,18 +13,19 @@ class GoldReward : public Gui
         void display();
         void process();
         int amount{0};
-        Text amountText = Text(28, rect.x+70, rect.y+20, 0, 0, 0);
+        Text amountText = Text(28, rect.x+98, rect.y+32, 20, 20, 20);
         bool used{false};
 };
 class RelicReward : public Gui
 {
     public:
         RelicReward(int order_);
-        void display(bool pairUsed);
+        void display(bool pairUsed, bool pairHovered);
         void process();
         int order;
         Relic relic;
         set<relicId>* pool;
+        Text warningText = Text(0,0,0,0,0,0);
         bool used{false};
 };
 class RelicRewardPair

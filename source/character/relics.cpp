@@ -6,14 +6,14 @@ void circlet_ef()     { cout << "circlet." << endl; }
 void shuriken_ef()    { ironclad.statuses[strength].level++; }
 void gremlin_horn_ef(){ ironclad.energy++; deck.draw_card(); }
 const unordered_map<relicId, relicAttributes> Relic::relAttriMap = {
-    {circlet,      {"assets/relics/circlet.png", circlet_ef}},
-    {anchor,       {"assets/relics/anchor.png", anchor_ef}},
-    {blood_vial,   {"assets/relics/blood_vial.png", blood_vial_ef}},
-    {shuriken,     {"assets/relics/shuriken.png", shuriken_ef}},
-    {gremlin_horn, {"assets/relics/gremlin_horn.png", gremlin_horn_ef}},
-    {singing_bowl, {"assets/relics/singing_bowl.png", [](){}}},
-    {bronze_scales,{"assets/relics/bronze_scales.png", [](){}}},
-    {tea_set,      {"assets/relics/tea_set.png", [](){}}},
+    {circlet      ,{"circlet"      , circlet_ef      ,"Appears once a pool is empty"}},
+    {anchor       ,{"anchor"       , anchor_ef       ,"Start combat with 10 block"}},
+    {blood_vial   ,{"blood_vial"   , blood_vial_ef   ,"Heal 2HP at combat start"}},
+    {shuriken     ,{"shuriken"     , shuriken_ef     ,"After playing 3 Attack cards in\nONE turn, gain 1 Strength"}},
+    {gremlin_horn ,{"gremlin_horn" , gremlin_horn_ef ,"When an enemy dies, gain 1 energy,\ndraw 1 card"}},
+    {singing_bowl ,{"singing_bowl" , [](){}          ,"???"}},
+    {bronze_scales,{"bronze_scales", [](){}          ,"When attacked, deal 3DMG to the\n attacker"}},
+    {tea_set      ,{"tea_set"      , [](){}          ,"After entering a rest site, start\nthe next combat with +2ENERGY"}},
 };
 
 
@@ -23,4 +23,25 @@ Relic::Relic(relicId id_) : Gui(60*((int)ironclad.relicInv.size())-25, 30, 100, 
     id = id_;
     attributes = relAttriMap.at(id);
 }
-void Relic::display() { game.render_img(attributes.sprite, rect.x, rect.y, rect.w, rect.h, 200, NULL); }
+void Relic::display(int where) 
+{ 
+    game.render_img(("assets/relics/"+attributes.name+".png").c_str(), rect.x, rect.y, rect.w, rect.h, 200, NULL); 
+    if (detect_cursor_hover()) display_info(where);
+}
+void Relic::display_info(int where) 
+{ 
+    if (where == ON_PANEL)
+    {
+        game.render_img("assets/ui/popup.png", rect.x-160, rect.y-10, 700, 300, 220, NULL);
+        nameText = Text(24, rect.x+35, rect.y+80 , 255, 255, 190);
+        descText = Text(20, rect.x+35, rect.y+110, 255, 255, 255);
+        nameText.render_text(attributes.name);
+        descText.render_text(attributes.desc);
+    }
+    else 
+    {
+        game.render_img("assets/ui/popup.png", rect.x-560, rect.y-78, 700, 300, 220, NULL);
+        descText = Text(22, rect.x-360, rect.y+15, 255, 255, 255);
+        descText.render_text(attributes.desc);
+    }
+}

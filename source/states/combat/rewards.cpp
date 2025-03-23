@@ -6,7 +6,7 @@ void GoldReward::display()
     Uint8 alpha = (used)? 100:240;
     game.render_img("assets/ui/combat/reward_item_panel.png", rect.x, rect.y, rect.w, rect.h, alpha, NULL);
     game.render_img("assets/ui/gold.png", rect.x+23, rect.y+16, 70, 70, alpha, NULL);
-    amountText.render_text(to_string(amount));
+    amountText.render_text(to_string(amount)+" gold");
 
 }
 void GoldReward::process() 
@@ -18,14 +18,21 @@ void GoldReward::process()
     }
 }
 
-RelicReward::RelicReward(int order_) : Gui(465, 370+100*order_, 510, 100) { order = order_; }
-void RelicReward::display(bool pairUsed) 
+RelicReward::RelicReward(int order_) : Gui(465, 370+100*order_, 510, 100) 
+{ 
+    order = order_; 
+    warningText = Text(20, rect.x+290, rect.y+37, 240, 40, 40);
+}
+void RelicReward::display(bool pairUsed, bool pairHovered) 
 {
-    Uint8 alpha = (used)? 100:240;
+    Uint8 alpha = (used||pairHovered)? 100:240;
     if (pairUsed) alpha = 20;
     game.render_img("assets/ui/combat/reward_item_panel.png", rect.x, rect.y, rect.w, rect.h, alpha, NULL);
     relic.move_rect(rect.x+12, rect.y);
-    relic.display();
+    relic.display(ON_REWARD);
+    relic.nameText = Text(28, rect.x+100, rect.y+32, 20, 20, 20);
+    relic.nameText.render_text(relic.attributes.name);
+    warningText.render_text("(You can only pick one.)");
 }
 void RelicReward::process() 
 {
@@ -40,9 +47,9 @@ void RelicReward::process()
 RelicRewardPair::RelicRewardPair() {}
 void RelicRewardPair::display() 
 {
-    first.display(second.used);
-    second.display(first.used);
-    game.render_img("assets/ui/combat/relic_link.png", 640, 393, 150, 150, 200, NULL);
+    first.display(second.used, second.detect_cursor_hover());
+    second.display(first.used,  first.detect_cursor_hover());
+    game.render_img("assets/ui/combat/relic_link.png", 640, 395, 150, 150, 220, NULL);
 
 }
 void RelicRewardPair::process() 
