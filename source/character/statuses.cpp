@@ -1,12 +1,6 @@
 #include "character.h"
 
-map<statusId, status> Character::statuses = {
-    {weakness,   {0, 0.25, "assets/ui/combat/status/weak.png"}},
-    {strength,   {0, 1, "assets/ui/combat/status/strength.png"}},
-    {vulnerable, {0, 0.5, "assets/ui/combat/status/vulnerable.png"}},
-    {thorns,     {0, 1, "assets/ui/combat/status/thorns.png"}}
-};
-
+map<statusId, status> Character::statuses = globalStatuses;
 set<statusId> decrementableStatuses = {
     weakness, vulnerable
 };
@@ -18,10 +12,10 @@ void Character::decrement_statuses()
         if (decrementableStatuses.find(status.first) != decrementableStatuses.end() && status.second.level > 0)
             status.second.level--;
     }
-    if (flexEndTurnEffect)
+    if (flexUsed)
     {
-        statuses[strength].level -= 2*flexEndTurnEffect;
-        flexEndTurnEffect = 0;
+        statuses[strength].level -= 2*flexUsed;
+        flexUsed = 0;
     }
     cout << "strength: " << statuses[strength].level << endl;
 }

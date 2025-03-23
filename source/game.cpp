@@ -39,6 +39,7 @@ void Game::update()
     if (gameState == event) display_event();
     if (gameState == combat) display_combat();
     if (gameState == treasure) display_treasure();
+    if (gameState == start_menu) display_start_menu();
 }
 
 void Game::clear_render()

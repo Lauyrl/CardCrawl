@@ -5,7 +5,7 @@ bool duplicator_pray_ef()
     int chosenCard = NULL_CARD; chosenCard = deck.interact_cards_event(panel.inMenu, 3);
     if (chosenCard != NULL_CARD)
     {
-        ironclad.cardIdInv.push_back(deck.inventory[chosenCard].id);
+        ironclad.add_card(deck.inventory[chosenCard].id);
         return true;
     }
     return false;

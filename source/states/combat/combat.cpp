@@ -7,11 +7,12 @@ void Game::display_combat()
     game.render_img("assets/scene/scene.jpg", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 255, &background);
     if (combatInit)
     {
-        init_components(stageEnemies);
+        init_components();
         combatInit = false;
     }
     ironclad.display();
-    enemy_process(stageEnemies);
+    enemy_process();
+    if (death()) return;
     if (stageEnemies.size() == 0) 
     {
         combat_win();
@@ -20,65 +21,72 @@ void Game::display_combat()
 
     if (turn%2 == 0)
     {
-        if (charaRenew)
+        if (charaTurnRenew)
         {
             deck.renew_hand();
             ironclad.renew_turn();
-            charaRenew = false;
-            enemy_generate_intents(stageEnemies);
+            enemy_generate_intents();
+            charaTurnRenew = false;
         }
-        if (!inMenu && etButton.detect_click()) turn++;
+        if (!inMenu && et.detect_click()) { turn++; ironclad.decrement_statuses(); }
+        et.display();
         ironclad.display_energy();
-        etButton.display();
         deck.hand_process(inMenu, stageEnemies);
-        ironclad.during_turn_relic(enemyDeaths);
+        ironclad.during_turn_relic();
         //cout << SDL_GetTicks() - frameStart << endl; 
     }
     else
     {
-        if (enemy_turn(stageEnemies)) //wait for enemy_turn() to finish
+        if (enemy_turn()) //wait for enemy_turn() to finish
         {
-            charaRenew = true;
+            charaTurnRenew = true;
             turn++;
         }
     }
-    piles_process(dcpButton, drpButton);
-    enemyDeaths = 0;
+    piles_process();
     panel.display();
 }
 
-SDL_Rect background = {0, 280, 1920, 1225};
-EndTurnButton etButton;
-DrawPileButton drpButton;
-DiscardPileButton dcpButton;
-vector<enemyId> possibleEnemies = {acid_slime, acid_slime, cultist, cultist, cultist};
+
+EndTurnButton et;
+DrawPileButton drp;
+DiscardPileButton dcp;
+vector<vector<enemyId>> formations = {
+    {acid_slime, acid_slime, acid_slime},
+    {cultist, cultist},
+    {slaver_blue, slaver_blue},
+};
 vector<Enemy> stageEnemies;
 RewardMenu rMenu;
 int turn = 0;
-int enemyDeaths = 0;
 int activeEnemyIdx = 0;
 bool inMenu = false;
-bool charaRenew = false;
-void init_components(vector<Enemy> &stageEnemies)
+bool charaTurnRenew = false;
+
+void enemy_generate()
+{
+    stageEnemies.clear();
+    shuffle_vector(formations);
+    vector<enemyId> chosen = formations.front();
+    for (int i{0}; i < chosen.size(); i++) 
+    {
+        stageEnemies.push_back(Enemy(chosen[i], i));
+        stageEnemies.back().generate_intent();
+    }
+}
+
+void init_components()
 {
     turn = 0;
     deck.set_up_piles();
     deck.build_hand();
     ironclad.renew();
-    ironclad.combat_start_relic();
-    stageEnemies.clear();
-    shuffle_vector(possibleEnemies);
-    for (int i{0}; i < MAX_ENEMIES; i++) 
-    {
-        stageEnemies.push_back(Enemy(possibleEnemies[i], i));
-        stageEnemies.back().generate_intent();
-    }
+    enemy_generate();
     rMenu.generate_items(20, 100, 6, 10, 9, 7, 10, 9);
-    enemyDeaths = 0;
     cout << "Initiation success" << endl;
 }
 
-void piles_process(DiscardPileButton &dcp, DrawPileButton &drp)
+void piles_process()
 {
     if (!panel.inMenu)
     {
@@ -89,22 +97,22 @@ void piles_process(DiscardPileButton &dcp, DrawPileButton &drp)
     inMenu = (drp.displaying || dcp.displaying || panel.inMenu);
 }
 
-void enemy_process(vector<Enemy> &stageEnemies)
+void enemy_process()
 {
     for (int i{stageEnemies.size()-1}; i >= 0 ; i--)
     {
         if (stageEnemies[i].attributes.hp <= 0) 
         {
             stageEnemies.erase(stageEnemies.begin()+i);
-            enemyDeaths++;
+            if (ironclad.check_relic(gremlin_horn)) ironclad.relicInv.at(gremlin_horn).attributes.effect(); 
         }
         else stageEnemies[i].display();
     }
 }
 
-void enemy_generate_intents(vector<Enemy> &stageEnemies) { for (auto& enemy:stageEnemies) enemy.generate_intent(); }
+void enemy_generate_intents() { for (auto& enemy:stageEnemies) enemy.generate_intent(); }
 
-bool enemy_turn(vector<Enemy> &stageEnemies)
+bool enemy_turn()
 {
     if (!stageEnemies[activeEnemyIdx].enemy_action()) return false; // return true after animation finishes
     else 
@@ -124,4 +132,31 @@ void combat_win()
         game.state_switch(game.gameStates::map);
     }
     panel.display();
+}
+
+bool death()
+{   
+    static int t{0};
+    if (ironclad.health <= 0)
+    {
+        t++;
+        if (t < 60)
+        {
+            SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255/60*t);
+            SDL_RenderFillRect(game.renderer, &black);
+        }
+        else if (t == 80)
+        {
+            t = 0;
+            game.mapGenerated = false;
+            game.state_switch(Game::gameStates::start_menu);
+        }
+        else
+        {
+            SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255);
+            SDL_RenderFillRect(game.renderer, &black);
+        }
+        return true;
+    }
+    else return false;
 }

@@ -7,8 +7,7 @@
 using namespace std;
 //define outside class to avoid clutter
 enum enemyId {
-    acid_slime,
-    cultist
+    acid_slime, cultist, slaver_blue
 };
 
 class Enemy; //forward declaration

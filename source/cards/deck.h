@@ -24,13 +24,14 @@ class Deck
         void draw_card();
         void discard_used();
         void select_card(int toSelect);
-        void activate_card_process(vector<Enemy> &stageEnemies);
+        void query_and_activate_card_process(vector<Enemy> &stageEnemies);
         void interact_card(int current, vector<Enemy> &stageEnemies);
         int interact_cards_event(bool inMenu, int textType);
 
         vector<Card> hand;
         vector<Card> drawPile;
         vector<Card> discardPile;
+        vector<Card> exaustPile;
         vector<Card> inventory;
         static size_t maxSize;
         int highlightedIdx{NULL_CARD};

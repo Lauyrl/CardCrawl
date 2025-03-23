@@ -69,7 +69,7 @@ void ChooseCardReward::process()
         {
             if (!panel.inMenu && choices[i].detect_click())
             {
-                ironclad.cardIdInv.push_back(choices[i].id);
+                ironclad.add_card(choices[i].id);
                 choices.erase(choices.begin()+i);
                 active = false;
                 used = true;
@@ -114,7 +114,6 @@ void RewardMenu::generate_items(int gMin, int gMax, int cUncomThres, int cRareTh
     ccReward.used = false; ccReward.active = false;
     if (cards)
     {
-        
         ccReward.choices.clear();
         ccReward.choices.resize(3);
         for (int i{0}; i < 3; i++)
@@ -160,6 +159,7 @@ void RewardMenu::generate_items(int gMin, int gMax, int cUncomThres, int cRareTh
             RelicReward* current;
             if (i == 0) current = &rRewardPair.first;
             else        current = &rRewardPair.second;
+            
             shuffle_vector(*copy);
             if (copy->size() == 0) current->relic = Relic(circlet);
             else

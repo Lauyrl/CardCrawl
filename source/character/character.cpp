@@ -4,9 +4,7 @@ double Character::maxHealth = 100.0;
 int Character::health = 1; //static
 int Character::gold = 10000;
 
-std::vector<cardId> Character::cardIdInv = {
-    strike, strike, strike, strike, strike, defend, defend, defend, iron_wave, iron_wave
-};
+vector<cardId> Character::cardIdInv = defaultCardIdInv;
 Character::Character() : Gui(140, 300, 280, 200) {}
 Character::Character(int health_) : Gui(140, 300, 280, 200)
 {
@@ -50,6 +48,7 @@ void Character::display(bool info)
         display_hp();
         display_block();
         display_statuses();
+        healthText.render_text(to_string(health)+"/"+to_string((int)maxHealth));
     }
     game.render_img("assets/character/ironclad.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
 }
@@ -68,11 +67,7 @@ void Character::reset_energy() { lose_energy(energy-3); }
 void Character::reformat_relics() 
 {
     int i{0}; 
-    for (auto& relic:relicInv) 
-    {
-        relic.second.move_rect(60*i-25, 30);
-        i++; 
-    }
+    for (auto& relic:relicInv) { relic.second.move_rect(60*i-25, 30);  i++; }
 }
 
 void Character::heal (int amount)
@@ -83,7 +78,7 @@ void Character::heal (int amount)
 
 void Character::gain_block(int amount) { block += amount; }
 
-void Character::take_damge(int dmg)
+void Character::take_damage(int dmg)
 {
     int totalDmg = dmg+dmg*(statuses[vulnerable].value*statuses[vulnerable].level);
     //cout << totalDmg << endl;
@@ -102,27 +97,32 @@ void Character::renew()
     reset_energy();
     combat_start_relic_renew();
     during_turn_relic_renew();
+    combat_start_relic();
     for (auto& status:statuses) { status.second.level = 0; }
-    flexEndTurnEffect = 0;
+    if (check_relic(tea_set) && !relicInv[tea_set].active) { energy += 2; relicInv.at(tea_set).active = true; }
+    slimedCnt = 0;
+    flexUsed = 0;
     attackCardsUsed = 0;
 }
 
 void Character::renew_turn()
 {
-    block = 0;
+    if (slimedCnt) 
+    {
+        deck.discardPile.push_back(Card(slimed, deck.discardPile.size())); 
+        deck.discardPile.push_back(Card(slimed, deck.discardPile.size())); 
+    }
     reset_energy();
-    decrement_statuses();
     during_turn_relic_renew();
+    block = 0;
+    slimedCnt = 0;
     attackCardsUsed = 0;
 }
 
 void Character::add_card(cardId id)
 {
     cardIdInv.push_back(id);
-    if (relicInv.find(singing_bowl) != relicInv.end()) 
-    {
-        maxHealth += 2; heal(2);
-    }
+    if (check_relic(singing_bowl)) { maxHealth += 2; heal(2); }
 }
 
 void Character::add_relic(relicId id)
@@ -130,3 +130,6 @@ void Character::add_relic(relicId id)
     relicInv[id] = Relic(id);
     reformat_relics();
 }
+
+bool Character::check_relic(relicId id) { return (relicInv.find(id) != relicInv.end()); }
+bool Character::check_relic_active(relicId id) { return check_relic(id) && relicInv.at(id).active; }

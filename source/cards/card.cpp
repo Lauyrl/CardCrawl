@@ -35,7 +35,7 @@ void Card::activate(vector<Enemy> &stageEnemies, int queried)
     attributes.action(stageEnemies, queried);
     selected = false;
     if (attributes.intent == Attack) ironclad.attackCardsUsed++;
-    cout << "attack cards used: " << ironclad.attackCardsUsed << endl;
+    //cout << "attack cards used: " << ironclad.attackCardsUsed << endl;
     ironclad.lose_energy(attributes.cost);
 }
 

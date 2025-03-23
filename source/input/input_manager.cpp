@@ -45,12 +45,12 @@ void Game::handle_events()
                 if (event.wheel.y > 0) 
                 {
                     scrollDirection = SCROLL_UP;
-                    std::cout << "UP" << std::endl;
+                    //std::cout << "UP" << std::endl;
                 }
                 else if (event.wheel.y < 0) 
                 {
                     scrollDirection = SCROLL_DOWN;
-                    std::cout << "DOWN" << std::endl;
+                    //std::cout << "DOWN" << std::endl;
                 }
             }
             default: break;

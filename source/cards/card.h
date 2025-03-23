@@ -29,5 +29,5 @@ class Card : public Gui
         CardAttributes attributes;
         bool selected{false};
 
-        static const map<cardId, CardAttributes> cAttriMap;
+        static const unordered_map<cardId, CardAttributes> cAttriMap;
 };

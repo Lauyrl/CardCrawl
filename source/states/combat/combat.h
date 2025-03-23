@@ -7,22 +7,23 @@
 
 const int MAX_ENEMIES = 3; /////////////////////////////////////////////////////////
 
-extern SDL_Rect background;
-extern EndTurnButton etButton;
-extern DrawPileButton drpButton;
-extern DiscardPileButton dcpButton;
+static SDL_Rect black{0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+static SDL_Rect background{0, 280, 1920, 1225};
+extern EndTurnButton et;
+extern DrawPileButton drp;
+extern DiscardPileButton dcp;
 extern vector<Enemy> stageEnemies;
 extern vector<enemyId> possibleEnemies;
 extern int turn;
-extern int enemyDeaths;
 extern int activeEnemyIdx;
 extern bool inMenu;
-extern bool charaRenew;
+extern bool charaTurnRenew;
 extern RewardMenu rMenu;
 
-void init_components(vector<Enemy> &stageEnemies);
-void piles_process(DiscardPileButton &dcp, DrawPileButton &drp);
-void enemy_generate_intents(vector<Enemy> &stageEnemies);
-void enemy_process(vector<Enemy> &stageEnemies);
-bool enemy_turn(vector<Enemy> &stageEnemies);
+void init_components();
+void piles_process();
+void enemy_generate_intents();
+void enemy_process();
+bool enemy_turn();
 void combat_win();
+bool death();

@@ -30,7 +30,7 @@ class Game
         enum gameStates {
             start_menu, map, combat, event, rest, shop, treasure
         };
-        int gameState{map};
+        int gameState{start_menu};
         bool restInit{true};
         bool shopInit{true};
         bool eventInit{true};
@@ -44,12 +44,15 @@ class Game
         void display_event();
         void display_combat();
         void display_treasure();
+        void display_start_menu();
 
         std::map<int, TTF_Font*> fontMap;
         std::map<std::string, SDL_Texture*> textureMap;
         std::map<std::string, SDL_Texture*> textTextureMap;
         SDL_Window* window;
         SDL_Renderer* renderer;
+
+
 };
 
 template <typename T>

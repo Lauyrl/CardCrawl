@@ -10,7 +10,7 @@ class Option : public Gui
     public:
         Option(restOption op_);
         void display();
-        void effect();
+        void process();
         restOption op;
         static bool selected;
         static const map<restOption, const char*> opMap; 

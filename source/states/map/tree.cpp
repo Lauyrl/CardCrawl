@@ -1,11 +1,12 @@
 #include "map_elements.h"
 // tach ra tu "map_elements.cpp"
 
-int Tree::playerCurrentLev{0};
-map<int, Node> Tree::nodeMap;
-vector<int> Tree::playerPath = {};
-Tree::Tree()
+Tree::Tree() {}
+
+void Tree::renew()
 {
+    playerPath.clear(); nodeMap.clear();
+    playerCurrentLev = 0; scrollVal = 0;
     cache_node(1, 0); cache_node(3, 0); cache_node(5, 0);
     generate_path(1);
     generate_path(3);
@@ -15,13 +16,12 @@ Tree::Tree()
 Node& Tree::cache_node(int pos, int lev)
 {
     int nodeId = lev*10+pos;
-    auto it = nodeMap.find(nodeId);
-    if (it == nodeMap.end()) 
+    if (nodeMap.find(nodeId) == nodeMap.end()) 
     {
         nodeMap[nodeId] = Node(pos, lev);
         return nodeMap[nodeId];
     }
-    else return (it->second);
+    else return nodeMap.at(nodeId);
 }
 
 void Tree::generate_path(int start)

@@ -49,7 +49,7 @@ void Shop::purchase_process()
     {
         if (shopCards[i].cost <= ironclad.gold && shopCards[i].card.detect_click()) 
         {
-            ironclad.cardIdInv.push_back(shopCards[i].card.id);
+            ironclad.add_card(shopCards[i].card.id);
             ironclad.gold -= shopCards[i].cost;
             shopCards.erase(shopCards.begin()+i);
             deck.renew_inventory();
@@ -59,7 +59,7 @@ void Shop::purchase_process()
     {
         if (shopRelics[i].cost <= ironclad.gold && shopRelics[i].relic.detect_click()) 
         {
-            ironclad.add_relic(shopRelics[i].relic.id)
+            ironclad.add_relic(shopRelics[i].relic.id);
             ironclad.gold -= shopRelics[i].cost;
             if (shopRelics[i].relic.id != circlet) shopRelics[i].pool->erase(shopRelics[i].relic.id);
             shopRelics.erase(shopRelics.begin()+i);

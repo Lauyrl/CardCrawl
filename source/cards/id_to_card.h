@@ -14,6 +14,7 @@ struct CardAttributes
 {
     int cost;
     cardIntent intent;
+    bool exhaust;
     const char* sprite;
     function<void(vector<Enemy>&, int)> action;
 };

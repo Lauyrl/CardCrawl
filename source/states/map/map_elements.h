@@ -29,13 +29,14 @@ class Tree
 {
     public:
         Tree();
+        void renew();
         void generate_path(int start);
         void nodes_process();
         void display();
         Node& cache_node(int pos, int lev);
-        static vector<int> playerPath;
-        static map<int, Node> nodeMap;
-        static int playerCurrentLev;
+        vector<int> playerPath;
+        map<int, Node> nodeMap;
+        int playerCurrentLev{0};
         int scrollVal{0};
 };
 

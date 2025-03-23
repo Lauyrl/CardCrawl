@@ -26,16 +26,16 @@ void Shop::generate_items()
         }
         shuffle_vector(*poolRand);
         shopCards[i] = CardItem(costRand, Card(poolRand->front(), i));
-        cout << "generated card id" << poolRand->front() << endl;
+        //cout << "generated card id" << poolRand->front() << endl;
         shopCards[i].pool = poolRand;
         shopCards[i].card.move_rect(160+200*(i%6), 100+320*(i/6));
         shopCards[i].costText = Text(20, shopCards[i].card.rect.x+81, shopCards[i].card.rect.y+240,255,255,255);
     }
 
 
+    vector<relicId> copyRare(rareRelicPool.begin(), rareRelicPool.end());
     vector<relicId> copyCommon(commonRelicPool.begin(), commonRelicPool.end());
     vector<relicId> copyUncommon(uncommonRelicPool.begin(), uncommonRelicPool.end());
-    vector<relicId> copyRare(rareRelicPool.begin(), rareRelicPool.end());
     for (int i{0}; i < 6; i++)
     {
         int seed = rand_int(0, 9);

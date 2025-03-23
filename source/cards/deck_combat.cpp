@@ -43,7 +43,7 @@ void Deck::discard_used()
     // if (hand.size() < 1) std::cerr << "Deck is empty.\n";
     if (usedIdx != NULL_CARD)
     {
-        discardPile.push_back(hand[usedIdx]);
+        if (!hand[usedIdx].attributes.exhaust) discardPile.push_back(hand[usedIdx]);
         hand.erase(hand.begin() + usedIdx);
         reformat_hand();
         cout << "Consumed card: " << usedIdx << endl;
@@ -52,11 +52,7 @@ void Deck::discard_used()
 
 void Deck::reformat_hand()
 {
-    for (size_t rePos{0}; rePos < hand.size(); rePos++) 
-    {
-        hand[rePos].pos = rePos;
-        hand[rePos].move_rect(CARD_POS_X_DEFAULT+STEP_INCREMENT*hand[rePos].pos, CARD_POS_Y);
-    }
+    for (size_t rePos{0}; rePos < hand.size(); rePos++) hand[rePos].pos = rePos;
 }
 
 void Deck::hand_process(bool inMenu, vector<Enemy>& stageEnemies)
@@ -80,10 +76,10 @@ void Deck::hand_process(bool inMenu, vector<Enemy>& stageEnemies)
 void Deck::interact_card(int current, vector<Enemy> &stageEnemies)
 {
     if (hand[current].detect_click()) select_card(current);
-    if (selectedIdx != NULL_CARD) activate_card_process(stageEnemies); //SlCI is NULL_CARD after activation adn by default
+    if (selectedIdx != NULL_CARD) query_and_activate_card_process(stageEnemies); //SlCI is NULL_CARD after activation adn by default
 }
 
-void Deck::activate_card_process(vector<Enemy> &stageEnemies)
+void Deck::query_and_activate_card_process(vector<Enemy> &stageEnemies)
 {
     int queried = NULL_TARGET;
     if (hand[selectedIdx].attributes.intent == Attack) 
