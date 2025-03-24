@@ -24,24 +24,28 @@ void Shop::process()
         purchase_process();
         rtButton.process();
     }
+    rsButton.display();
     display_items();
     rsButton.process();
 }
 void Shop::display_items()
 {
-    bool toHighlight = !(rsButton.active);
+    bool highlight = !(rsButton.active);
     for (auto cardItem:shopCards)
     {
-        cardItem.card.display_copy(cardItem.card.rect.x, cardItem.card.rect.y, true, toHighlight);
+        cardItem.card.display_copy(cardItem.card.rect.x, cardItem.card.rect.y, true, highlight);
         cardItem.costText.render_text(to_string(cardItem.cost));
         game.render_img("assets/ui/gold.png", cardItem.card.rect.x+43, cardItem.card.rect.y+232, 40, 40, 255, NULL);
     }
-    for (auto relicItem:shopRelics)
+    Relic* highlighted = NULL;
+    for (auto& relicItem:shopRelics)
     {
         relicItem.costText.render_text(to_string(relicItem.cost));
         game.render_img("assets/ui/gold.png", relicItem.relic.rect.x-3, relicItem.relic.rect.y+72, 40, 40, 255, NULL);
-        relicItem.relic.display();
+        relicItem.relic.display(DISPLAY_FULL, false);
+        if (relicItem.relic.detect_cursor_hover()) highlighted = &(relicItem.relic);
     }
+    if (highlighted) highlighted->display_info(DISPLAY_FULL);
 }
 void Shop::purchase_process()
 {
@@ -69,12 +73,10 @@ void Shop::purchase_process()
 
 
 ReturnButton::ReturnButton() : Gui(0, 710, 270, 90) {}
-
 void ReturnButton::display()
 {
     game.render_img("assets/ui/return_button.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
 }
-
 void ReturnButton::process()
 {
     display();
@@ -96,10 +98,8 @@ void RemovalService::display()
     game.render_img("assets/ui/gold.png", rect.x+56, rect.y+272, 40, 40, 255, NULL);
     costText.render_text(to_string(cost));
 }
-
 void RemovalService::process()
 {
-    display();
     if (!panel.inMenu && !used && ironclad.gold >= cost && (active || detect_click())) 
     {
         active = true;

@@ -1,8 +1,7 @@
 #pragma once
 
 #include <functional>
-#include "../game.h"
-#include "../character/character.h"
+#include "intent.h"
 
 using namespace std;
 //define outside class to avoid clutter
@@ -15,7 +14,7 @@ struct possibleActions
 {
     int actionValue;
     function<void(Enemy&)> action;
-    const char* intentSprite;
+    intentId intentId;
 };
 
 struct enemyAttributes 

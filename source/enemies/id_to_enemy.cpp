@@ -1,8 +1,8 @@
 #include "enemy.h"
 
-void attack1(Enemy &enemy) { enemy.deal_damage(6); }
+void cut(Enemy &enemy) { enemy.deal_damage(6); }
 
-void attack2(Enemy &enemy) { enemy.deal_damage(2); }
+void stab(Enemy &enemy) { enemy.deal_damage(2); }
 
 void weaken(Enemy &enemy)
 {
@@ -23,18 +23,18 @@ void corrosive_spit(Enemy &enemy)
 }
 
 vector<possibleActions> acid_slime_ac = {
-    {30, corrosive_spit, "assets/ui/combat/intent/debuff1attack1.png"},
-    {100, weaken, "assets/ui/combat/intent/debuff1.png"}
+    {30 , corrosive_spit, attack1debuff1},
+    {100, weaken, debuff1}
 };
 
 vector<possibleActions> cultist_ac = {
-    {10, attack1, "assets/ui/combat/intent/attack1.png"},
-    {100, weaken, "assets/ui/combat/intent/debuff1.png"}
+    {10, cut, attack1},
+    {100, weaken, debuff1}
 };
 
 vector<possibleActions> slaver_blue_ac = {
-    {40, attack_weaken1, "assets/ui/combat/intent/debuff1attack1.png"},
-    {100, attack2, "assets/ui/combat/intent/attack2.png"}
+    {40 , attack_weaken1, attack1debuff1},
+    {100, stab, attack2}
 };
 
 const map<enemyId, enemyAttributes> Enemy::eAttriMap = {

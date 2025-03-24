@@ -20,7 +20,7 @@ class RelicReward : public Gui
 {
     public:
         RelicReward(int order_);
-        void display(bool pairUsed, bool pairHovered);
+        void display(bool pairUsed, bool pairHovered, bool cc);
         void process();
         int order;
         Relic relic;
@@ -32,7 +32,7 @@ class RelicRewardPair
 {
     public:
         RelicRewardPair();
-        void display();
+        void display(bool cc);
         void process();
         RelicReward first  = RelicReward(0);
         RelicReward second = RelicReward(1);

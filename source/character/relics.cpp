@@ -23,14 +23,14 @@ Relic::Relic(relicId id_) : Gui(60*((int)ironclad.relicInv.size())-25, 30, 100, 
     id = id_;
     attributes = relAttriMap.at(id);
 }
-void Relic::display(int where) 
+void Relic::display(int where, bool info) 
 { 
     game.render_img(("assets/relics/"+attributes.name+".png").c_str(), rect.x, rect.y, rect.w, rect.h, 200, NULL); 
-    if (detect_cursor_hover()) display_info(where);
+    if (info && detect_cursor_hover()) display_info(where);
 }
 void Relic::display_info(int where) 
 { 
-    if (where == ON_PANEL)
+    if (where == DISPLAY_FULL)
     {
         game.render_img("assets/ui/popup.png", rect.x-160, rect.y-10, 700, 300, 220, NULL);
         nameText = Text(24, rect.x+35, rect.y+80 , 255, 255, 190);

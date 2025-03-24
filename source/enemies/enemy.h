@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../gui/gui.h"
 #include "id_to_enemy.h"
 
 const int ENEMY_POS_X = 640;
@@ -30,11 +29,12 @@ class Enemy : public Gui
         int pos;
         enemyId id;
         enemyAttributes attributes;
-        map<statusId, status> statuses = globalStatuses;
+        map<statusId, Status> statuses = globalStatuses;
+
+        Intent intentUI;
         function<void(Enemy&)> intended = [](Enemy&){};
         vector<possibleActions> possibilities;
         Text healthText = Text(0,0,0,0,0,0);
-        const char* intentSprite = ""; //for testing only
 
         static const map<enemyId, enemyAttributes> eAttriMap;
         bool attacked{false};

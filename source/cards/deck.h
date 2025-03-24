@@ -37,7 +37,7 @@ class Deck
         int highlightedIdx{NULL_CARD};
         int selectedIdx{NULL_CARD}; 
         int usedIdx{NULL_CARD};
-        Text pileLabel = Text(30, 400, 30, 255, 255, 255);
+        Text pileLabel = Text(30, 400, 50, 255, 255, 255);
 
         int scrollVal{1};
 };

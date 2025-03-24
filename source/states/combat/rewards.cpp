@@ -23,15 +23,20 @@ RelicReward::RelicReward(int order_) : Gui(465, 370+100*order_, 510, 100)
     order = order_; 
     warningText = Text(20, rect.x+290, rect.y+37, 240, 40, 40);
 }
-void RelicReward::display(bool pairUsed, bool pairHovered) 
+void RelicReward::display(bool pairUsed, bool pairHovered, bool cc) 
 {
-    Uint8 alpha = (used||pairHovered)? 100:240;
-    if (pairUsed) alpha = 20;
+    Uint8 alpha;
+    if  (pairUsed) alpha = 20;
+    else if (used) alpha = 100;
+    else           alpha = 240;
     game.render_img("assets/ui/combat/reward_item_panel.png", rect.x, rect.y, rect.w, rect.h, alpha, NULL);
     relic.move_rect(rect.x+12, rect.y);
-    relic.display(ON_REWARD);
-    relic.nameText = Text(28, rect.x+100, rect.y+32, 20, 20, 20);
+    relic.display(DISPLAY_DESC, false);
+    Uint8 r = (pairHovered&&!used&&!pairUsed)?200:20;
+    Uint8 g = (pairHovered&&!used&&!pairUsed)?21:20;
+    relic.nameText = Text(28, rect.x+100, rect.y+32, r, g, 20);
     relic.nameText.render_text(relic.attributes.name);
+    if (!cc && detect_cursor_hover()) relic.display_info(DISPLAY_DESC);
     warningText.render_text("(You can only pick one.)");
 }
 void RelicReward::process() 
@@ -45,10 +50,10 @@ void RelicReward::process()
 }
 
 RelicRewardPair::RelicRewardPair() {}
-void RelicRewardPair::display() 
+void RelicRewardPair::display(bool cc) 
 {
-    first.display(second.used, second.detect_cursor_hover());
-    second.display(first.used,  first.detect_cursor_hover());
+    first.display(second.used, second.detect_cursor_hover(), cc);
+    second.display(first.used,  first.detect_cursor_hover(), cc);
     game.render_img("assets/ui/combat/relic_link.png", 640, 395, 150, 150, 220, NULL);
 
 }
@@ -96,7 +101,7 @@ void RewardMenu::display()
 {
     game.render_img("assets/ui/combat/reward_sheet.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
     if (gold) gReward.display();
-    if (relic) rRewardPair.display();
+    if (relic) rRewardPair.display(ccReward.active);
     if (cards) ccReward.display();
 }
 bool RewardMenu::process() 

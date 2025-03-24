@@ -33,9 +33,8 @@ void Character::display_statuses()
     {
         if(status.second.level != 0) 
         {
-            game.render_img(status.second.sprite, 68+rect.x+30*i, rect.y+210, 30, 30, 200, NULL);
-            status.second.levelText = Text(16, 89+rect.x+30*i, rect.y+220, 240, 240, 240);
-            status.second.levelText.render_text(to_string(status.second.level));
+            status.second.rect = {68+rect.x+30*i, rect.y+210, 35, 35};
+            status.second.display();
             i++;
         }
     }
@@ -55,7 +54,7 @@ void Character::display(bool info)
 
 void Character::display_energy()
 {
-    game.render_img("assets/ui/combat/red_energy.png", rect.x-10, rect.y+240, 100, 100, 180, NULL);
+    game.render_img("assets/ui/combat/red_energy.png", rect.x+70, rect.y+295, 100, 100, 180, NULL);
     string energyStr = to_string(energy) + "/3";
     energyText.render_text(energyStr);
 }

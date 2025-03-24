@@ -1,6 +1,6 @@
 #include "character.h"
 
-map<statusId, status> Character::statuses = globalStatuses;
+map<statusId, Status> Character::statuses = globalStatuses;
 set<statusId> decrementableStatuses = {
     weakness, vulnerable
 };
@@ -18,4 +18,19 @@ void Character::decrement_statuses()
         flexUsed = 0;
     }
     cout << "strength: " << statuses[strength].level << endl;
+}
+
+
+void Status::display()
+{
+    game.render_img(sprite, rect.x, rect.y, rect.w, rect.h, 200, NULL);
+    levelText = Text(16, rect.x+26, rect.y+16, 240, 240, 240);
+    levelText.render_text(to_string(level));
+    if (detect_cursor_hover()) display_desc();
+}
+void Status::display_desc()
+{
+    game.render_img("assets/ui/popup.png", rect.x-198, rect.y-15, 700, 150, 220, NULL);
+    descText = Text(20,rect.x, rect.y+35, 220, 220, 220);
+    descText.render_text(desc+to_string(level));
 }

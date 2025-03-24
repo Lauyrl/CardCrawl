@@ -34,7 +34,7 @@ void Enemy::display_hp()
 
 void Enemy::display_intent()
 {
-    game.render_img(intentSprite, rect.x+38, rect.y-32, 50, 50, 220, NULL);
+    intentUI.display();
 }
 
 void Enemy::generate_intent()
@@ -45,7 +45,7 @@ void Enemy::generate_intent()
         if (value <= attributes.actions[i].actionValue) 
         {
             intended = attributes.actions[i].action;
-            intentSprite = attributes.actions[i].intentSprite;
+            intentUI = Intent(attributes.actions[i].intentId, rect.x, rect.y);
             return;
         }
     }
@@ -58,9 +58,12 @@ bool Enemy::enemy_action()
     else 
     {
         move_rect(ENEMY_POS_X+210*pos - (-t*t+10*t), ENEMY_POS_Y+(30*(pos%2))); // can create offset
+        healthText.tRect.x = rect.x+60 - (-0.2*t*t+2*t);
+
         if (t == 14) 
         {
             move_rect(ENEMY_POS_X+210*pos, ENEMY_POS_Y+(30*(pos%2)));
+            healthText.tRect.x = rect.x+60;
             tick = 0;
             return true;
         }

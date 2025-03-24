@@ -148,6 +148,7 @@ bool death()
         else if (t == 80)
         {
             t = 0;
+            game.combatInit = true;
             game.mapGenerated = false;
             game.state_switch(Game::gameStates::start_menu);
         }

@@ -36,7 +36,7 @@ class Character : public Gui
         int energy{3};
         int block;
         Text healthText = Text(15, rect.x+155, rect.y+195, 255, 255, 255);
-        Text energyText = Text(50, rect.x+10, rect.y+260, 200, 200, 200);
+        Text energyText = Text(50, rect.x+85, rect.y+315, 200, 200, 200);
 
         static map<relicId, Relic> relicInv;
         bool check_relic(relicId id);
@@ -48,7 +48,7 @@ class Character : public Gui
         void during_turn_relic();
         void during_turn_relic_renew();
 
-        static map<statusId, status> statuses;
+        static map<statusId, Status> statuses;
         void decrement_statuses();
         void renew_turn();
         void renew();

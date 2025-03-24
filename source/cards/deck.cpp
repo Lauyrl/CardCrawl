@@ -41,7 +41,7 @@ void Deck::display_pile(vector<Card>& pile, int textType, bool move, bool highli
     scroll_val(scrollVal, 260*((pile.size()-1)/5)-100, 0);
     for (int i{0}; i < pile.size(); i++) pile[i].display_copy(252+200*(i%5), 150+260*(i/5)+scrollVal, move, highlight);
     scrollDirection = SCROLL_NULL;
-    if (textType == DC_TEXT)       pileLabel.render_text("                                       DISCARD PILE\nOnce full, cards are pushed back into draw pile\nAll cards currently in hand are discarded upon turn end");
+    if      (textType == DC_TEXT)  pileLabel.render_text("                                       DISCARD PILE\nOnce full, cards are pushed back into draw pile\nAll cards currently in hand are discarded upon turn end");
     else if (textType == DP_TEXT)  pileLabel.render_text("                                       DRAW PILE\nOnce empty, cards are retrieved from discard pile\nEach turn, by default, 5 cards are drawn from the draw pile into hand");
     else if (textType == INV_TEXT) pileLabel.render_text("                                       INVENTORY");
     else                           pileLabel.render_text("                                       EVENT"); 
