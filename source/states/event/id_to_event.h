@@ -5,7 +5,7 @@
 
 using namespace std;
 enum eventId {
-    duplicator, bf_spirits 
+    duplicator, bf_spirits, gshrine, cleric
 };
 class Choice;
 struct eventAttributes
@@ -21,7 +21,9 @@ struct eventAttributes
 enum choiceId {
     leave,
     duplicator_pray,
-    bf_spirits_offer
+    bf_spirits_offer,
+    gshrine_pray,
+    cleric_heal, cleric_purify
 };
 struct choiceAttributes
 {

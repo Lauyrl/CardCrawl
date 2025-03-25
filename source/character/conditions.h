@@ -40,8 +40,8 @@ enum statusId {
 
 struct Status : public Gui
 {
-    Status(int level_, double value_, const char* sprite_, string desc_) : Gui(0,0,0,0), level(level_), value(value_), sprite(sprite_), desc(desc_) {}
-    Status() : Gui(0,0,0,0) {}
+    Status(int level_, double value_, const char* sprite_, string desc_) : Gui(0,0,35,35), level(level_), value(value_), sprite(sprite_), desc(desc_) {}
+    Status() : Gui(0,0,35,35) {}
     void display();
     void display_desc();
     int level;
@@ -57,4 +57,8 @@ static map<statusId, Status> globalStatuses = {
     {strength,   Status(0, 1   , "assets/ui/combat/status/strength.png"  , "Deal X additional damage\nCurrent X: ")},
     {vulnerable, Status(0, 0.5 , "assets/ui/combat/status/vulnerable.png", "Receive 25% more damage (X turns)\nCurrent X: ")},
     {thorns,     Status(0, 1   , "assets/ui/combat/status/thorns.png"    , "Attackers receive X damage\nCurrent X: ")}
+};
+
+static set<statusId> decrementableStatuses = {
+    weakness, vulnerable
 };

@@ -28,6 +28,8 @@ void sword_boomerang_action(vector<Enemy>& enemies, int queried)
     int randEnemy = rand_int(0, enemies.size()-1);
     enemies[randEnemy].take_damage(3); enemies[randEnemy].take_damage(3); enemies[randEnemy].take_damage(3);
 }
+void bash_action(vector<Enemy>& enemies, int queried) { enemies[queried].take_damage(8); enemies[queried].statuses[vulnerable].level += 2; }
+void clothesline_action(vector<Enemy>& enemies, int queried) { enemies[queried].take_damage(12); enemies[queried].statuses[weakness].level += 2; }
 const unordered_map<cardId, CardAttributes> Card::cAttriMap = {
     {strike,      {1, Attack, false, "assets/cards/strike_r.png"    , strike_action}},
     {defend,      {1, Skill , false, "assets/cards/defend_r.png"    , defend_action}},
@@ -37,5 +39,7 @@ const unordered_map<cardId, CardAttributes> Card::cAttriMap = {
     {bludgeon,    {3, Attack, false, "assets/cards/bludgeon.png"    , bludgeon_action}},
     {slimed,      {1, Skill , true , "assets/cards/slimed.png"      , [](vector<Enemy>& enemies, int queried){}}},
     {cleave,      {1, Attack, false, "assets/cards/cleave.png"      , cleave_action}},
-    {sword_boomerang, {1, Attack, false, "assets/cards/sword_boomerang.png", sword_boomerang_action}}
+    {sword_boomerang, {1, Attack, false, "assets/cards/sword_boomerang.png", sword_boomerang_action}},
+    {bash,        {2, Attack, false, "assets/cards/bash.png"        , bash_action}},
+    {clothesline, {2, Attack, false, "assets/cards/clothesline.png" , clothesline_action}},
 };

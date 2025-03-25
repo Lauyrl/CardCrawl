@@ -13,15 +13,12 @@ Enemy::Enemy(enemyId id_, int initPos) : Gui(ENEMY_POS_X, ENEMY_POS_Y, 200, 200)
 
 void Enemy::display()
 {
+    if (hit) shake();
     game.render_img(attributes.sprite, rect.x, rect.y, 150, 150, 255, NULL);
+    display_statuses();
     display_intent();
     display_hp();
-    if (attacked)
-    {
-        slashfxT++;
-        if (slashfxT < 12) slashfx.display(slashfxT, rect.x, rect.y);
-        else if (slashfxT == 12) { attacked = false; slashfxT = 0; }
-    }
+    display_attacked_fx();
 }
 
 void Enemy::display_hp()
@@ -32,9 +29,20 @@ void Enemy::display_hp()
     healthText.render_text(to_string((int)attributes.hp)+'/'+to_string((int)eAttriMap.at(id).hp));
 }
 
-void Enemy::display_intent()
+void Enemy::display_intent() { intentUI.display(); }
+
+void Enemy::display_statuses()
 {
-    intentUI.display();
+    int i{0};
+    for (auto& status:statuses)
+    {
+        if(status.second.level != 0) 
+        {
+            status.second.move_rect(rect.x+30*i-3, rect.y+170);
+            status.second.display();
+            i++;
+        }
+    }
 }
 
 void Enemy::generate_intent()
@@ -71,23 +79,59 @@ bool Enemy::enemy_action()
     return false;
 }
 
+void Enemy::decrement_statuses()
+{
+    for (auto& status:statuses)
+    {
+        if (decrementableStatuses.find(status.first) != decrementableStatuses.end() && status.second.level > 0)
+            status.second.level--;
+    }
+}
+
 void Enemy::take_damage(int dmgTaken)
 {
-    attacked = true; slashfxT = 0;
-    int totalDmgTaken = dmgTaken+ironclad.statuses[strength].level*ironclad.statuses[strength].value;
+    int totalDmgTaken = dmgTaken*(((statuses[vulnerable].level>0)?1.25:1)-((ironclad.statuses[weakness].level>0)?0.25:0))+ironclad.statuses[strength].level;
+    dmgTextV.push_back(DmgText(totalDmgTaken, rect.x, rect.y+20));
+    slashfxV.push_back(SlashFX(rect.x-20, rect.y));
+    hit = true;
     attributes.hp -= totalDmgTaken;
     cout << totalDmgTaken << endl;
 }
 
 void Enemy::deal_damage(int dmg)
 {
-    ironclad.take_damage(dmg);
+    ironclad.take_damage(dmg*((statuses[weakness].level>0)?0.75:1)+statuses[strength].level);
     if (ironclad.check_relic(bronze_scales)) take_damage(3);
 }
 
-
-SlashFX::SlashFx() {}
-void SlashFX::display(int t, int x, int y)
+void Enemy::display_attacked_fx()
 {
-    game.render_img("assets/slash_vfx.png", x+190/24*t+10, y+220/24*t+10, -1.2*t*t+18*t+12, -1.2*t*t+18*t+12, 255, NULL);
+    if (dmgTextV.size() > 0)
+    {
+        if (dmgTextV.back().t < 60)
+        {
+            for (int i{0}; i < dmgTextV.size(); i++)//bad practice but i must man
+            {
+                if (dmgTextV[i].display()) dmgTextV.erase(dmgTextV.begin()+i); 
+            }
+        }
+        else dmgTextV.clear();
+    }
+    if (slashfxV.size() > 0)
+    {
+        if (slashfxV.back().t < 12)
+        {
+            for (int i{0}; i < slashfxV.size(); i++)//bad practice but i must man
+            {
+                if (slashfxV[i].display()) slashfxV.erase(slashfxV.begin()+i); 
+            }
+        }
+        else slashfxV.clear();
+    }
+}
+
+void Enemy::shake()
+{
+    if (shakeT < 6) {shakeT++; rect.x += shakeT*cos(2*shakeT); }
+    else { shakeT = 0; hit = false; rect.x = ENEMY_POS_X+210*pos; }
 }

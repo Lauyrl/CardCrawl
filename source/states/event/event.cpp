@@ -10,7 +10,6 @@ void Game::display_event()
         for (auto& choice:event.attributes.choices) choice.currentUses = choice.attributes.uses;
         eventInit = false;
     }
-    
     render_img("assets/scene/def_background.jpg", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 255, NULL);
     render_img("assets/events/panel.png", 50, 150, 1380, 650, 255, NULL);
     event.process();
@@ -18,7 +17,7 @@ void Game::display_event()
     panel.display();
 }
 
-static vector<eventId> eventIdList = {bf_spirits, duplicator}; //duplicator, bf_spirits
+static vector<eventId> eventIdList = {cleric, gshrine, duplicator, bf_spirits}; //duplicator, bf_spirits
 bool Event::inMenu = false;
 Event::Event() {}
 

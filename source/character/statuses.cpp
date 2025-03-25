@@ -1,9 +1,6 @@
 #include "character.h"
 
 map<statusId, Status> Character::statuses = globalStatuses;
-set<statusId> decrementableStatuses = {
-    weakness, vulnerable
-};
 
 void Character::decrement_statuses()
 {

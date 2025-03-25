@@ -39,6 +39,7 @@ void Game::display_combat()
     {
         if (enemy_turn()) //wait for enemy_turn() to finish
         {
+            for (auto& enemy:stageEnemies) enemy.decrement_statuses();
             charaTurnRenew = true;
             turn++;
         }

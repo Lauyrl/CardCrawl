@@ -15,8 +15,10 @@ Character::Character(int health_) : Gui(140, 300, 280, 200)
 void Character::display_block()
 {
     SDL_Rect chBlockBar{rect.x+70, rect.y+200, 220*(block/maxHealth), 10};
-    SDL_SetRenderDrawColor(game.renderer, 100, 150, 200, 240);
+    SDL_SetRenderDrawColor(game.renderer, 180, 180, 180, 200);
     SDL_RenderFillRect(game.renderer, &chBlockBar);
+    game.render_img("assets/character/block.png", rect.x+50, rect.y+182, 45, 45, 200, NULL);
+    blockText.render_text(to_string(block));
 }
 
 void Character::display_hp()
@@ -29,11 +31,11 @@ void Character::display_hp()
 void Character::display_statuses()
 {
     int i{0};
-    for (auto status:statuses)
+    for (auto& status:statuses)
     {
         if(status.second.level != 0) 
         {
-            status.second.rect = {68+rect.x+30*i, rect.y+210, 35, 35};
+            status.second.move_rect(67+rect.x+30*i, rect.y+210);
             status.second.display();
             i++;
         }
@@ -42,14 +44,16 @@ void Character::display_statuses()
 
 void Character::display(bool info)
 {
+    if (hit) shake();
+    game.render_img("assets/character/ironclad.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
     if (info) 
     {
         display_hp();
-        display_block();
+        if (block > 0) display_block();
         display_statuses();
         healthText.render_text(to_string(health)+"/"+to_string((int)maxHealth));
+        display_attacked_fx();
     }
-    game.render_img("assets/character/ironclad.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
 }
 
 void Character::display_energy()
@@ -79,7 +83,10 @@ void Character::gain_block(int amount) { block += amount; }
 
 void Character::take_damage(int dmg)
 {
-    int totalDmg = dmg+dmg*(statuses[vulnerable].value*statuses[vulnerable].level);
+    int totalDmg = dmg+dmg*((statuses[vulnerable].level>0)?1.25:1);
+    dmgTextV.push_back(DmgText(totalDmg, rect.x+240, rect.y+30));
+    slashfxV.push_back(SlashFX(rect.x+95, rect.y));
+    hit = true;
     //cout << totalDmg << endl;
     if (totalDmg >= block) 
     {
@@ -123,12 +130,42 @@ void Character::add_card(cardId id)
     cardIdInv.push_back(id);
     if (check_relic(singing_bowl)) { maxHealth += 2; heal(2); }
 }
-
 void Character::add_relic(relicId id)
 {
     relicInv[id] = Relic(id);
     reformat_relics();
 }
-
 bool Character::check_relic(relicId id) { return (relicInv.find(id) != relicInv.end()); }
 bool Character::check_relic_active(relicId id) { return check_relic(id) && relicInv.at(id).active; }
+
+void Character::display_attacked_fx()
+{
+    if (dmgTextV.size() > 0)
+    {
+        if (dmgTextV.back().t < 60)
+        {
+            for (int i{0}; i < dmgTextV.size(); i++)//bad practice but i must man
+            {
+                if (dmgTextV[i].display()) dmgTextV.erase(dmgTextV.begin()+i); 
+            }
+        }
+        else dmgTextV.clear();
+    }
+    if (slashfxV.size() > 0)
+    {
+        if (slashfxV.back().t < 12)
+        {
+            for (int i{0}; i < slashfxV.size(); i++)//bad practice but i must man
+            {
+                if (slashfxV[i].display()) slashfxV.erase(slashfxV.begin()+i); 
+            }
+        }
+        else slashfxV.clear();
+    }
+}
+
+void Character::shake()
+{
+    if (shakeT < 6) {shakeT++; rect.x += shakeT*cos(2*shakeT); }
+    else { shakeT = 0; hit = false; rect.x = 140; }
+}
