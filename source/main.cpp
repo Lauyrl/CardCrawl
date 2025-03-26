@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Character ironclad(56);
+Character ironclad(200);
 Deck deck(DECK_MAX_SIZE);
 TopPanel panel;
 Game game("CardCrawl", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT);

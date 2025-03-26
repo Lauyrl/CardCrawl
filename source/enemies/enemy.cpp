@@ -56,18 +56,11 @@ void Enemy::display_statuses()
 
 void Enemy::display_intent() { intentUI.display(rect.x+60*size, rect.y+(13*size*size)); }
 
-void Enemy::generate_intent()
+void Enemy::generate_intent(int turn)
 {
-    int value = rand_int(0, 100);
-    for (size_t i{0}; i < attributes.actions.size(); i++)
-    {
-        if (value <= attributes.actions[i].actionValue) 
-        {
-            intended = attributes.actions[i].action;
-            intentUI = Intent(attributes.actions[i].intentId);
-            return;
-        }
-    }
+    Action generated = attributes.alg(*this, turn); 
+    intentUI = Intent(generated.intentId);
+    intended = generated.action;
 }
 
 bool Enemy::enemy_action()

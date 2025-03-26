@@ -1,6 +1,6 @@
 #pragma once
 
-#include "id_to_enemy.h"
+#include "action_generation.h"
 #include "../gui/fx/fx.h"
 
 const int ENEMY_POS_X = 640;
@@ -12,7 +12,7 @@ class Enemy : public Gui
     public:
         Enemy();
         Enemy(enemyId id_, int pos_, int x);
-        void generate_intent();
+        void generate_intent(int turn);
         bool enemy_action();
         void display_attacked_fx();
         void display_statuses();
@@ -25,6 +25,8 @@ class Enemy : public Gui
         void take_damage(int amount);
         void deal_damage(int dmg);
         void decrement_statuses();
+
+        int phase{0};
 
         int pos;
         int size;

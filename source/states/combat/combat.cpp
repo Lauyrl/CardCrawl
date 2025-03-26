@@ -78,7 +78,7 @@ void enemy_generate()
     for (int i{0}; i < chosen.size(); i++) 
     {   
         stageEnemies.push_back(Enemy(chosen[i], i, x));
-        stageEnemies.back().generate_intent();
+        stageEnemies.back().generate_intent(0);
         x += 235+50*stageEnemies.back().attributes.size;
     }
 }
@@ -118,7 +118,7 @@ void enemy_process()
     }
 }
 
-void enemy_generate_intents() { for (auto& enemy:stageEnemies) enemy.generate_intent(); }
+void enemy_generate_intents() { for (auto& enemy:stageEnemies) enemy.generate_intent(turn); }
 
 bool enemy_turn()
 {

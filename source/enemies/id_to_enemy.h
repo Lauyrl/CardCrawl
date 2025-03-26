@@ -10,11 +10,18 @@ enum enemyId {
 };
 
 class Enemy; //forward declaration
+struct Action
+{
+    intentId intentId;
+    function<void(Enemy&)> action;
+};
+
 struct possibleActions
 {
-    int actionValue;
-    function<void(Enemy&)> action;
-    intentId intentId;
+    int value;
+    int usage;
+    int usageMax;
+    Action actionObj;
 };
 
 struct enemyAttributes 
@@ -23,5 +30,6 @@ struct enemyAttributes
     double hp;
     double atk;
     const char* sprite;
-    vector<possibleActions> actions;
+    vector<vector<possibleActions>> patterns;
+    function<Action(Enemy&,int)> alg;
 };

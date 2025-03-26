@@ -4,8 +4,8 @@
 #include <cstring>
 #include "../game.h"
 #include "../gui/gui.h"
-#include "conditions.h"
 #include "../gui/fx/fx.h"
+#include "conditions.h"
 
 using namespace std;
 
