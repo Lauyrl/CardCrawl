@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../character/character.h"
+#include "../../pools/pools.h"
 #include "../../gui/gui.h"
 
 class StartButton : public Gui

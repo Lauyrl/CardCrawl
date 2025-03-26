@@ -7,7 +7,7 @@ void Character::combat_start_relic()
 {
     if (check_relic_active(anchor)) block += 10;
     if (check_relic_active(blood_vial)) heal(2);
-    if (check_relic(tea_set) && !relicInv[tea_set].active) { energy += 2; relicInv.at(tea_set).active = true; }
+    if (check_relic(tea_set) && !relicInv.at(tea_set).active) { energy += 2; relicInv.at(tea_set).active = true; } //energy += 2 was causing a string bug?
 }
 
 set<relicId> duringTurnRelics = {shuriken};

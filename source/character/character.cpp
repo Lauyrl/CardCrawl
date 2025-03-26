@@ -81,10 +81,11 @@ void Character::take_damage(int amount)
     slashfxV.push_back(SlashFX(rect.x+95, rect.y));
 }
 
-void Character::variables_reset() { reset_energy(); block = 0; flexUsed = 0; slimedCnt = 0; attackCardsUsed = 0; }
+void Character::variables_reset() { reset_energy(); block = 0; flexUsed = 0; attackCardsUsed = 0; }
 
 void Character::renew()
 {
+    slimedCnt = 0;
     variables_reset();
     during_turn_relic_renew();
     for (auto& status:statuses) { status.second.level = 0; }
