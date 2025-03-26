@@ -30,7 +30,7 @@ void RelicReward::display(bool pairUsed, bool pairHovered, bool cc)
     else if (used) alpha = 100;
     else           alpha = 240;
     game.render_img("assets/ui/combat/reward_item_panel.png", rect.x, rect.y, rect.w, rect.h, alpha, NULL);
-    relic.move_rect(rect.x+12, rect.y);
+    relic.move_rect(rect.x+28, rect.y);
     relic.display(DISPLAY_DESC, false);
     Uint8 r = (pairHovered&&!used&&!pairUsed)?200:20;
     Uint8 g = (pairHovered&&!used&&!pairUsed)?21:20;

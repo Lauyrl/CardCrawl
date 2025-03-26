@@ -1,14 +1,12 @@
 #include "../cards/deck.h"
 
-void anchor_ef()      { ironclad.block += 10; }
-void blood_vial_ef()  { ironclad.heal(2); }
 void circlet_ef()     { cout << "circlet." << endl; }
 void shuriken_ef()    { ironclad.statuses[strength].level++; }
 void gremlin_horn_ef(){ ironclad.energy++; deck.draw_card(); }
 const unordered_map<relicId, relicAttributes> Relic::relAttriMap = {
     {circlet      ,{"circlet"      , circlet_ef      ,"Appears once a pool is empty"}},
-    {anchor       ,{"anchor"       , anchor_ef       ,"Start combat with 10 block"}},
-    {blood_vial   ,{"blood_vial"   , blood_vial_ef   ,"Heal 2HP at combat start"}},
+    {anchor       ,{"anchor"       , [](){}          ,"Start combat with 10 block"}},
+    {blood_vial   ,{"blood_vial"   , [](){}          ,"Heal 2HP at combat start"}},
     {shuriken     ,{"shuriken"     , shuriken_ef     ,"After playing 3 Attack cards in\nONE turn, gain 1 Strength"}},
     {gremlin_horn ,{"gremlin_horn" , gremlin_horn_ef ,"When an enemy dies, gain 1 energy,\ndraw 1 card"}},
     {singing_bowl ,{"singing_bowl" , [](){}          ,"???"}},
@@ -18,14 +16,14 @@ const unordered_map<relicId, relicAttributes> Relic::relAttriMap = {
 
 
 Relic::Relic() : Gui(-25, 30, 100, 100) {}
-Relic::Relic(relicId id_) : Gui(60*((int)ironclad.relicInv.size())-25, 30, 100, 100)
+Relic::Relic(relicId id_) : Gui(60*((int)ironclad.relicInv.size())-25, 30, 60, 100)
 {
     id = id_;
     attributes = relAttriMap.at(id);
 }
 void Relic::display(int where, bool info) 
 { 
-    game.render_img(("assets/relics/"+attributes.name+".png").c_str(), rect.x, rect.y, rect.w, rect.h, 200, NULL); 
+    game.render_img(("assets/relics/"+attributes.name+".png").c_str(), rect.x-25, rect.y, rect.w+40, rect.h, 200, NULL); 
     if (info && detect_cursor_hover()) display_info(where);
 }
 void Relic::display_info(int where) 

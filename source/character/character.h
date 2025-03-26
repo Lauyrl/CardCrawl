@@ -18,23 +18,24 @@ class Character : public Gui
     public:
         Character();
         Character(int health_);
-        void display_block();
-        void display_hp();
+        void display_attacked_fx();
         void display_statuses();
         void display_energy();
+        void display_block();
+        void display_hp();
         void display(bool info = true);
         void heal(int amount);
         void gain_block(int amount);
-        void take_damage(int dmg);
+        void take_damage(int amount);
         void lose_energy(int amount);
         void reset_energy();
         void add_card(cardId id);
         void add_relic(relicId id);
         
         static vector<cardId> cardIdInv;
-        static double maxHealth;
-        static int health;
-        static int gold;
+        double maxHealth;
+        int health;
+        int gold{0};
         int energy{3};
         int block;
         Text blockText  = Text(22, rect.x+65, rect.y+191, 140, 30, 0);
@@ -47,7 +48,6 @@ class Character : public Gui
 
         void reformat_relics();
         void combat_start_relic();
-        void combat_start_relic_renew();
         void during_turn_relic();
         void during_turn_relic_renew();
 
@@ -64,7 +64,6 @@ class Character : public Gui
         int shakeT{0};
         vector<DmgText> dmgTextV;
         vector<SlashFX> slashfxV; 
-        void display_attacked_fx();
         void shake();
         
 };
@@ -72,5 +71,5 @@ class Character : public Gui
 extern Character ironclad;
 
 static vector<cardId> defaultCardIdInv = {
-    strike, strike, strike, strike, strike, defend, defend, defend, defend, bash, clothesline
+    strike, strike, strike, strike, strike, defend, defend, defend, defend, bash,
 };

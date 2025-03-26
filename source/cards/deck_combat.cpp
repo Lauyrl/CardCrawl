@@ -70,6 +70,7 @@ void Deck::hand_process(bool inMenu, vector<Enemy>& stageEnemies)
         hand[highlightedIdx].display_in_hand(hand.size());
         highlightedIdx = NULL_CARD;
     }
+    
     if (usedIdx != NULL_CARD) discard_used();
 }
 

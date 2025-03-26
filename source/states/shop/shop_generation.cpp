@@ -69,7 +69,7 @@ void Shop::generate_items()
             copy->erase(copy->begin());
         }
         shopRelics[i].pool = poolRand;
-        shopRelics[i].relic.move_rect(580+130*(i%3), 405+175*(i/3));
-        shopRelics[i].costText = Text(20, shopRelics[i].relic.rect.x+37, shopRelics[i].relic.rect.y+80,255,255,255);
+        shopRelics[i].relic.move_rect(630+130*(i%3), 405+175*(i/3));
+        shopRelics[i].costText = Text(20, shopRelics[i].relic.rect.x+15, shopRelics[i].relic.rect.y+80,255,255,255);
     }
 }

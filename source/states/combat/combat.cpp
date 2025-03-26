@@ -18,7 +18,6 @@ void Game::display_combat()
         combat_win();
         return;
     }
-
     if (turn%2 == 0)
     {
         if (charaTurnRenew)
@@ -28,7 +27,12 @@ void Game::display_combat()
             enemy_generate_intents();
             charaTurnRenew = false;
         }
-        if (!inMenu && et.detect_click()) { turn++; ironclad.decrement_statuses(); }
+        if (!inMenu && et.detect_click()) 
+        { 
+            turn++; 
+            ironclad.decrement_statuses(); 
+            for (auto& enemy:stageEnemies) enemy.block = 0;
+        }
         et.display();
         ironclad.display_energy();
         deck.hand_process(inMenu, stageEnemies);
@@ -53,9 +57,10 @@ EndTurnButton et;
 DrawPileButton drp;
 DiscardPileButton dcp;
 vector<vector<enemyId>> formations = {
-    {acid_slime, acid_slime, acid_slime},
-    {cultist, cultist},
-    {slaver_blue, slaver_blue},
+    //{acid_slime, acid_slime, acid_slime, acid_slime},
+    //{cultist, cultist},
+    //{slaver_blue, slaver_blue},
+    {champ},
 };
 vector<Enemy> stageEnemies;
 RewardMenu rMenu;
@@ -69,10 +74,12 @@ void enemy_generate()
     stageEnemies.clear();
     shuffle_vector(formations);
     vector<enemyId> chosen = formations.front();
+    int x{ENEMY_POS_X};
     for (int i{0}; i < chosen.size(); i++) 
-    {
-        stageEnemies.push_back(Enemy(chosen[i], i));
+    {   
+        stageEnemies.push_back(Enemy(chosen[i], i, x));
         stageEnemies.back().generate_intent();
+        x += 235+50*stageEnemies.back().attributes.size;
     }
 }
 
@@ -149,6 +156,9 @@ bool death()
         else if (t == 80)
         {
             t = 0;
+            turn = 0; activeEnemyIdx = 0;
+            inMenu = false; charaTurnRenew = false;
+            stageEnemies.clear();
             game.combatInit = true;
             game.mapGenerated = false;
             game.state_switch(Game::gameStates::start_menu);

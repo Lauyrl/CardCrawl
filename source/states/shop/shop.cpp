@@ -41,7 +41,7 @@ void Shop::display_items()
     for (auto& relicItem:shopRelics)
     {
         relicItem.costText.render_text(to_string(relicItem.cost));
-        game.render_img("assets/ui/gold.png", relicItem.relic.rect.x-3, relicItem.relic.rect.y+72, 40, 40, 255, NULL);
+        game.render_img("assets/ui/gold.png", relicItem.relic.rect.x-22, relicItem.relic.rect.y+72, 40, 40, 255, NULL);
         relicItem.relic.display(DISPLAY_FULL, false);
         if (relicItem.relic.detect_cursor_hover()) highlighted = &(relicItem.relic);
     }

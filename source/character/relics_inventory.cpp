@@ -9,9 +9,8 @@ void Character::combat_start_relic()
     {
         if (relicInv.find(id) != relicInv.end() && relicInv.at(id).active) 
         {
-            if      (id == anchor)     relicInv.at(id).attributes.effect();
-            else if (id == blood_vial) relicInv.at(id).attributes.effect();
-            relicInv.at(id).active = false;
+            if      (id == anchor)     block += 10;
+            else if (id == blood_vial) heal(2);
         }
     }
 }
@@ -34,13 +33,6 @@ void Character::during_turn_relic()
 
 
 void Character::during_turn_relic_renew()
-{
-    for (auto& id:duringTurnRelics)
-    {
-        if (relicInv.find(id) != relicInv.end() && !relicInv.at(id).active) relicInv.at(id).active = true;
-    }
-}
-void Character::combat_start_relic_renew()
 {
     for (auto& id:duringTurnRelics)
     {

@@ -11,19 +11,25 @@ class Enemy : public Gui
 {
     public:
         Enemy();
-        Enemy(enemyId id_, int initPos);
+        Enemy(enemyId id_, int pos_, int x);
         void generate_intent();
         bool enemy_action();
         void display_attacked_fx();
         void display_statuses();
         void display_intent();
+        void display_block();
         void display_hp();
         void display();
-        void take_damage(int damageTaken);
+        void heal(int amount);
+        void gain_block(int amount);
+        void take_damage(int amount);
         void deal_damage(int dmg);
         void decrement_statuses();
 
         int pos;
+        int size;
+        int block{0};
+        double maxHealth;
         enemyId id;
         enemyAttributes attributes;
         map<statusId, Status> statuses = globalStatuses;
@@ -32,6 +38,7 @@ class Enemy : public Gui
         function<void(Enemy&)> intended = [](Enemy&){};
         vector<possibleActions> possibilities;
         Text healthText = Text(0,0,0,0,0,0);
+        Text blockText  = Text(0,0,0,0,0,0);
 
         static const map<enemyId, enemyAttributes> eAttriMap;
 
