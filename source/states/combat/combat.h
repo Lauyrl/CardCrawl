@@ -14,13 +14,15 @@ extern DrawPileButton drp;
 extern DiscardPileButton dcp;
 extern vector<Enemy> stageEnemies;
 extern vector<enemyId> possibleEnemies;
+extern RewardMenu rMenu;
 extern int turn;
 extern int activeEnemyIdx;
 extern bool inMenu;
-extern bool charaTurnRenew;
-extern RewardMenu rMenu;
+extern bool firstTurn;
+extern bool charaRenewTurn;
 
-void init_components();
+void renew_combat();
+void init_combat();
 void piles_process();
 void enemy_generate_intents();
 void enemy_process();

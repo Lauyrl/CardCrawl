@@ -1,5 +1,4 @@
 #include "combat.h"
-//đổi tên từ battle.cpp
 
 void Game::display_combat()
 {
@@ -7,7 +6,7 @@ void Game::display_combat()
     game.render_img("assets/scene/scene.jpg", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 255, &background);
     if (combatInit)
     {
-        init_components();
+        init_combat();
         combatInit = false;
     }
     ironclad.display();
@@ -20,13 +19,14 @@ void Game::display_combat()
     }
     if (turn%2 == 0)
     {
-        if (charaTurnRenew)
+        if (charaRenewTurn)
         {
             deck.renew_hand();
             ironclad.renew_turn();
             enemy_generate_intents();
-            charaTurnRenew = false;
+            charaRenewTurn = false;
         }
+        if (turn == 0 && firstTurn) { ironclad.combat_start_relic(); firstTurn = false; }
         if (!inMenu && et.detect_click()) 
         { 
             turn++; 
@@ -44,7 +44,7 @@ void Game::display_combat()
         if (enemy_turn()) //wait for enemy_turn() to finish
         {
             for (auto& enemy:stageEnemies) enemy.decrement_statuses();
-            charaTurnRenew = true;
+            charaRenewTurn = true;
             turn++;
         }
     }
@@ -57,9 +57,9 @@ EndTurnButton et;
 DrawPileButton drp;
 DiscardPileButton dcp;
 vector<vector<enemyId>> formations = {
-    //{acid_slime, acid_slime, acid_slime, acid_slime},
-    //{cultist, cultist},
-    //{slaver_blue, slaver_blue},
+    {acid_slime, acid_slime},
+    {cultist, cultist},
+    {slaver_blue, slaver_blue},
     {champ},
 };
 vector<Enemy> stageEnemies;
@@ -67,7 +67,10 @@ RewardMenu rMenu;
 int turn = 0;
 int activeEnemyIdx = 0;
 bool inMenu = false;
-bool charaTurnRenew = false;
+bool firstTurn = true;
+bool charaRenewTurn = true;
+
+void renew_combat() { activeEnemyIdx = 0 ; turn = 0; firstTurn = true; charaRenewTurn = true; inMenu = false; }
 
 void enemy_generate()
 {
@@ -78,16 +81,14 @@ void enemy_generate()
     for (int i{0}; i < chosen.size(); i++) 
     {   
         stageEnemies.push_back(Enemy(chosen[i], i, x));
-        stageEnemies.back().generate_intent(0);
         x += 235+50*stageEnemies.back().attributes.size;
     }
 }
 
-void init_components()
+void init_combat()
 {
-    turn = 0;
+    renew_combat();
     deck.set_up_piles();
-    deck.build_hand();
     ironclad.renew();
     enemy_generate();
     rMenu.generate_items(20, 100, 6, 10, 9, 7, 10, 9);
@@ -137,6 +138,7 @@ void combat_win()
     if (rMenu.process())
     {
         stageEnemies.clear();
+        game.combatInit = true;
         game.state_switch(game.gameStates::map);
     }
     panel.display();
@@ -156,9 +158,6 @@ bool death()
         else if (t == 80)
         {
             t = 0;
-            turn = 0; activeEnemyIdx = 0;
-            inMenu = false; charaTurnRenew = false;
-            stageEnemies.clear();
             game.combatInit = true;
             game.mapGenerated = false;
             game.state_switch(Game::gameStates::start_menu);

@@ -53,6 +53,7 @@ class Character : public Gui
 
         static map<statusId, Status> statuses;
         void decrement_statuses();
+        void variables_reset();
         void renew_turn();
         void renew();
         

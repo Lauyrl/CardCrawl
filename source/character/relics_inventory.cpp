@@ -5,37 +5,22 @@ map<relicId, Relic> Character::relicInv;
 set<relicId> combatStartRelics = {anchor, blood_vial};
 void Character::combat_start_relic()
 {
-    for (auto& id:combatStartRelics)
-    {
-        if (relicInv.find(id) != relicInv.end() && relicInv.at(id).active) 
-        {
-            if      (id == anchor)     block += 10;
-            else if (id == blood_vial) heal(2);
-        }
-    }
+    if (check_relic_active(anchor)) block += 10;
+    if (check_relic_active(blood_vial)) heal(2);
+    if (check_relic(tea_set) && !relicInv[tea_set].active) { energy += 2; relicInv.at(tea_set).active = true; }
 }
 
 set<relicId> duringTurnRelics = {shuriken};
 void Character::during_turn_relic()
 {
-    for (auto& id:duringTurnRelics)
+    if (check_relic_active(shuriken) && attackCardsUsed >= 3)
     {
-        if (relicInv.find(id) != relicInv.end() && relicInv.at(id).active) 
-        {
-            if (id == shuriken && attackCardsUsed >= 3) 
-            {
-                relicInv.at(id).attributes.effect();
-                relicInv.at(id).active = false;
-            }
-        }
+        relicInv.at(shuriken).attributes.effect();
+        relicInv.at(shuriken).active = false;
     }
 }
 
-
 void Character::during_turn_relic_renew()
 {
-    for (auto& id:duringTurnRelics)
-    {
-        if (relicInv.find(id) != relicInv.end() && !relicInv.at(id).active) relicInv.at(id).active = true;
-    }
+    for (auto& id:duringTurnRelics) { if (check_relic(id) && !relicInv.at(id).active) relicInv.at(id).active = true; }
 }

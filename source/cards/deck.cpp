@@ -17,21 +17,18 @@ void Deck::set_up_piles()
     scrollVal = 1;
 }
 
+void Deck::renew()
+{
+    drawPile.clear(); hand.clear(); discardPile.clear();
+    selectedIdx = NULL_CARD; usedIdx = NULL_CARD;
+}
+
 void Deck::renew_inventory()
 {
     inventory.clear();
     inventory.resize(ironclad.cardIdInv.size());
     for (size_t i{0}; i < ironclad.cardIdInv.size(); i++) inventory[i] = Card(ironclad.cardIdInv[i], i);
     scrollVal = 1;
-}
-
-void Deck::draw_card()
-{
-    refill_draw_pile();
-    int chosen = rand_int(0, drawPile.size()-1);
-    hand.push_back(Card(drawPile[chosen].id, 0));
-    reformat_hand();
-    drawPile.erase(drawPile.begin()+chosen);
 }
 
 void Deck::display_pile(vector<Card>& pile, int textType, bool move, bool highlight)
@@ -50,13 +47,7 @@ void Deck::display_pile(vector<Card>& pile, int textType, bool move, bool highli
 int Deck::interact_cards_event(bool inMenu, int textType)
 {
     if (inMenu) return NULL_CARD;
-    display_pile(deck.inventory, textType, true, true);
+    display_pile(inventory, textType, true, true);
     for (int i{0}; i < inventory.size(); i++) { if (inventory[i].detect_click()) return i; }
     return NULL_CARD;
-}
-
-void Deck::renew()
-{
-    drawPile.clear(); hand.clear(); discardPile.clear();
-    selectedIdx = NULL_CARD; usedIdx = NULL_CARD;
 }

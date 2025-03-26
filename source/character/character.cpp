@@ -56,14 +56,7 @@ void Character::display_energy()
 }
 
 void Character::lose_energy(int amount) { energy -= amount; }
-
 void Character::reset_energy() { lose_energy(energy-3); }
-
-void Character::reformat_relics() 
-{
-    int i{0}; 
-    for (auto& relic:relicInv) { relic.second.move_rect(60*i+8, 30);  i++; }
-}
 
 void Character::heal(int amount)
 {
@@ -88,30 +81,24 @@ void Character::take_damage(int amount)
     slashfxV.push_back(SlashFX(rect.x+95, rect.y));
 }
 
+void Character::variables_reset() { reset_energy(); block = 0; flexUsed = 0; slimedCnt = 0; attackCardsUsed = 0; }
+
 void Character::renew()
 {
-    reset_energy();
+    variables_reset();
     during_turn_relic_renew();
-    combat_start_relic();
     for (auto& status:statuses) { status.second.level = 0; }
-    if (check_relic(tea_set) && !relicInv[tea_set].active) { energy += 2; relicInv.at(tea_set).active = true; }
-    slimedCnt = 0;
-    flexUsed = 0;
-    attackCardsUsed = 0;
 }
 
 void Character::renew_turn()
 {
+    variables_reset();
+    during_turn_relic_renew();
     if (slimedCnt) 
     {
         deck.discardPile.push_back(Card(slimed, deck.discardPile.size())); 
         deck.discardPile.push_back(Card(slimed, deck.discardPile.size())); 
     }
-    reset_energy();
-    during_turn_relic_renew();
-    block = 0;
-    slimedCnt = 0;
-    attackCardsUsed = 0;
 }
 
 void Character::add_card(cardId id)
@@ -119,10 +106,16 @@ void Character::add_card(cardId id)
     cardIdInv.push_back(id);
     if (check_relic(singing_bowl)) { maxHealth += 2; heal(2); }
 }
+
 void Character::add_relic(relicId id)
 {
     relicInv[id] = Relic(id);
     reformat_relics();
+}
+void Character::reformat_relics() 
+{
+    int i{0}; 
+    for (auto& relic:relicInv) { relic.second.move_rect(60*i+8, 30);  i++; }
 }
 bool Character::check_relic(relicId id) { return (relicInv.find(id) != relicInv.end()); }
 bool Character::check_relic_active(relicId id) { return check_relic(id) && relicInv.at(id).active; }

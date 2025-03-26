@@ -36,7 +36,7 @@ class Enemy : public Gui
         enemyAttributes attributes;
         map<statusId, Status> statuses = globalStatuses;
 
-        Intent intentUI;
+        Intent intentUI = Intent(buff1);
         function<void(Enemy&)> intended = [](Enemy&){};
         vector<possibleActions> possibilities;
         Text healthText = Text(0,0,0,0,0,0);
