@@ -6,7 +6,7 @@ Tree::Tree() {}
 void Tree::renew()
 {
     playerPath.clear(); nodeMap.clear();
-    playerCurrentLev = 0; scrollVal = 0;
+    ironclad.currentLevel = 0; scrollVal = 0;
     cache_node(1, 0); cache_node(3, 0); cache_node(5, 0);
     generate_path(1);
     generate_path(3);
@@ -59,7 +59,7 @@ void Tree::display()
     for (auto& node:nodeMap) 
     {   
         int alpha;
-        if (!(node.second.lev == playerCurrentLev && (playerPath.size() == 0 || node.second.prev.find(playerPath.back()) != node.second.prev.end()))) alpha = 80;
+        if (!(node.second.lev == ironclad.currentLevel && (playerPath.size() == 0 || node.second.prev.find(playerPath.back()) != node.second.prev.end()))) alpha = 80;
         else alpha = 255;
         node.second.rect.y = NODE_POS_Y_DEFAULT+NODE_Y_STEP_INCREMENT*node.second.lev+scrollVal;
         switch (node.second.type)
@@ -99,13 +99,13 @@ void Tree::nodes_process()
     display();
     for (auto node:nodeMap)
     {
-        if (node.second.lev == playerCurrentLev && (playerPath.size() == 0 || node.second.prev.find(playerPath.back()) != node.second.prev.end())) 
+        if (node.second.lev == ironclad.currentLevel && (playerPath.size() == 0 || node.second.prev.find(playerPath.back()) != node.second.prev.end())) 
         {
             if (!panel.inMenu && node.second.select()) 
             {
-                if (playerCurrentLev > 0) cout << playerPath.back() << " to " << node.second.id << endl;
+                if (ironclad.currentLevel > 0) cout << playerPath.back() << " to " << node.second.id << endl;
                 playerPath.push_back(node.second.id);
-                playerCurrentLev++;
+                ironclad.currentLevel++;
             }
         }
     }

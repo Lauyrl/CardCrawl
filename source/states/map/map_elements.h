@@ -36,7 +36,6 @@ class Tree
         Node& cache_node(int pos, int lev);
         vector<int> playerPath;
         map<int, Node> nodeMap;
-        int playerCurrentLev{0};
         int scrollVal{0};
 };
 

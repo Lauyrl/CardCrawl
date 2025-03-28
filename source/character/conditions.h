@@ -8,7 +8,7 @@ const int DISPLAY_FULL = 0;
 const int DISPLAY_DESC = 1;
 enum relicId {
     circlet, anchor, blood_vial, shuriken, gremlin_horn, singing_bowl,
-    bronze_scales, tea_set
+    bronze_scales, tea_set, fossil_helix
 };
 
 struct relicAttributes
@@ -35,7 +35,7 @@ class Relic : public Gui
 
 
 enum statusId {
-    weakness, strength, vulnerable, thorns,  
+    weakness, strength, vulnerable, thorns, metallicize, regen
 };
 
 struct Status : public Gui
@@ -53,12 +53,18 @@ struct Status : public Gui
 };
 
 static map<statusId, Status> globalStatuses = {
-    {weakness,   Status(0, 0.25, "assets/ui/combat/status/weak.png"      , "Deal 25% less damage (X turns)\nCurrent X: ")},
-    {strength,   Status(0, 1   , "assets/ui/combat/status/strength.png"  , "Deal X additional damage\nCurrent X: ")},
-    {vulnerable, Status(0, 0.5 , "assets/ui/combat/status/vulnerable.png", "Receive 25% more damage (X turns)\nCurrent X: ")},
-    {thorns,     Status(0, 1   , "assets/ui/combat/status/thorns.png"    , "Attackers receive X damage\nCurrent X: ")}
+    {weakness,   Status(0, 0.25, "assets/ui/combat/status/weak.png"       , "Deal 25% less damage (X turns)\nCurrent X: ")},
+    {strength,   Status(0, 1   , "assets/ui/combat/status/strength.png"   , "Deal X additional damage\nCurrent X: ")},
+    {vulnerable, Status(0, 0.5 , "assets/ui/combat/status/vulnerable.png" , "Receive 25% more damage (X turns)\nCurrent X: ")},
+    {thorns,     Status(0, 1   , "assets/ui/combat/status/thorns.png"     , "Attackers receive X damage\nCurrent X: ")},
+    {metallicize,Status(0, 1   , "assets/ui/combat/status/metallicize.png", "Gain X Block every turn\nCurrent X: ")},
+    {regen      ,Status(0, 1   , "assets/ui/combat/status/regen.png"      , "Heal X Health every turn and\nreduce X by 1. Current X: ")}
 };
 
-static set<statusId> decrementableStatuses = {
-    weakness, vulnerable
+static const set<statusId> decrementableStatuses = {
+    weakness, vulnerable, regen
+};
+
+static const set<statusId> debuffs = {
+    weakness, vulnerable,
 };

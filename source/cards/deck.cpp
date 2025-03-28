@@ -6,7 +6,7 @@ Deck::Deck(int maxSize_) { maxSize = maxSize_; }
 void Deck::set_up_piles()
 {
     renew();
-    vector<cardId> copy = ironclad.cardIdInv;
+    vector<cardId> copy = idInventory;
     shuffle_vector(copy);
     drawPile.resize(copy.size());
     for (size_t i{0}; i < copy.size(); i++)
@@ -26,8 +26,8 @@ void Deck::renew()
 void Deck::renew_inventory()
 {
     inventory.clear();
-    inventory.resize(ironclad.cardIdInv.size());
-    for (size_t i{0}; i < ironclad.cardIdInv.size(); i++) inventory[i] = Card(ironclad.cardIdInv[i], i);
+    inventory.resize(idInventory.size());
+    for (size_t i{0}; i < idInventory.size(); i++) inventory[i] = Card(idInventory[i], i);
     scrollVal = 1;
 }
 
@@ -50,4 +50,10 @@ int Deck::interact_cards_event(bool inMenu, int textType)
     display_pile(inventory, textType, true, true);
     for (int i{0}; i < inventory.size(); i++) { if (inventory[i].detect_click()) return i; }
     return NULL_CARD;
+}
+
+void Deck::add_card(cardId id)
+{
+    idInventory.push_back(id);
+    if (ironclad.check_relic(singing_bowl)) { ironclad.maxHealth += 2; ironclad.heal(2); }
 }

@@ -53,7 +53,7 @@ void Shop::purchase_process()
     {
         if (shopCards[i].cost <= ironclad.gold && shopCards[i].card.detect_click()) 
         {
-            ironclad.add_card(shopCards[i].card.id);
+            deck.add_card(shopCards[i].card.id);
             ironclad.gold -= shopCards[i].cost;
             shopCards.erase(shopCards.begin()+i);
             deck.renew_inventory();
@@ -107,7 +107,7 @@ void RemovalService::process()
         chosen = deck.interact_cards_event(panel.inMenu, 3); 
         if (chosen != NULL_CARD)
         {
-            ironclad.cardIdInv.erase(ironclad.cardIdInv.begin()+chosen);
+            deck.idInventory.erase(deck.idInventory.begin()+chosen);
             ironclad.gold -= cost;
             active = false;
             used = true;

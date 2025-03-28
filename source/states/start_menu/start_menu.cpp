@@ -24,11 +24,11 @@ void StartButton::process()
         game.state_switch(Game::gameStates::map);
         game.mapGenerated = false;
         ironclad.gold = 0;
-        ironclad.maxHealth = 100;
+        ironclad.maxHealth = 200;
         ironclad.health = ironclad.maxHealth;
-        ironclad.cardIdInv = defaultCardIdInv;
         ironclad.relicInv.clear();
         ironclad.renew();
+        deck.idInventory  = defaultIdInventory;
         commonCardPool    = commonCardPoolOrigin;
         uncommonCardPool  = uncommonCardPoolOrigin;
         rareCardPool      = rareCardPoolOrigin;

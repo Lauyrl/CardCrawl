@@ -1,4 +1,4 @@
-#include "card.h"
+#include "deck.h"
 
 Card::Card() : Gui(50+CARD_POS_X_DEFAULT, CARD_POS_Y, 125, 285) {}//{ attributes = cAttriMap.at(strike); }
 
@@ -32,11 +32,15 @@ bool Card::highlight()
 
 void Card::activate(vector<Enemy> &stageEnemies, int queried)
 {
+    ironclad.lose_energy(attributes.cost);
     attributes.action(stageEnemies, queried);
     selected = false;
-    if (attributes.intent == Attack) ironclad.attackCardsUsed++;
-    //cout << "attack cards used: " << ironclad.attackCardsUsed << endl;
-    ironclad.lose_energy(attributes.cost);
+    if (attributes.intent == Attack) 
+    {
+        ironclad.attackCardsCnt++;
+        if (ironclad.raged) ironclad.block += 3;
+    }
+    
 }
 
 int Card::query_targetE(vector<Enemy> stageEnemies)

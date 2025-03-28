@@ -13,7 +13,7 @@ void Character::combat_start_relic()
 set<relicId> duringTurnRelics = {shuriken};
 void Character::during_turn_relic()
 {
-    if (check_relic_active(shuriken) && attackCardsUsed >= 3)
+    if (check_relic_active(shuriken) && attackCardsCnt >= 3)
     {
         relicInv.at(shuriken).attributes.effect();
         relicInv.at(shuriken).active = false;

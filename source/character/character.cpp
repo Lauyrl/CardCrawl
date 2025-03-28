@@ -1,6 +1,5 @@
 #include "../cards/deck.h"
 
-vector<cardId> Character::cardIdInv = defaultCardIdInv;
 Character::Character() : Gui(140, 300, 280, 200) {}
 Character::Character(int health_) : Gui(140, 300, 280, 200), maxHealth(health_), health(health_) {}
 
@@ -81,11 +80,12 @@ void Character::take_damage(int amount)
     slashfxV.push_back(SlashFX(rect.x+95, rect.y));
 }
 
-void Character::variables_reset() { reset_energy(); block = 0; flexUsed = 0; attackCardsUsed = 0; }
+void Character::variables_reset() { 
+    reset_energy(); block = 0; flexCnt = 0; attackCardsCnt = 0; slimedCnt = 0; raged = false;
+}
 
 void Character::renew()
 {
-    slimedCnt = 0;
     variables_reset();
     during_turn_relic_renew();
     for (auto& status:statuses) { status.second.level = 0; }
@@ -93,19 +93,13 @@ void Character::renew()
 
 void Character::renew_turn()
 {
-    variables_reset();
-    during_turn_relic_renew();
-    if (slimedCnt) 
+    for (int i{0}; i < slimedCnt; i++) 
     {
         deck.discardPile.push_back(Card(slimed, deck.discardPile.size())); 
         deck.discardPile.push_back(Card(slimed, deck.discardPile.size())); 
     }
-}
-
-void Character::add_card(cardId id)
-{
-    cardIdInv.push_back(id);
-    if (check_relic(singing_bowl)) { maxHealth += 2; heal(2); }
+    variables_reset();
+    during_turn_relic_renew();
 }
 
 void Character::add_relic(relicId id)

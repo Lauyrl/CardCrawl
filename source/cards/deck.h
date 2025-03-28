@@ -7,6 +7,9 @@ const int DP_TEXT  = 0;
 const int DC_TEXT  = 1;
 const int INV_TEXT = 2;
 
+static vector<cardId> defaultIdInventory = {
+    dropkick, intimidate, rage, pommel_strike, anger, strike, strike, strike, defend, defend, bash,
+};
 class Deck
 {
     public:
@@ -27,7 +30,10 @@ class Deck
         void query_and_activate_card_process(vector<Enemy> &stageEnemies);
         void interact_card(int current, vector<Enemy> &stageEnemies);
         int interact_cards_event(bool inMenu, int textType);
+        void add_card(cardId id);
+        int drawCards{0};
 
+        vector<cardId> idInventory = defaultIdInventory;
         vector<Card> hand;
         vector<Card> drawPile;
         vector<Card> discardPile;

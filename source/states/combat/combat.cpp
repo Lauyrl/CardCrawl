@@ -123,7 +123,7 @@ void enemy_generate_intents() { for (auto& enemy:stageEnemies) enemy.generate_in
 
 bool enemy_turn()
 {
-    if (!stageEnemies[activeEnemyIdx].enemy_action()) return false; // return true after animation finishes
+    if (!stageEnemies[activeEnemyIdx].action()) return false; // return true after animation finishes
     else 
     {
         activeEnemyIdx++;

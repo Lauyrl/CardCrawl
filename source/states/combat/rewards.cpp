@@ -81,7 +81,7 @@ void ChooseCardReward::process()
         {
             if (!panel.inMenu && choices[i].detect_click())
             {
-                ironclad.add_card(choices[i].id);
+                deck.add_card(choices[i].id);
                 choices.erase(choices.begin()+i);
                 active = false;
                 used = true;

@@ -63,10 +63,16 @@ void Enemy::generate_intent(int turn)
     intended = generated.action;
 }
 
-bool Enemy::enemy_action()
+bool Enemy::action()
 {
     tick++; int t = tick;
-    if (t == 1) { intended(*this); return false; }
+    if (t == 1) 
+    { 
+        intended(*this); 
+        renew_turn();
+        return false; 
+        
+    }
     else 
     {
         rect.x = ENEMY_POS_X+210*pos-(-t*t+10*t);
@@ -81,6 +87,11 @@ bool Enemy::enemy_action()
     return false;
 }
 
+void Enemy::renew_turn()
+{
+    if (statuses[metallicize].level > 0) block += statuses[metallicize].level;
+}
+
 void Enemy::decrement_statuses()
 {
     for (auto& status:statuses)
@@ -88,6 +99,15 @@ void Enemy::decrement_statuses()
         if (decrementableStatuses.find(status.first) != decrementableStatuses.end() && status.second.level > 0)
             status.second.level--;
     }
+}
+
+void Enemy::cleanse()
+{
+    for (auto& status:statuses)
+    {
+        if (debuffs.find(status.first) != debuffs.end() && status.second.level > 0)
+            status.second.level = 0;
+    } 
 }
 
 void Enemy::heal(int amount)

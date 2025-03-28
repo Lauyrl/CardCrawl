@@ -11,7 +11,7 @@ using namespace std;
 
 enum cardId {
     strike, defend, iron_wave, flex, bloodletting, bludgeon, slimed, cleave, pommel_strike, sword_boomerang,
-    bash, clothesline
+    bash, clothesline, anger, rage, intimidate, dropkick
 };
 class Character : public Gui
 {
@@ -29,10 +29,8 @@ class Character : public Gui
         void take_damage(int amount);
         void lose_energy(int amount);
         void reset_energy();
-        void add_card(cardId id);
         void add_relic(relicId id);
         
-        static vector<cardId> cardIdInv;
         double maxHealth;
         int health;
         int gold{0};
@@ -53,24 +51,24 @@ class Character : public Gui
 
         static map<statusId, Status> statuses;
         void decrement_statuses();
+        void cleanse();
         void variables_reset();
         void renew_turn();
         void renew();
         
-        int attackCardsUsed{0};
+        int attackCardsCnt{0};
         int slimedCnt{0};
-        int flexUsed{0}; //reset in decrement_statuses()
+        int flexCnt{0}; //reset in decrement_statuses()
+        bool raged{false};
 
         bool hit{false};
         int shakeT{0};
         vector<DmgText> dmgTextV;
         vector<SlashFX> slashfxV; 
         void shake();
+
+        int currentLevel{0};
         
 };
 
 extern Character ironclad;
-
-static vector<cardId> defaultCardIdInv = {
-    strike, strike, strike, strike, strike, defend, defend, defend, defend, bash,
-};

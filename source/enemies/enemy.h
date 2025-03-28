@@ -13,7 +13,7 @@ class Enemy : public Gui
         Enemy();
         Enemy(enemyId id_, int pos_, int x);
         void generate_intent(int turn);
-        bool enemy_action();
+        bool action();
         void display_attacked_fx();
         void display_statuses();
         void display_intent();
@@ -25,6 +25,8 @@ class Enemy : public Gui
         void take_damage(int amount);
         void deal_damage(int dmg);
         void decrement_statuses();
+        void cleanse();
+        void renew_turn();
 
         int phase{0};
 
@@ -36,7 +38,7 @@ class Enemy : public Gui
         enemyAttributes attributes;
         map<statusId, Status> statuses = globalStatuses;
 
-        Intent intentUI = Intent(buff1);
+        Intent intentUI = Intent(buff);
         function<void(Enemy&)> intended = [](Enemy&){};
         vector<possibleActions> possibilities;
         Text healthText = Text(0,0,0,0,0,0);

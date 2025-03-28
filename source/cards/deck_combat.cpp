@@ -61,6 +61,8 @@ void Deck::hand_process(bool inMenu, vector<Enemy>& stageEnemies)
         hand[highlightedIdx].display_in_hand(hand.size());
         highlightedIdx = NULL_CARD;
     }
+    for (int i{0}; i < drawCards; i++) draw_card();
+    drawCards = 0;
 }
 
 void Deck::discard_used()
@@ -78,10 +80,14 @@ void Deck::discard_used()
 void Deck::draw_card()
 {
     refill_draw_pile();
-    int chosen = rand_int(0, drawPile.size()-1);
-    hand.push_back(Card(drawPile[chosen].id, 0));
-    reformat_hand();
-    drawPile.erase(drawPile.begin()+chosen);
+    if (drawPile.size() > 0)
+    {
+        int chosen = rand_int(0, drawPile.size()-1);
+        hand.push_back(Card(drawPile[chosen].id, 0));
+        reformat_hand();
+        hand.back().rect.y -= 208;
+        drawPile.erase(drawPile.begin()+chosen);
+    }
 }
 
 void Deck::interact_card(int current, vector<Enemy> &stageEnemies)

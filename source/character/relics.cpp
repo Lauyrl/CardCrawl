@@ -12,6 +12,7 @@ const unordered_map<relicId, relicAttributes> Relic::relAttriMap = {
     {singing_bowl ,{"singing_bowl" , [](){}          ,"???"}},
     {bronze_scales,{"bronze_scales", [](){}          ,"When attacked, deal 3DMG to the\n attacker"}},
     {tea_set      ,{"tea_set"      , [](){}          ,"After entering a rest site, start\nthe next combat with +2ENERGY"}},
+    {fossil_helix ,{"fossil_helix" , [](){}          ,"Negate the first instance of damage"}},
 };
 
 

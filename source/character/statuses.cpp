@@ -9,14 +9,22 @@ void Character::decrement_statuses()
         if (decrementableStatuses.find(status.first) != decrementableStatuses.end() && status.second.level > 0)
             status.second.level--;
     }
-    if (flexUsed)
+    if (flexCnt)
     {
-        statuses[strength].level -= 2*flexUsed;
-        flexUsed = 0;
+        statuses[strength].level -= 2*flexCnt;
+        flexCnt = 0;
     }
     cout << "strength: " << statuses[strength].level << endl;
 }
 
+void Character::cleanse()
+{
+    for (auto& status:statuses)
+    {
+        if (debuffs.find(status.first) != debuffs.end() && status.second.level > 0)
+            status.second.level = 0;
+    } 
+}
 
 void Status::display()
 {

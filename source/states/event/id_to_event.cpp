@@ -5,7 +5,7 @@ bool duplicator_pray_ef()
     int chosenCard = NULL_CARD; chosenCard = deck.interact_cards_event(panel.inMenu, 3);
     if (chosenCard != NULL_CARD)
     {
-        ironclad.add_card(deck.inventory[chosenCard].id);
+        deck.add_card(deck.inventory[chosenCard].id);
         return true;
     }
     return false;
@@ -15,7 +15,7 @@ bool bf_spririts_offer_ef()
     int chosenCard = NULL_CARD; chosenCard = deck.interact_cards_event(panel.inMenu, 3);
     if (chosenCard != NULL_CARD)
     {
-        ironclad.cardIdInv.erase(ironclad.cardIdInv.begin()+chosenCard);
+        deck.idInventory.erase(deck.idInventory.begin()+chosenCard);
         ironclad.heal(10);
         return true;
     }
@@ -35,7 +35,7 @@ bool cleric_purify_ef()
     if (chosenCard != NULL_CARD)
     {
         ironclad.gold -= 50;
-        ironclad.cardIdInv.erase(ironclad.cardIdInv.begin()+chosenCard);
+        deck.idInventory.erase(deck.idInventory.begin()+chosenCard);
         return true;
     }
     return false;
