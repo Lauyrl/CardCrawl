@@ -21,7 +21,7 @@ class Character : public Gui
         void display(bool info = true);
         void heal(int amount);
         void gain_block(int amount);
-        void take_damage(int amount);
+        void take_damage(int amount, int delay = 0);
         void lose_energy(int amount);
         void reset_energy();
         void add_relic(relicId id);
@@ -61,7 +61,7 @@ class Character : public Gui
         bool hit{false};
         int shakeT{0};
         vector<DmgText> dmgTextV;
-        vector<SlashFX> slashfxV; 
+        vector<SlashFx> slashfxV; 
         void shake();
 
         int currentLevel{0};

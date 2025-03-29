@@ -6,7 +6,8 @@
 using namespace std;
 //define outside class to avoid clutter
 enum enemyId {
-    acid_slime, cultist, slaver_blue, champ, nemesis, 
+    acid_slime, cultist, slaver_blue, snake_plant,
+    champ, nemesis,
     awakened
 };
 

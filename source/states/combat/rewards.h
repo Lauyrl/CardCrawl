@@ -38,6 +38,13 @@ class RelicRewardPair
         RelicReward second = RelicReward(1);
         bool used{false};
 };
+class SkipChoice : public Gui
+{
+    public: 
+        SkipChoice();
+        void display();
+        Text text = Text(30, rect.x+70, rect.y+10, 250, 250, 250);
+};
 class ChooseCardReward : public Gui
 {
     public:
@@ -47,6 +54,7 @@ class ChooseCardReward : public Gui
         vector<Card> choices;
         bool active{false};
         bool used{false};
+        SkipChoice skip;
 };
 class RewardMenu : public Gui
 {

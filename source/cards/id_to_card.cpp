@@ -26,7 +26,7 @@ void cleave_action(vector<Enemy>& enemies, int queried)
 void boomerang_action(vector<Enemy>& enemies, int queried)
 {
     int randEnemy = rand_int(0, enemies.size()-1);
-    enemies[randEnemy].take_damage(3); enemies[randEnemy].take_damage(3); enemies[randEnemy].take_damage(3);
+    enemies[randEnemy].take_damage(3); enemies[randEnemy].take_damage(3, 10); enemies[randEnemy].take_damage(3, 20);
 }
 void anger_action(vector<Enemy>& enemies, int queried) { enemies[queried].take_damage(6); deck.discardPile.push_back(Card(anger)); }
 void bash_action(vector<Enemy>& enemies, int queried) { enemies[queried].take_damage(8); enemies[queried].statuses[vulnerable].level += 2; }

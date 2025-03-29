@@ -47,6 +47,7 @@ class ReturnButton : public Gui
         ReturnButton();
         void display();
         void process();
+        Text text = Text(40, rect.x+20, rect.y+10, 255, 255, 255);
 };
 class Shop
 {

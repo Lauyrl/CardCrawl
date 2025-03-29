@@ -61,7 +61,7 @@ static map<statusId, Status> globalStatuses = {
     {metallicize,Status(0, 1   , "assets/ui/combat/status/metallicize.png", "Gain X Block every turn\nCurrent X: ")},
     {regen      ,Status(0, 1   , "assets/ui/combat/status/regen.png"      , "Heal X Health every turn and\nreduce X by 1. Current X: ")},
     {intangible ,Status(0, 1   , "assets/ui/combat/status/intangible.png" , "Reduce all HP loss to 1 for X turns\nCurrent X: ")},
-    {malleable  ,Status(0, 0   , "assets/ui/combat/status/malleable.png"  , "When damaged, gain X Block(temporarily +1\neach time)Current X: ")}
+    {malleable  ,Status(0, 0   , "assets/ui/combat/status/malleable.png"  , "When damaged, gain X Block\n(temporarily +1 each time) Current X: ")}
 };
 
 static const set<statusId> decrementableStatuses = {

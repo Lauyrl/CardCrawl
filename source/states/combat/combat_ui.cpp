@@ -1,11 +1,10 @@
 #include "combat_ui.h"
 
-EndTurnButton::EndTurnButton() : Gui(900, 600, 130, 40) {}
+EndTurnButton::EndTurnButton() : Gui(1050, 590, 175, 60) {}
 
 void EndTurnButton::display()
 {
-    SDL_SetRenderDrawColor(game.renderer, 0, 60, 120, 100);
-    SDL_RenderFillRect(game.renderer, &rect);
+    game.render_img("assets/ui/end_turn.png", rect.x-20, rect.y-11, rect.w, rect.h, (detect_cursor_hover())?245:175, NULL);
     etText.render_text("End Turn");
 }
 

@@ -22,8 +22,8 @@ class Enemy : public Gui
         void display();
         void heal(int amount);
         void gain_block(int amount);
-        void take_damage(int amount);
-        void deal_damage(int dmg);
+        void take_damage(int amount, int delay = 0);
+        void deal_damage(int dmg, int delay = 0);
         void decrement_statuses();
         void cleanse();
         void renew_turn();
@@ -49,6 +49,6 @@ class Enemy : public Gui
         bool hit{false};
         int shakeT{0};
         vector<DmgText> dmgTextV;
-        vector<SlashFX> slashfxV; 
+        vector<SlashFx> slashfxV; 
         void shake();
 };

@@ -64,7 +64,7 @@ void Character::heal(int amount)
 
 void Character::gain_block(int amount) { block += amount; }
 
-void Character::take_damage(int amount)
+void Character::take_damage(int amount, int delay)
 {
     if (check_relic_active(fossil_helix)) { relicInv.at(fossil_helix).active = false; return; }
     int totalAmount = amount+amount*((statuses[vulnerable].level>0)?1.25:1);
@@ -76,8 +76,8 @@ void Character::take_damage(int amount)
         health -= totalAmount;
     }
     else block -= totalAmount;
-    dmgTextV.push_back(DmgText(totalAmount, rect.x+240, rect.y+30));
-    slashfxV.push_back(SlashFX(rect.x+95, rect.y));
+    dmgTextV.push_back(DmgText(totalAmount, rect.x+240, rect.y+30, delay));
+    slashfxV.push_back(SlashFx(rect.x+95, rect.y, delay));
     hit = true;
 }
 
@@ -123,7 +123,7 @@ void Character::display_attacked_fx()
     {
         if (dmgTextV.back().t < 60)
         {
-            for (int i{0}; i < dmgTextV.size(); i++)//bad practice but i must man
+            for (int i{0}; i < dmgTextV.size(); i++)//bad practice but i must
             {
                 if (dmgTextV[i].display()) dmgTextV.erase(dmgTextV.begin()+i); 
             }
@@ -134,7 +134,7 @@ void Character::display_attacked_fx()
     {
         if (slashfxV.back().t < 12)
         {
-            for (int i{0}; i < slashfxV.size(); i++)//bad practice but i must man
+            for (int i{0}; i < slashfxV.size(); i++)//bad practice but i must
             {
                 if (slashfxV[i].display()) slashfxV.erase(slashfxV.begin()+i); 
             }

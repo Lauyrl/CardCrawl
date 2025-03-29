@@ -119,7 +119,7 @@ void Enemy::heal(int amount)
 
 void Enemy::gain_block(int amount) { block += amount; }
 
-void Enemy::take_damage(int amount)
+void Enemy::take_damage(int amount, int delay)
 {
     int totalAmount = amount*(((statuses[vulnerable].level>0)?1.25:1)-((ironclad.statuses[weakness].level>0)?0.25:0))+ironclad.statuses[strength].level;
     if (statuses[intangible].level>0) totalAmount = 1;
@@ -130,15 +130,15 @@ void Enemy::take_damage(int amount)
         attributes.hp -= totalAmount;
     }
     else block -= totalAmount;
-    if (statuses[malleable].level>0) { block += statuses[malleable].level + statuses[malleable].value; statuses[malleable].value++; }
-    dmgTextV.push_back(DmgText(totalAmount, rect.x, rect.y+rect.h-175-(-size*size+10*size)));
-    slashfxV.push_back(SlashFX(rect.x-20+50*size, rect.y+rect.h-175-(-size*size+10*size)));
+    if (statuses[malleable].level>0) { block += (statuses[malleable].level + statuses[malleable].value); statuses[malleable].value++; }
+    dmgTextV.push_back(DmgText(totalAmount, rect.x, rect.y+rect.h-175-(-size*size+10*size), delay));
+    slashfxV.push_back(SlashFx(rect.x-20+50*size, rect.y+rect.h-175-(-size*size+10*size), delay));
     hit = true;
 }
 
-void Enemy::deal_damage(int dmg)
+void Enemy::deal_damage(int dmg, int delay)
 {
-    ironclad.take_damage(dmg*((statuses[weakness].level>0)?0.75:1)+statuses[strength].level);
+    ironclad.take_damage(dmg*((statuses[weakness].level>0)?0.75:1)+statuses[strength].level, delay);
     if (ironclad.check_relic(bronze_scales)) take_damage(3);
 }
 
@@ -148,7 +148,7 @@ void Enemy::display_attacked_fx()
     {
         if (dmgTextV.back().t < 60)
         {
-            for (int i{0}; i < dmgTextV.size(); i++)//bad practice but i must man
+            for (int i{0}; i < dmgTextV.size(); i++)//bad practice but i must
             {
                 if (dmgTextV[i].display()) dmgTextV.erase(dmgTextV.begin()+i); 
             }
@@ -159,7 +159,7 @@ void Enemy::display_attacked_fx()
     {
         if (slashfxV.back().t < 12)
         {
-            for (int i{0}; i < slashfxV.size(); i++)//bad practice but i must man
+            for (int i{0}; i < slashfxV.size(); i++)//bad practice but i must
             {
                 if (slashfxV[i].display()) slashfxV.erase(slashfxV.begin()+i); 
             }

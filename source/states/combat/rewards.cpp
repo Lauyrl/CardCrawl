@@ -63,30 +63,44 @@ void RelicRewardPair::process()
     used = (first.used || second.used); if (!used) second.process();
 }
 
-ChooseCardReward::ChooseCardReward() : Gui(465, 570, 510, 100) {}
+SkipChoice::SkipChoice() : Gui(610, 581, 220, 60) {}
+void SkipChoice::display() 
+{ 
+    game.render_img("assets/ui/skip.png", rect.x, rect.y, rect.w, rect.h, 240, NULL); 
+    text.render_text("Skip");
+}
+ChooseCardReward::ChooseCardReward() : Gui(466, 570, 510, 100) {}
 void ChooseCardReward::display() 
 {
     Uint8 alpha = (used || active)? 100:240;
     game.render_img("assets/ui/combat/reward_item_panel.png", rect.x, rect.y, rect.w, rect.h, alpha, NULL);
     game.render_img("assets/ui/combat/normal_card_reward.png", rect.x+22, rect.y+15, 70, 70, alpha, NULL);
     if (active)
-        for (int i{0}; i < 3; i++) choices[i].display_copy(400+i*250, 320, true);
+    {
+        SDL_Rect greyOut = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+            SDL_SetRenderDrawColor(game.renderer, 8, 8, 8, 80); SDL_RenderFillRect(game.renderer, &greyOut);
+        for (int i{0}; i < 3; i++) choices[i].display_copy(381+i*250, 290, true);
+        skip.display();
+    } 
 }
 void ChooseCardReward::process() 
 {
-    if (!panel.inMenu && !used && detect_click()) active = true;
-    if (active)
+    if (!panel.inMenu)
     {
-        for (int i{2}; i >= 0; i--)
+        if (!used && !active && detect_click()) active = true;
+        if (active)
         {
-            if (!panel.inMenu && choices[i].detect_click())
+            for (int i{2}; i >= 0; i--)
             {
-                deck.add_card(choices[i].id);
-                choices.erase(choices.begin()+i);
-                active = false;
-                used = true;
-                break;
+                if (choices[i].detect_click())
+                {
+                    deck.add_card(choices[i].id);
+                    choices.erase(choices.begin()+i);
+                    active = false; used = true;
+                    break;
+                }
             }
+            if (skip.detect_click()) { active = false; used = true; }
         }
     }
 }
@@ -137,7 +151,6 @@ void RewardMenu::generate_items(int gMin, int gMax, int cUncomThres, int cRareTh
             else if (seed >= cUncomThres && seed < cRareThres) poolRand = &uncommonCardPool;
             else                                               poolRand = &rareCardPool;
             ccReward.choices[i] = Card(poolRand->front());
-            ccReward.choices[i].move_rect(160+200*i, 100);
         }
     }
     rRewardPair.used = false; rRewardPair.first.used = false; rRewardPair.second.used = false;

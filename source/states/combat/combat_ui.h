@@ -12,7 +12,7 @@ class EndTurnButton : public Gui
     public:
         EndTurnButton();
         void display();
-        Text etText = Text(30, rect.x+10, rect.y, 200, 200, 255);
+        Text etText = Text(30, rect.x+12, rect.y, 230, 230, 255);
 };
 
 class DrawPileButton : public Gui

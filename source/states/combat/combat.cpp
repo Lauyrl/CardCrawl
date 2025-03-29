@@ -30,14 +30,14 @@ void Game::display_combat()
         if (turn == 0 && firstTurn) { ironclad.combat_start_relic(); firstTurn = false; }
         if (!inMenu && et.detect_click()) 
         { 
-            turn++; 
             ironclad.decrement_statuses(); 
             for (auto& enemy:stageEnemies) enemy.block = 0;
+            turn++;
         }
-        et.display();
         ironclad.display_energy();
         deck.hand_process(inMenu, stageEnemies);
         ironclad.during_turn_relic();
+        et.display();
         //cout << SDL_GetTicks() - frameStart << endl; 
     }
     else
@@ -58,8 +58,8 @@ EndTurnButton et;
 DrawPileButton drp;
 DiscardPileButton dcp;
 vector<vector<vector<enemyId>>> formations = {
-    {{awakened}},
-    //{{acid_slime, acid_slime}, {slaver_blue, slaver_blue}}, //{cultist, cultist}
+    //{{awakened}},
+    {{acid_slime, acid_slime}, {slaver_blue, slaver_blue}, {snake_plant}}, //{cultist, cultist}
     {{nemesis}, {champ}},
     {{awakened}}
 };

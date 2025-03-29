@@ -76,6 +76,7 @@ ReturnButton::ReturnButton() : Gui(0, 710, 270, 90) {}
 void ReturnButton::display()
 {
     game.render_img("assets/ui/return_button.png", rect.x, rect.y, rect.w, rect.h, 255, NULL);
+    text.render_text("Leave");
 }
 void ReturnButton::process()
 {
@@ -88,7 +89,7 @@ void ReturnButton::process()
 }
 
 int RemovalService::cost{75};
-RemovalService::RemovalService() : Gui(1050, 415, 200, 280) {}
+RemovalService::RemovalService() : Gui(1025, 410, 200, 280) {}
 void RemovalService::display()
 {
     Uint8 alpha;

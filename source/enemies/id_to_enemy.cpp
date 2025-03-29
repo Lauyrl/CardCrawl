@@ -4,9 +4,9 @@ void cut(Enemy &enemy) { enemy.deal_damage(6); }
 void stab(Enemy &enemy) { enemy.deal_damage(2); }
 void tackle(Enemy &enemy) { enemy.deal_damage(12); }
 void heavy(Enemy &enemy) { enemy.deal_damage(16); }
-void execute(Enemy &enemy) { enemy.deal_damage(10); enemy.deal_damage(10); }
+void execute(Enemy &enemy) { enemy.deal_damage(10); enemy.deal_damage(10, 10); }
 void scythe(Enemy &enemy) { enemy.deal_damage(45); }
-void maul(Enemy &enemy) { enemy.deal_damage(6); enemy.deal_damage(6); enemy.deal_damage(6); }
+void maul(Enemy &enemy) { enemy.deal_damage(6); enemy.deal_damage(6, 10); enemy.deal_damage(6, 20); }
 void corrosive_spit(Enemy &enemy) { enemy.deal_damage(8); ironclad.slimedCnt++; }
 void face_slap(Enemy &enemy) { enemy.deal_damage(12); ironclad.statuses[vulnerable].level += 2; }
 void attack_weaken1(Enemy &enemy) { enemy.deal_damage(7); ironclad.statuses[weakness].level += 2; }
@@ -34,6 +34,12 @@ vector<vector<possibleActions>> slaver_blue_p = {
     {{40, 0, 1, debuff1attack1, attack_weaken1}, {100, 0, 1, attack2, stab}}
 };
 Action slaver_blue_alg(Enemy& enemy, int turn) { return rand_get(enemy.attributes.patterns[0]); }
+
+vector<vector<possibleActions>> snake_plant_p = {
+    {{65, 0, 2, attack2, heavy}, {100, 0, 1, debuff1, taunt}}
+};
+Action snake_plant_alg(Enemy& enemy, int turn) 
+{ if (turn == 0) { enemy.statuses[malleable].level += 3; } return rand_get(enemy.attributes.patterns[0]); }
 
 vector<vector<possibleActions>> champ_p = {
     {{15, 0, 1, {defendbuff, defensive_stance}}, {30, 0, 1, {buff, strengthen}}, {55, 0, 1, {debuff1attack3, face_slap}}, 
@@ -81,4 +87,5 @@ const map<enemyId, enemyAttributes> Enemy::eAttriMap = {
     {champ      ,{2, 250,1, "assets/enemies/champ.png"      , champ_p      , champ_alg}},
     {nemesis    ,{2, 100,1, "assets/enemies/nemesis.png"    , nemesis_p    , nemesis_alg}},
     {awakened   ,{6, 800,1, "assets/enemies/awakened1.png"  , awakened_p   , awakened_alg}},
+    {snake_plant,{2, 70 ,1, "assets/enemies/snake_plant.png", snake_plant_p, snake_plant_alg}},
 };

@@ -3,8 +3,8 @@
 void Shop::generate_items()
 {
     shopCards.clear()  ; shopRelics.clear();
-    shopCards.resize(8); shopRelics.resize(6);
-    for (int i{0}; i < 8; i++)
+    shopCards.resize(6); shopRelics.resize(4);
+    for (int i{0}; i < 6; i++)
     {
         int seed = rand_int(0, 9);
         int costRand;
@@ -28,7 +28,7 @@ void Shop::generate_items()
         shopCards[i] = CardItem(costRand, Card(poolRand->front()));
         //cout << "generated card id" << poolRand->front() << endl;
         shopCards[i].pool = poolRand;
-        shopCards[i].card.move_rect(160+200*(i%6), 100+320*(i/6));
+        shopCards[i].card.move_rect(230+230*(i%3), 100+320*(i/3));
         shopCards[i].costText = Text(20, shopCards[i].card.rect.x+81, shopCards[i].card.rect.y+240,255,255,255);
     }
 
@@ -36,7 +36,7 @@ void Shop::generate_items()
     vector<relicId> copyRare(rareRelicPool.begin(), rareRelicPool.end());
     vector<relicId> copyCommon(commonRelicPool.begin(), commonRelicPool.end());
     vector<relicId> copyUncommon(uncommonRelicPool.begin(), uncommonRelicPool.end());
-    for (int i{0}; i < 6; i++)
+    for (int i{0}; i < 4; i++)
     {
         int seed = rand_int(0, 9);
         int costRand;
@@ -69,7 +69,7 @@ void Shop::generate_items()
             copy->erase(copy->begin());
         }
         shopRelics[i].pool = poolRand;
-        shopRelics[i].relic.move_rect(630+130*(i%3), 405+175*(i/3));
+        shopRelics[i].relic.move_rect(1020+175*(i%2), 100+155*(i/2));
         shopRelics[i].costText = Text(20, shopRelics[i].relic.rect.x+15, shopRelics[i].relic.rect.y+80,255,255,255);
     }
 }
