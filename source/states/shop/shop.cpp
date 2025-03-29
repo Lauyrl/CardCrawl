@@ -33,7 +33,7 @@ void Shop::display_items()
     bool highlight = !(rsButton.active);
     for (auto cardItem:shopCards)
     {
-        cardItem.card.display_copy(cardItem.card.rect.x, cardItem.card.rect.y, true, highlight);
+        cardItem.card.display_copy(cardItem.card.rect.x, cardItem.card.rect.y, highlight);
         cardItem.costText.render_text(to_string(cardItem.cost));
         game.render_img("assets/ui/gold.png", cardItem.card.rect.x+43, cardItem.card.rect.y+232, 40, 40, 255, NULL);
     }

@@ -5,40 +5,40 @@ void stab(Enemy &enemy) { enemy.deal_damage(2); }
 void tackle(Enemy &enemy) { enemy.deal_damage(12); }
 void heavy(Enemy &enemy) { enemy.deal_damage(16); }
 void execute(Enemy &enemy) { enemy.deal_damage(10); enemy.deal_damage(10); }
+void scythe(Enemy &enemy) { enemy.deal_damage(45); }
+void maul(Enemy &enemy) { enemy.deal_damage(6); enemy.deal_damage(6); enemy.deal_damage(6); }
 void corrosive_spit(Enemy &enemy) { enemy.deal_damage(8); ironclad.slimedCnt++; }
 void face_slap(Enemy &enemy) { enemy.deal_damage(12); ironclad.statuses[vulnerable].level += 2; }
 void attack_weaken1(Enemy &enemy) { enemy.deal_damage(7); ironclad.statuses[weakness].level += 2; }
 void taunt(Enemy &enemy) { ironclad.statuses[weakness].level += 2; ironclad.statuses[vulnerable].level += 2;}
 void weaken(Enemy &enemy) { ironclad.statuses[vulnerable].level++; }
-void gloat(Enemy &enemy) { enemy.statuses[strength].level += 2; }
+void strengthen(Enemy &enemy) { enemy.statuses[strength].level += 2; }
 void wrath(Enemy &enemy) { enemy.cleanse(); enemy.statuses[strength].level += 6; }
 void defensive_stance(Enemy &enemy) { enemy.gain_block(15); enemy.statuses[metallicize].level += 2; }
 void shield(Enemy &enemy) { enemy.gain_block(10); }
+void sear(Enemy &enemy) { ironclad.burnCnt++; }
+void dread(Enemy &enemy) { ironclad.voidCnt++; }
 
 
-vector<possibleActions> acid_slime_p1 = {
-    {30, 0, 2, {debuff1attack1, corrosive_spit}}, {60, 0, 1, {attack4, tackle}}, {100, 0, 1, {debuff1, weaken}}
+vector<vector<possibleActions>> acid_slime_p = {
+    {{30, 0, 2, {debuff1attack1, corrosive_spit}}, {60, 0, 1, {attack4, tackle}}, {100, 0, 1, {debuff1, weaken}}}
 };
-vector<vector<possibleActions>> acid_slime_p = {acid_slime_p1};
 Action acid_slime_alg(Enemy& enemy, int turn) { return rand_get(enemy.attributes.patterns[0]); }
 
-vector<possibleActions> cultist_p1 = {
-    {10, 0, 1, attack1, cut}, {100, 0, 1, debuff1, weaken}
+vector<vector<possibleActions>> cultist_p = {
+    {{10, 0, 1, attack1, cut}, {100, 0, 1, debuff1, weaken}}
 };
-vector<vector<possibleActions>> cultist_p = {cultist_p1};
 Action cultist_alg(Enemy& enemy, int turn) { return rand_get(enemy.attributes.patterns[0]); }
 
-vector<possibleActions> slaver_blue_p1 = {
-    {40, 0, 1, debuff1attack1, attack_weaken1}, {100, 0, 1, attack2, stab}
+vector<vector<possibleActions>> slaver_blue_p = {
+    {{40, 0, 1, debuff1attack1, attack_weaken1}, {100, 0, 1, attack2, stab}}
 };
-vector<vector<possibleActions>> slaver_blue_p = {slaver_blue_p1};
 Action slaver_blue_alg(Enemy& enemy, int turn) { return rand_get(enemy.attributes.patterns[0]); }
 
-vector<possibleActions> champ_p1 = {
-    {15, 0, 1, {defendbuff, defensive_stance}}, {30, 0, 1, {buff, gloat}}, {55, 0, 1, {debuff1attack3, face_slap}}, 
-    {100, 0, 1, {attack4, heavy}}
+vector<vector<possibleActions>> champ_p = {
+    {{15, 0, 1, {defendbuff, defensive_stance}}, {30, 0, 1, {buff, strengthen}}, {55, 0, 1, {debuff1attack3, face_slap}}, 
+    {100, 0, 1, {attack4, heavy}}}
 };
-vector<vector<possibleActions>> champ_p = {champ_p1};
 Action champ_alg(Enemy& enemy, int turn)
 {
     if (enemy.phase == 0)
@@ -54,9 +54,31 @@ Action champ_alg(Enemy& enemy, int turn)
     }
 }
 
+vector<vector<possibleActions>> nemesis_p = {
+    {{50, 0, 1, {debuff1, sear}}, {50, 0, 1, {attack4, maul}}},
+    {{35, 0, 1, {debuff1, sear}}, {70, 0, 2, {attack4, maul}}, {100, 0, 2, {attack5, execute}}}
+};
+Action nemesis_alg(Enemy& enemy, int turn)
+{
+    if (turn%4 == 0) enemy.statuses[intangible].level++;
+    if (turn == 0) return rand_get(enemy.attributes.patterns[0]);
+    else return rand_get(enemy.attributes.patterns[1]);
+}
+
+vector<vector<possibleActions>> awakened_p = {
+    {{50, 0, 1, {debuff1, sear}}, {50, 0, 1, {attack4, maul}}},
+    {{35, 0, 1, {debuff1attack4, dread}}, {70, 0, 2, {attack4, maul}}, {100, 0, 2, {attack5, execute}}}
+};
+Action awakened_alg(Enemy& enemy, int turn)
+{
+    return rand_get(enemy.attributes.patterns[1]);
+}
+
 const map<enemyId, enemyAttributes> Enemy::eAttriMap = {
     {acid_slime ,{0, 24, 3, "assets/enemies/acid_slime.png" , acid_slime_p , acid_slime_alg}},
     {cultist    ,{0, 18, 5, "assets/enemies/cultist.png"    , cultist_p    , cultist_alg}},
-    {slaver_blue,{1, 50, 7, "assets/enemies/slaver_blue.png", slaver_blue_p, slaver_blue_alg}},
-    {champ      ,{2, 300,1, "assets/enemies/champ.png"      , champ_p      , champ_alg}},
+    {slaver_blue,{1, 40, 7, "assets/enemies/slaver_blue.png", slaver_blue_p, slaver_blue_alg}},
+    {champ      ,{2, 250,1, "assets/enemies/champ.png"      , champ_p      , champ_alg}},
+    {nemesis    ,{2, 100,1, "assets/enemies/nemesis.png"    , nemesis_p    , nemesis_alg}},
+    {awakened   ,{6, 800,1, "assets/enemies/awakened1.png"  , awakened_p   , awakened_alg}},
 };

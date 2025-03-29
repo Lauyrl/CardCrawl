@@ -6,13 +6,8 @@
 #include "../gui/gui.h"
 #include "../gui/fx/fx.h"
 #include "conditions.h"
-
 using namespace std;
 
-enum cardId {
-    strike, defend, iron_wave, flex, bloodletting, bludgeon, slimed, cleave, pommel_strike, sword_boomerang,
-    bash, clothesline, anger, rage, intimidate, dropkick
-};
 class Character : public Gui
 {
     public:
@@ -58,6 +53,8 @@ class Character : public Gui
         
         int attackCardsCnt{0};
         int slimedCnt{0};
+        int burnCnt{0};
+        int voidCnt{0};
         int flexCnt{0}; //reset in decrement_statuses()
         bool raged{false};
 

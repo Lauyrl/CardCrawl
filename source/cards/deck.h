@@ -8,7 +8,7 @@ const int DC_TEXT  = 1;
 const int INV_TEXT = 2;
 
 static vector<cardId> defaultIdInventory = {
-    dropkick, intimidate, rage, pommel_strike, anger, strike, strike, strike, defend, defend, bash,
+    dropkick, intimidate, rage, pom_strike, anger, strike, strike, strike, strike, defend, defend, bash,
 };
 class Deck
 {
@@ -18,9 +18,8 @@ class Deck
         void renew_inventory();
         void set_up_piles();
         void refill_draw_pile();
-        void display_pile(vector<Card>& pile, int textType, bool move = false, bool highlight = false);
+        void display_pile(vector<Card>& pile, int textType, bool highlight = false);
         void build_hand();
-        void reformat_hand();
         void discard_hand();
         void renew_hand();
         void hand_process(bool inMenu, vector<Enemy>& stageEnemies);

@@ -1,6 +1,6 @@
 #include "pools.h"
 
-const vector<cardId> commonCardPoolOrigin   = {strike, defend, iron_wave, flex, cleave, sword_boomerang, anger};
+const vector<cardId> commonCardPoolOrigin   = {strike, defend, iron_wave, flex, cleave, boomerang, anger};
 const vector<cardId> uncommonCardPoolOrigin = {bloodletting, intimidate, rage, intimidate, dropkick};
 const vector<cardId> rareCardPoolOrigin     = {bludgeon};
  

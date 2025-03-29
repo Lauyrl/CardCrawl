@@ -54,7 +54,7 @@ void Enemy::display_statuses()
     }
 }
 
-void Enemy::display_intent() { intentUI.display(rect.x+60*size, rect.y+(13*size*size)); }
+void Enemy::display_intent() { intentUI.display(rect.x+55*size, rect.y+(13*size*size)); }
 
 void Enemy::generate_intent(int turn)
 {
@@ -99,6 +99,7 @@ void Enemy::decrement_statuses()
         if (decrementableStatuses.find(status.first) != decrementableStatuses.end() && status.second.level > 0)
             status.second.level--;
     }
+    statuses[malleable].value = 0;
 }
 
 void Enemy::cleanse()
@@ -121,7 +122,7 @@ void Enemy::gain_block(int amount) { block += amount; }
 void Enemy::take_damage(int amount)
 {
     int totalAmount = amount*(((statuses[vulnerable].level>0)?1.25:1)-((ironclad.statuses[weakness].level>0)?0.25:0))+ironclad.statuses[strength].level;
-    hit = true;
+    if (statuses[intangible].level>0) totalAmount = 1;
     if (totalAmount >= block) 
     {
         totalAmount -= block;
@@ -129,8 +130,10 @@ void Enemy::take_damage(int amount)
         attributes.hp -= totalAmount;
     }
     else block -= totalAmount;
-    dmgTextV.push_back(DmgText(totalAmount, rect.x, rect.y+20));
-    slashfxV.push_back(SlashFX(rect.x-20+50*size, rect.y+20*size));
+    if (statuses[malleable].level>0) { block += statuses[malleable].level + statuses[malleable].value; statuses[malleable].value++; }
+    dmgTextV.push_back(DmgText(totalAmount, rect.x, rect.y+rect.h-175-(-size*size+10*size)));
+    slashfxV.push_back(SlashFX(rect.x-20+50*size, rect.y+rect.h-175-(-size*size+10*size)));
+    hit = true;
 }
 
 void Enemy::deal_damage(int dmg)

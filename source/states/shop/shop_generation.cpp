@@ -25,7 +25,7 @@ void Shop::generate_items()
             poolRand = &rareCardPool;
         }
         shuffle_vector(*poolRand);
-        shopCards[i] = CardItem(costRand, Card(poolRand->front(), i));
+        shopCards[i] = CardItem(costRand, Card(poolRand->front()));
         //cout << "generated card id" << poolRand->front() << endl;
         shopCards[i].pool = poolRand;
         shopCards[i].card.move_rect(160+200*(i%6), 100+320*(i/6));

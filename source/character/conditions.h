@@ -35,7 +35,8 @@ class Relic : public Gui
 
 
 enum statusId {
-    weakness, strength, vulnerable, thorns, metallicize, regen
+    weakness, strength, vulnerable, thorns, metallicize, regen, 
+    intangible, malleable
 };
 
 struct Status : public Gui
@@ -53,16 +54,18 @@ struct Status : public Gui
 };
 
 static map<statusId, Status> globalStatuses = {
-    {weakness,   Status(0, 0.25, "assets/ui/combat/status/weak.png"       , "Deal 25% less damage (X turns)\nCurrent X: ")},
-    {strength,   Status(0, 1   , "assets/ui/combat/status/strength.png"   , "Deal X additional damage\nCurrent X: ")},
-    {vulnerable, Status(0, 0.5 , "assets/ui/combat/status/vulnerable.png" , "Receive 25% more damage (X turns)\nCurrent X: ")},
-    {thorns,     Status(0, 1   , "assets/ui/combat/status/thorns.png"     , "Attackers receive X damage\nCurrent X: ")},
+    {weakness   ,Status(0, 0.25, "assets/ui/combat/status/weak.png"       , "Deal 25% less damage (X turns)\nCurrent X: ")},
+    {strength   ,Status(0, 1   , "assets/ui/combat/status/strength.png"   , "Deal X additional damage\nCurrent X: ")},
+    {vulnerable ,Status(0, 0.5 , "assets/ui/combat/status/vulnerable.png" , "Receive 25% more damage (X turns)\nCurrent X: ")},
+    {thorns     ,Status(0, 1   , "assets/ui/combat/status/thorns.png"     , "Attackers receive X damage\nCurrent X: ")},
     {metallicize,Status(0, 1   , "assets/ui/combat/status/metallicize.png", "Gain X Block every turn\nCurrent X: ")},
-    {regen      ,Status(0, 1   , "assets/ui/combat/status/regen.png"      , "Heal X Health every turn and\nreduce X by 1. Current X: ")}
+    {regen      ,Status(0, 1   , "assets/ui/combat/status/regen.png"      , "Heal X Health every turn and\nreduce X by 1. Current X: ")},
+    {intangible ,Status(0, 1   , "assets/ui/combat/status/intangible.png" , "Reduce all HP loss to 1 for X turns\nCurrent X: ")},
+    {malleable  ,Status(0, 0   , "assets/ui/combat/status/malleable.png"  , "When damaged, gain X Block(temporarily +1\neach time)Current X: ")}
 };
 
 static const set<statusId> decrementableStatuses = {
-    weakness, vulnerable, regen
+    weakness, vulnerable, regen, intangible
 };
 
 static const set<statusId> debuffs = {

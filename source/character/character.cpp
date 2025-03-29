@@ -55,7 +55,6 @@ void Character::display_energy()
 }
 
 void Character::lose_energy(int amount) { energy -= amount; }
-void Character::reset_energy() { lose_energy(energy-3); }
 
 void Character::heal(int amount)
 {
@@ -67,8 +66,9 @@ void Character::gain_block(int amount) { block += amount; }
 
 void Character::take_damage(int amount)
 {
+    if (check_relic_active(fossil_helix)) { relicInv.at(fossil_helix).active = false; return; }
     int totalAmount = amount+amount*((statuses[vulnerable].level>0)?1.25:1);
-    hit = true;
+    if (statuses[intangible].level>0) totalAmount = 1;
     if (totalAmount >= block) 
     {
         totalAmount -= block;
@@ -78,14 +78,18 @@ void Character::take_damage(int amount)
     else block -= totalAmount;
     dmgTextV.push_back(DmgText(totalAmount, rect.x+240, rect.y+30));
     slashfxV.push_back(SlashFX(rect.x+95, rect.y));
+    hit = true;
 }
 
 void Character::variables_reset() { 
-    reset_energy(); block = 0; flexCnt = 0; attackCardsCnt = 0; slimedCnt = 0; raged = false;
+    energy = 3; flexCnt = 0; attackCardsCnt = 0; 
+    slimedCnt = 0; burnCnt = 0; voidCnt = 0;
+    raged = false;
 }
 
 void Character::renew()
 {
+    block = 0;
     variables_reset();
     during_turn_relic_renew();
     for (auto& status:statuses) { status.second.level = 0; }
@@ -93,11 +97,9 @@ void Character::renew()
 
 void Character::renew_turn()
 {
-    for (int i{0}; i < slimedCnt; i++) 
-    {
-        deck.discardPile.push_back(Card(slimed, deck.discardPile.size())); 
-        deck.discardPile.push_back(Card(slimed, deck.discardPile.size())); 
-    }
+    for (int i{0}; i < slimedCnt*2; i++) { deck.discardPile.push_back(Card(slimed)); }
+    for (int i{0}; i < burnCnt*2; i++) { deck.discardPile.push_back(Card(burn)); }
+    for (int i{0}; i < voidCnt; i++) { deck.discardPile.push_back(Card(the_void)); }
     variables_reset();
     during_turn_relic_renew();
 }

@@ -70,7 +70,7 @@ void ChooseCardReward::display()
     game.render_img("assets/ui/combat/reward_item_panel.png", rect.x, rect.y, rect.w, rect.h, alpha, NULL);
     game.render_img("assets/ui/combat/normal_card_reward.png", rect.x+22, rect.y+15, 70, 70, alpha, NULL);
     if (active)
-        for (int i{0}; i < 3; i++) choices[i].display_copy(400+i*250, 320, true, true);
+        for (int i{0}; i < 3; i++) choices[i].display_copy(400+i*250, 320, true);
 }
 void ChooseCardReward::process() 
 {
@@ -133,10 +133,10 @@ void RewardMenu::generate_items(int gMin, int gMax, int cUncomThres, int cRareTh
             shuffle_vector(commonCardPool); shuffle_vector(uncommonCardPool); shuffle_vector(rareCardPool);
             vector<cardId>* poolRand;
             int seed = rand_int(0, cMax);
-            if (seed >= 0 && seed < cUncomThres) poolRand = &commonCardPool;            
-            else if (seed >= cUncomThres && seed < rRareThres) poolRand = &uncommonCardPool;
-            else poolRand = &rareCardPool;
-            ccReward.choices[i] = Card(poolRand->front(), i);
+            if               (seed >= 0 && seed < cUncomThres) poolRand = &commonCardPool;            
+            else if (seed >= cUncomThres && seed < cRareThres) poolRand = &uncommonCardPool;
+            else                                               poolRand = &rareCardPool;
+            ccReward.choices[i] = Card(poolRand->front());
             ccReward.choices[i].move_rect(160+200*i, 100);
         }
     }
@@ -154,7 +154,7 @@ void RewardMenu::generate_items(int gMin, int gMax, int cUncomThres, int cRareTh
             rRewardPair.first.pool = &commonRelicPool;
             rRewardPair.second.pool = &commonRelicPool;
         }
-        else if (seed >= rUncomThres)
+        else if (seed >= rUncomThres && seed < rRareThres)
         {
             copy = &copyUncommon;
             rRewardPair.first.pool = &uncommonRelicPool;

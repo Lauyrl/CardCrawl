@@ -5,6 +5,7 @@ map<relicId, Relic> Character::relicInv;
 set<relicId> combatStartRelics = {anchor, blood_vial};
 void Character::combat_start_relic()
 {
+    if (check_relic(fossil_helix)) relicInv.at(fossil_helix).active = true;
     if (check_relic_active(anchor)) block += 10;
     if (check_relic_active(blood_vial)) heal(2);
     if (check_relic(tea_set) && !relicInv.at(tea_set).active) { energy += 2; relicInv.at(tea_set).active = true; } //energy += 2 was causing a string bug?

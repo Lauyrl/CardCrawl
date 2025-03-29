@@ -19,13 +19,15 @@ void DrawPileButton::display()
 
 void DrawPileButton::button_process()
 {
+    static vector<Card> copy;
     if (detect_click())
     {
+        copy = deck.drawPile; shuffle_vector(copy);
         if (!displaying) displaying = true;
         else displaying = false;
         panel.dButton.active = false;
     }
-    if (displaying) deck.display_pile(deck.drawPile, DP_TEXT);
+    if (displaying) deck.display_pile(copy, DP_TEXT);
     display();
 
 }

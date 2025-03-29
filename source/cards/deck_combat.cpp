@@ -2,17 +2,17 @@
 
 void Deck::renew_hand()
 {
-    selectedIdx = NULL_CARD;
     discard_hand();
-    refill_draw_pile();
     build_hand();
 }
 
 void Deck::discard_hand()
 {
+    selectedIdx = NULL_CARD; highlightedIdx = NULL_CARD; usedIdx = NULL_CARD;
     for (size_t i{0}; i < hand.size() ; i++)
     {
-        discardPile.push_back(hand[i]);
+        if ( hand[i].id == burn) ironclad.take_damage(2);
+        if (!hand[i].attributes.ethereal) discardPile.push_back(hand[i]);
         cout << "Cleared card " << i << endl;
     }
     hand.clear();
@@ -22,27 +22,13 @@ void Deck::refill_draw_pile()
 {
     if (drawPile.size() == 0)
     {
+        shuffle_vector(discardPile);
         drawPile = discardPile;
         discardPile.clear();
     }
 }
 
-void Deck::build_hand()
-{
-    shuffle_vector(drawPile);
-    hand.resize((drawPile.size()<maxSize) ? drawPile.size() : maxSize);
-    for (int i{(drawPile.size()<maxSize) ? drawPile.size()-1 : maxSize-1}; i >= 0 ; i--)
-    {
-        hand[i] = Card(drawPile[i].id, i);
-        hand[i].selected = false;
-        drawPile.erase(drawPile.begin()+i);
-    }
-}
-
-void Deck::reformat_hand()
-{
-    for (size_t rePos{0}; rePos < hand.size(); rePos++) hand[rePos].pos = rePos;
-}
+void Deck::build_hand() { for (int i{0}; i < maxSize; i++) draw_card(); }
 
 void Deck::hand_process(bool inMenu, vector<Enemy>& stageEnemies)
 {
@@ -50,43 +36,29 @@ void Deck::hand_process(bool inMenu, vector<Enemy>& stageEnemies)
     for (size_t current{0}; current < hand.size(); current++)
     {
         if (hand[current].highlight()) highlightedIdx = current;
-        hand[current].display_in_hand(hand.size());   
+        hand[current].display_in_hand(hand.size(), current);   
         if (!inMenu) interact_card(current, stageEnemies); 
     }
     if (usedIdx != NULL_CARD) discard_used();
 
-    if (selectedIdx != NULL_CARD) hand[selectedIdx].display_in_hand(hand.size());
+    if (selectedIdx != NULL_CARD) hand[selectedIdx].display_in_hand(hand.size(), selectedIdx);
     if (highlightedIdx != NULL_CARD)
     {
-        hand[highlightedIdx].display_in_hand(hand.size());
+        hand[highlightedIdx].display_in_hand(hand.size(), highlightedIdx);
         highlightedIdx = NULL_CARD;
     }
+
     for (int i{0}; i < drawCards; i++) draw_card();
     drawCards = 0;
 }
 
 void Deck::discard_used()
 {   
-    // if (hand.size() < 1) std::cerr << "Deck is empty.\n";
     if (usedIdx != NULL_CARD)
     {
         if (!hand[usedIdx].attributes.exhaust) discardPile.push_back(hand[usedIdx]);
         hand.erase(hand.begin() + usedIdx);
-        reformat_hand();
         cout << "Consumed card: " << usedIdx << endl;
-    }
-}
-
-void Deck::draw_card()
-{
-    refill_draw_pile();
-    if (drawPile.size() > 0)
-    {
-        int chosen = rand_int(0, drawPile.size()-1);
-        hand.push_back(Card(drawPile[chosen].id, 0));
-        reformat_hand();
-        hand.back().rect.y -= 208;
-        drawPile.erase(drawPile.begin()+chosen);
     }
 }
 
@@ -126,5 +98,19 @@ void Deck::query_and_activate_card_process(vector<Enemy> &stageEnemies)
         hand[selectedIdx].activate(stageEnemies, queried); //This passes the 0th enemy if the target is Character, can cause unintended behavior
         usedIdx = selectedIdx;
         selectedIdx = NULL_CARD;
+        highlightedIdx = NULL_CARD;
+    }
+}
+
+void Deck::draw_card()
+{
+    refill_draw_pile();
+    if (drawPile.size() > 0)
+    {
+        hand.push_back(Card(drawPile.front().id));
+        if (drawPile.front().id == the_void) ironclad.lose_energy(1);
+        hand.back().selected = false;
+        hand.back().rect.y = CARD_POS_Y + 156;
+        drawPile.erase(drawPile.begin());
     }
 }

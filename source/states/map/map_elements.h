@@ -5,6 +5,8 @@
 #include "../../gui/top_panel.h"
 const int NODE_POS_Y_DEFAULT = 750;
 const int NODE_Y_STEP_INCREMENT = -80;
+const int BOSS_LEVEL = 20;
+
 class Node : public Gui
 {
     public:
@@ -16,7 +18,7 @@ class Node : public Gui
         int lev;
         int id;
         enum nodeType {
-            combat, shop, event, rest, treasure
+            elite, boss, combat, shop, event, rest, treasure
         };
         static vector<nodeType> possibleTypes;
         nodeType type;

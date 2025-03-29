@@ -6,7 +6,7 @@
 struct CardItem
 {
     int cost;
-    Card card = Card(strike, 0);
+    Card card = Card(strike);
     Text costText = Text(0,0,0,0,0,0);
     vector<cardId>* pool;
     CardItem() {}

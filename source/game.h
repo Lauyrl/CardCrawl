@@ -30,6 +30,7 @@ class Game
         enum gameStates {
             start_menu, map, combat, event, rest, shop, treasure
         };
+        int combatType{NORMAL_COMBAT};
         int gameState{start_menu};
         bool restInit{true};
         bool shopInit{true};

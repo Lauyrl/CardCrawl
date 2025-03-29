@@ -21,8 +21,9 @@ void Game::display_combat()
     {
         if (charaRenewTurn)
         {
+            ironclad.renew_turn(); //renew deck first or ironclad first
             deck.renew_hand();
-            ironclad.renew_turn();
+            ironclad.block=0;
             enemy_generate_intents();
             charaRenewTurn = false;
         }
@@ -56,11 +57,11 @@ void Game::display_combat()
 EndTurnButton et;
 DrawPileButton drp;
 DiscardPileButton dcp;
-vector<vector<enemyId>> formations = {
-    {acid_slime, acid_slime},
-    {cultist, cultist},
-    {slaver_blue, slaver_blue},
-    {champ},
+vector<vector<vector<enemyId>>> formations = {
+    {{awakened}},
+    //{{acid_slime, acid_slime}, {slaver_blue, slaver_blue}}, //{cultist, cultist}
+    {{nemesis}, {champ}},
+    {{awakened}}
 };
 vector<Enemy> stageEnemies;
 RewardMenu rMenu;
@@ -75,8 +76,8 @@ void renew_combat() { activeEnemyIdx = 0 ; turn = 0; firstTurn = true; charaRene
 void enemy_generate()
 {
     stageEnemies.clear();
-    shuffle_vector(formations);
-    vector<enemyId> chosen = formations.front();
+    shuffle_vector(formations[game.combatType]);
+    vector<enemyId> chosen = formations[game.combatType].front();
     int x{ENEMY_POS_X};
     for (int i{0}; i < chosen.size(); i++) 
     {   
@@ -91,7 +92,7 @@ void init_combat()
     deck.set_up_piles();
     ironclad.renew();
     enemy_generate();
-    rMenu.generate_items(20, 100, 6, 10, 9, 7, 10, 9);
+    rMenu.generate_items(20+100*game.combatType, 100+100*game.combatType, 6-6*game.combatType, 10-3*game.combatType, 9, 7-7*game.combatType, 10-3*game.combatType, 9);
     cout << "Initiation success" << endl;
 }
 
