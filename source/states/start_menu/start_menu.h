@@ -10,5 +10,5 @@ class StartButton : public Gui
         StartButton();
         void display();
         void process();
-        Text startText = Text(90, 400, 400, 255, 255, 255);
+        Text startText = Text(90, 440, 400, 255, 255, 255);
 };

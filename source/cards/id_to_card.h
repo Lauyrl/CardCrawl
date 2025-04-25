@@ -9,11 +9,12 @@ using namespace std;
 enum cardId {
     strike, defend, iron_wave, flex, bloodletting, bludgeon, cleave, pom_strike, boomerang,
     bash, clothesline, anger, rage, intimidate, dropkick,
-    slimed, burn, the_void
+    slimed, burn, the_void,
+    inflame, beserk
 };
 
 enum cardIntent {
-    Attack, Skill, Curse
+    Attack, Skill, Curse, Status, Power
 };
 
 struct CardAttributes 

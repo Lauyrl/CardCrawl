@@ -39,6 +39,8 @@ void dropkick_action(vector<Enemy>& enemies, int queried)
     enemies[queried].take_damage(5); 
     if (enemies[queried].statuses[vulnerable].level>0) { ironclad.energy++; deck.drawCards++; }
 }
+void inflame_action(vector<Enemy>& enemies, int queried) { ironclad.statuses[strength].level += 2; }
+void beserk_action(vector<Enemy>& enemies, int queried) { }
 
 const unordered_map<cardId, CardAttributes> Card::cAttriMap = {
     {strike      ,{1 , Attack, false, false, "assets/cards/strike_r.png"     , strike_action}},
@@ -62,5 +64,8 @@ const unordered_map<cardId, CardAttributes> Card::cAttriMap = {
 
     {burn        ,{99, Skill , false, false, "assets/cards/burn.png"         , [](vector<Enemy>& e, int q){}}},
     {the_void    ,{99, Skill , false, true , "assets/cards/void.png"         , [](vector<Enemy>& e, int q){}}},
+
+    {inflame     ,{1 , Power , true , false, "assets/cards/inflame.png"      , inflame_action}},
+    {beserk      ,{0 , Power , true , false, "assets/cards/beserk.png"       , [](vector<Enemy>& e, int q){}}},
 };
 

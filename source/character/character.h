@@ -23,7 +23,6 @@ class Character : public Gui
         void gain_block(int amount);
         void take_damage(int amount, int delay = 0);
         void lose_energy(int amount);
-        void reset_energy();
         void add_relic(relicId id);
         
         double maxHealth;
@@ -31,14 +30,23 @@ class Character : public Gui
         int gold{0};
         int energy{3};
         int block;
+        void variables_reset();
         Text blockText  = Text(22, rect.x+65, rect.y+191, 140, 30, 0);
         Text healthText = Text(15, rect.x+155, rect.y+195, 255, 255, 255);
         Text energyText = Text(50, rect.x+85, rect.y+315, 200, 200, 200);
 
+        int attackCardsCnt{0};
+        int slimedCnt{0};
+        int burnCnt{0};
+        int voidCnt{0};
+        int flexCnt{0}; //reset in decrement_statuses()
+        bool raged{false};
+
+        
+
         static map<relicId, Relic> relicInv;
         bool check_relic(relicId id);
         bool check_relic_active(relicId id);
-
         void reformat_relics();
         void combat_start_relic();
         void during_turn_relic();
@@ -47,16 +55,6 @@ class Character : public Gui
         static map<statusId, Status> statuses;
         void decrement_statuses();
         void cleanse();
-        void variables_reset();
-        void renew_turn();
-        void renew();
-        
-        int attackCardsCnt{0};
-        int slimedCnt{0};
-        int burnCnt{0};
-        int voidCnt{0};
-        int flexCnt{0}; //reset in decrement_statuses()
-        bool raged{false};
 
         bool hit{false};
         int shakeT{0};
@@ -65,6 +63,10 @@ class Character : public Gui
         void shake();
 
         int currentLevel{0};
+        void renew_turn();
+        void renew();
+
+        vector<bool> powers;
         
 };
 

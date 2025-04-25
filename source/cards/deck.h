@@ -8,7 +8,7 @@ const int DC_TEXT  = 1;
 const int INV_TEXT = 2;
 
 static vector<cardId> defaultIdInventory = {
-    boomerang, dropkick, intimidate, rage, pom_strike, anger, strike, strike, strike, strike, defend, defend, bash,
+    inflame, boomerang, dropkick, intimidate, rage, pom_strike, anger, strike, strike, strike, strike, defend, defend, bash,
 };
 class Deck
 {

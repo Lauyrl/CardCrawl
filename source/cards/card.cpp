@@ -35,7 +35,6 @@ void Card::activate(vector<Enemy> &stageEnemies, int queried)
         ironclad.attackCardsCnt++;
         if (ironclad.raged) ironclad.block += 3;
     }
-    
 }
 
 int Card::query_targetE(vector<Enemy> stageEnemies)
