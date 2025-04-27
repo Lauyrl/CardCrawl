@@ -222,9 +222,9 @@ gộp những cái mà trùng điều kiện kích hoạt
 <br/>
 <br/>
 
+# III. Video giới thiệu thành phần chính, combat: https://drive.google.com/drive/u/1/folders/1G5FoDcMxB9hbUa_ScpKciqVE-psHi4pG
 
-
-# III. Một số nguồn đã tham khảo:
+# IV. Một số nguồn đã tham khảo:
 ## **1, Công nhận:** Sử dụng những ý tưởng và đồ hoạ từ Slay the Spire của Mega Crit: https://store.steampowered.com/app/646570/Slay_the_Spire <br/>
 
 ## **2, Learnings:** 
