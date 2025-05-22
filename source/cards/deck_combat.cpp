@@ -1,5 +1,7 @@
 #include "deck.h"
 
+// Management
+
 void Deck::renew_hand()
 {
     discard_hand();
@@ -25,6 +27,19 @@ void Deck::refill_draw_pile()
         shuffle_vector(discardPile);
         drawPile = discardPile;
         discardPile.clear();
+    }
+}
+
+void Deck::draw_card()
+{
+    refill_draw_pile();
+    if (drawPile.size() > 0)
+    {
+        hand.push_back(Card(drawPile.front().id));
+        drawPile.erase(drawPile.begin());
+        if (drawPile.front().id == the_void) ironclad.lose_energy(1);
+        hand.back().selected = false;
+        hand.back().rect.y = CARD_POS_Y + 156;
     }
 }
 
@@ -61,6 +76,8 @@ void Deck::discard_used()
         cout << "Consumed card: " << usedIdx << endl;
     }
 }
+
+// Usage
 
 void Deck::interact_card(int current, vector<Enemy> &stageEnemies)
 {
@@ -99,18 +116,5 @@ void Deck::query_and_activate_card_process(vector<Enemy> &stageEnemies)
         usedIdx = selectedIdx;
         selectedIdx = NULL_CARD;
         highlightedIdx = NULL_CARD;
-    }
-}
-
-void Deck::draw_card()
-{
-    refill_draw_pile();
-    if (drawPile.size() > 0)
-    {
-        hand.push_back(Card(drawPile.front().id));
-        if (drawPile.front().id == the_void) ironclad.lose_energy(1);
-        hand.back().selected = false;
-        hand.back().rect.y = CARD_POS_Y + 156;
-        drawPile.erase(drawPile.begin());
     }
 }

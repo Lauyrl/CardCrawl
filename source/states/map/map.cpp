@@ -1,4 +1,4 @@
-#include "map.h"
+#include "map_elements.h"
 
 void Game::display_map()
 {

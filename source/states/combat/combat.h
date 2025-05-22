@@ -2,7 +2,7 @@
 
 #include "combat_ui.h"
 #include "rewards.h"
-#include "../map/map.h"
+#include "../map/map_elements.h"
 #include "../../pools/pools.h"
 
 const int MAX_ENEMIES = 3; /////////////////////////////////////////////////////////

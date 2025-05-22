@@ -2,7 +2,6 @@
 
 void Game::display_combat()
 {
-    // int frameStart = SDL_GetTicks();
     game.render_img("assets/scene/scene.jpg", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 255, &background);
     if (combatInit)
     {
@@ -21,14 +20,14 @@ void Game::display_combat()
     {
         if (charaRenewTurn)
         {
-            ironclad.renew_turn(); //renew deck first or ironclad first
+            ironclad.renew_turn();
             deck.renew_hand();
             ironclad.block=0;
             enemy_generate_intents();
             charaRenewTurn = false;
         }
         if (turn == 0 && firstTurn) { ironclad.combat_start_relic(); firstTurn = false; }
-        if (!inMenu && et.detect_click()) 
+        if ((!inMenu && et.detect_click()) || ironclad.energy == 0) 
         { 
             ironclad.decrement_statuses(); 
             for (auto& enemy:stageEnemies) enemy.block = 0;
@@ -38,7 +37,6 @@ void Game::display_combat()
         deck.hand_process(inMenu, stageEnemies);
         ironclad.during_turn_relic();
         et.display();
-        //cout << SDL_GetTicks() - frameStart << endl; 
     }
     else
     {
@@ -61,6 +59,7 @@ vector<vector<vector<enemyId>>> formations = {
     //{{awakened}},
     {{acid_slime, acid_slime}, {slaver_blue, slaver_blue}, {snake_plant}}, //{cultist, cultist}
     {{nemesis}, {champ}},
+    //{{nemesis}, {champ}},
     {{awakened}}
 };
 vector<Enemy> stageEnemies;

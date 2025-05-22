@@ -1,7 +1,13 @@
 #include "map_elements.h"
-// tach ra tu "map_elements.cpp"
-
 Tree::Tree() {}
+
+void draw_thick_line(int x1, int y1, int x2, int y2)
+{
+    for (int i{-2}; i <= 2; i++)
+    {
+        SDL_RenderDrawLine(game.renderer, x1+i, y1, x2+i, y2); //fix to make diagonals look better 
+    }
+}
 
 void Tree::renew()
 {
@@ -48,14 +54,6 @@ void Tree::generate_path(int start)
             cached.next.insert(boss.id);
             nodeMap.find(boss.id)->second.prev.insert(cached.id);
         }
-    }
-}
-
-void draw_thick_line(int x1, int y1, int x2, int y2)
-{
-    for (int i{-2}; i <= 2; i++)
-    {
-        SDL_RenderDrawLine(game.renderer, x1+i, y1, x2+i, y2); //fix to make diagonals look better 
     }
 }
 
@@ -131,3 +129,6 @@ void Tree::nodes_process()
         }
     }
 }
+
+
+

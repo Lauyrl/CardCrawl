@@ -67,7 +67,7 @@ void Character::gain_block(int amount) { block += amount; }
 void Character::take_damage(int amount, int delay)
 {
     if (check_relic_active(fossil_helix)) { relicInv.at(fossil_helix).active = false; return; }
-    int totalAmount = amount+amount*((statuses[vulnerable].level>0)?1.25:1);
+    int totalAmount = amount*((statuses[vulnerable].level>0)?1.25:1);
     if (statuses[intangible].level>0) totalAmount = 1;
     if (totalAmount >= block) 
     {

@@ -21,7 +21,7 @@ void dread(Enemy &enemy) { ironclad.voidCnt++; }
 
 
 vector<vector<possibleActions>> acid_slime_p = {
-    {{30, 0, 2, {debuff1attack1, corrosive_spit}}, {60, 0, 1, {attack4, tackle}}, {100, 0, 1, {debuff1, weaken}}}
+    {{30, 0, 2, {debuff1attack2, corrosive_spit}}, {60, 0, 1, {attack4, tackle}}, {100, 0, 1, {debuff1, weaken}}}
 };
 Action acid_slime_alg(Enemy& enemy, int turn) { return rand_get(enemy.attributes.patterns[0]); }
 
@@ -36,7 +36,7 @@ vector<vector<possibleActions>> slaver_blue_p = {
 Action slaver_blue_alg(Enemy& enemy, int turn) { return rand_get(enemy.attributes.patterns[0]); }
 
 vector<vector<possibleActions>> snake_plant_p = {
-    {{65, 0, 2, attack2, heavy}, {100, 0, 1, debuff1, taunt}}
+    {{65, 0, 2, attack4, heavy}, {100, 0, 1, debuff1, taunt}}
 };
 Action snake_plant_alg(Enemy& enemy, int turn) 
 { if (turn == 0) { enemy.statuses[malleable].level += 3; } return rand_get(enemy.attributes.patterns[0]); }
@@ -72,11 +72,12 @@ Action nemesis_alg(Enemy& enemy, int turn)
 }
 
 vector<vector<possibleActions>> awakened_p = {
-    {{50, 0, 1, {debuff1, sear}}, {50, 0, 1, {attack4, maul}}},
+    {{50, 0, 1, {debuff1, sear}}, {25, 0, 1, {attack4, maul}}, {25, 0, 1, {buff, strengthen}}},
     {{35, 0, 1, {debuff1attack4, dread}}, {70, 0, 2, {attack4, maul}}, {100, 0, 2, {attack5, execute}}}
 };
 Action awakened_alg(Enemy& enemy, int turn)
 {
+    if (turn<10) return rand_get(enemy.attributes.patterns[0]);
     return rand_get(enemy.attributes.patterns[1]);
 }
 

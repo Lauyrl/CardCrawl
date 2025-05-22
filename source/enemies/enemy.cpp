@@ -66,18 +66,18 @@ void Enemy::generate_intent(int turn)
 bool Enemy::action()
 {
     tick++; int t = tick;
-    if (t == 1) 
+    if (t == 10) 
     { 
         intended(*this); 
         renew_turn();
         return false; 
         
     }
-    else 
+    else if (t > 10)
     {
         rect.x = ENEMY_POS_X+210*pos-(-t*t+10*t);
         healthText.tRect.x = rect.x+50+50*size-(-0.2*t*t+2*t);
-        if (t == 14) 
+        if (t == 20) 
         {
             rect = origin;
             tick = 0;

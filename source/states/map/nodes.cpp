@@ -11,6 +11,7 @@ Node::Node(int pos_, int lev_) : Gui(0, 0, 60, 60)
     move_rect(270+150*pos, NODE_POS_Y_DEFAULT+NODE_Y_STEP_INCREMENT*lev);
 }
 
+//{shop, shop}
 vector<Node::nodeType> Node::possibleTypes = {elite, combat, combat, combat, combat, rest, rest, event, treasure, shop, shop}; //combat, rest, event, shop, treasure
 void Node::rand_type()
 {
